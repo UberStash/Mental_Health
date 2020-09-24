@@ -10,4 +10,6 @@ Welcome to the w8d3 Final Project Kickoff!
 
 - [Express React Setup](./express_react_setup.md)
 
+- [React Advanced Lecture](https://web.compass.lighthouselabs.ca/activities/1076/lectures/4024)
+
 - [Tools](./tools.md)

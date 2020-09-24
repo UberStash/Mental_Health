@@ -6,7 +6,7 @@
 
 ## Install The Back-End
 
-- `express --view=ejs final-project-name`
+- `express --view=ejs backend-folder-name`
 - cd final-project-name && npm install
 - edit bin/www and change the port to 3001
 - add console.log to onListening and add a start script
@@ -26,170 +26,214 @@
 
 `createdb final_project_name -O labber`
 
-## configure Knex
+## configure DB Connection
 
-- npm install knex -g
-- npm install knex --save
-- knex init
-- configure development to use postgresql
-- add your credentials in .env files and configure knexfile.js
+### Create .env
 
-```js
-    connection: {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-    },
-```
+`npm i -D dotenv`
 
-in dotenv
-
-```s
-DB_HOST = localhost
-DB_USER = labber
-DB_PASS = labber
-DB_NAME = final_project
-DB_PORT = 5432
-```
-
-- make sure migrations and seeds are added to './db' folder in knexfile.js
+- create `.env` file with the following
 
 ```js
-  migrations: {
-    directory: './db/knex_migrations',
-  },
-  seeds: {
-    directory: './db/knex_seeds',
-  },
+DB_HOST = localhost;
+DB_USER = labber;
+DB_PASS = labber;
+DB_NAME = final_project;
+DB_PORT = 5432;
 ```
 
-- add dotenv (\* add to gitignore) npm install dotenv --save
-- require knex and dotenv in app.js
+- install 'pg'
+
+`npm i pg`
+
+- create `db/index.js`
 
 ```js
-const knexConfig = require('./knexfile');
-const knex = require('knex')(knexConfig['development']);
+const pg = require('pg');
 require('dotenv').config();
+
+const connectionString = `postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?sslmode=disable`;
+
+const client = new pg.Client({
+  connectionString: connectionString || process.env.DATABASE_URL,
+});
+
+console.log(`Connected to ${process.env.DB_NAME} on ${process.env.DB_HOST}`);
+client.connect();
+
+module.exports = client;
 ```
 
-- install pg
+- import `db/index` in app
 
-`npm install pg --save`
+`const db = require('./db');`
 
-- Create the database with owner
+### Create the Schema
 
-  `createdb final_project -O labber`
-
-## Migrations
-
-- create migrations
-
-  `knex migrate:make migration_name`
+- create `db/schema/01_users.sql`
+- create `db/schema/02_posts.sql`
 
 ```js
-exports.up = function(knex) {
-  return knex.schema.createTable('users', t => {
-    t.increments('id')
-      .primary()
-      .unsigned();
-    t.string('first_name');
-    t.string('last_name');
-    t.string('email');
-    t.string('password');
-    t.timestamps(true, true);
-  });
-};
-
-exports.down = function(knex) {
-  return knex.schema.dropTable('users');
-};
-
-exports.up = function(knex) {
-  return knex.schema.createTable('quotes', table => {
-    table
-      .increments('id')
-      .primary()
-      .unsigned();
-    table.string('content');
-    table
-      .integer('user_id')
-      .references('id')
-      .inTable('users')
-      .notNull()
-      .onDelete('cascade');
-  });
-};
-
-exports.down = function(knex) {};
-```
-
-## Seeds
-
-- Create seed files for populating the database
-- Create seed file with `knex seed:make fileName`
-- Seeds are executed in alphabetical order, so you might want to precede filenames with a letter (ex.: a_addUsers.js, b_addPolls.js)
-- To restart auto increments at 1 each time the seed file runs, use Promise.all and ALTER SEQUENCE query:
-
-```js
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return Promise.all([
-    knex('users').del(),
-    knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1'),
-    knex('users').then(function() {
-      // Inserts seed entries
-      return knex('users').insert([
-        {
-          first_name: 'SpongeBob',
-          last_name: 'Squarepants',
-          email: 'bob@sq.com',
-          password: 'test',
-        },
-      ]);
-    }),
-  ]);
-};
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL
+);
 ```
 
 ```js
-const faker = require('faker');
+DROP TABLE IF EXISTS posts CASCADE;
 
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return Promise.all([
-    knex('quotes').del(),
-    knex.raw('ALTER SEQUENCE quotes_id_seq RESTART WITH 1'),
-    knex('quotes').then(function() {
-      // Inserts seed entries
-      return knex('quotes').insert([
-        {
-          content: faker.hacker.phrase(),
-          user_id: 1,
-        },
-        {
-          content: faker.hacker.phrase(),
-          user_id: 1,
-        },
-        {
-          content: faker.hacker.phrase(),
-          user_id: 1,
-        },
-        {
-          content: faker.hacker.phrase(),
-          user_id: 1,
-        },
-        {
-          content: faker.hacker.phrase(),
-          user_id: 1,
-        },
-      ]);
-    }),
-  ]);
-};
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content TEXT,
+  user_id INTEGER REFERENCES users(id)
+);
 ```
 
-- `npm install --save-dev faker` and require faker if fake data is needed.
+### Create the Seeds
+
+- create `db/seeds/01_users.sql`
+- create `db/seeds/02_posts.sql`
+
+```js
+INSERT INTO
+  users(first_name, last_name, email, password)
+VALUES
+  ('Mario', 'Bros', 'mario@nintendo.com', 'test'),
+  ('Luigi', 'Bros', 'luigi@nintendo.com', 'test'),
+  (
+    'Princess',
+    'Peach',
+    'peach@nintendo.com',
+    'test'
+  ),
+  (
+    'Princess',
+    'Daisy',
+    'daisy@nintendo.com',
+    'test'
+  ),
+  ('Donkey', 'Kong', 'donkey@nintendo.com', 'test');
+```
+
+```js
+INSERT INTO
+  posts(title, content, user_id)
+VALUES
+  (
+    'Hey! Come back here! You big-a monkey!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    1
+  ),
+  (
+    'Nice of the princess to invite us over a picnic, eh Luigi?',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    1
+  ),
+  (
+    'I wanna be a great plumber like my brother Mario.',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    2
+  ),
+  (
+    'Luigi, Luigi! Oh yeah! Oh yeah!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    2
+  ),
+  (
+    'Did you see Toad and Chao and the sand?',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    3
+  ),
+  (
+    'Aw, brutal!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    3
+  ),
+  (
+    'Whoo-hoo! Yippee!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    4
+  ),
+  (
+    'Aww, sweet! I did it, yay!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    4
+  ),
+  (
+    'Banana slamma!!',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    5
+  ),
+  (
+    'Help, Diddy! I ve fallen, and I can t get up! Can you pass me a banana, little buddy?',
+    'In vel quam orci. Suspendisse potenti. Curabitur eget aliquam ex. Praesent ullamcorper scelerisque egestas. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi interdum viverra magna, ut gravida massa lacinia at. Fusce blandit quis lectus ac iaculis.',
+    5
+  );
+```
+
+### Add DB Reset
+
+- create `db/reset`
+
+```js
+// load .env data into process.env
+require('dotenv').config();
+
+// other dependencies
+const fs = require('fs');
+const chalk = require('chalk');
+const Client = require('pg-native');
+
+// PG connection setup
+const connectionString =
+  process.env.DATABASE_URL ||
+  `postgresql://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}?sslmode=disable`;
+const client = new Client();
+
+// Loads the schema files from db/schema
+const runSchemaFiles = function () {
+  console.log(chalk.cyan(`-> Loading Schema Files ...`));
+  const schemaFilenames = fs.readdirSync('./db/schema');
+
+  for (const fn of schemaFilenames) {
+    const sql = fs.readFileSync(`./db/schema/${fn}`, 'utf8');
+    console.log(`\t-> Running ${chalk.green(fn)}`);
+    client.querySync(sql);
+  }
+};
+
+const runSeedFiles = function () {
+  console.log(chalk.cyan(`-> Loading Seeds ...`));
+  const schemaFilenames = fs.readdirSync('./db/seeds');
+
+  for (const fn of schemaFilenames) {
+    const sql = fs.readFileSync(`./db/seeds/${fn}`, 'utf8');
+    console.log(`\t-> Running ${chalk.green(fn)}`);
+    client.querySync(sql);
+  }
+};
+
+try {
+  console.log(`-> Connecting to PG using ${connectionString} ...`);
+  client.connectSync(connectionString);
+  runSchemaFiles();
+  runSeedFiles();
+  client.end();
+} catch (err) {
+  console.error(chalk.red(`Failed due to error: ${err}`));
+  client.end();
+}
+```
+
+- add `db:reset` to package.json in the scripts section
+
+`"db:reset": "node ./db/reset.js"`
 
 ## configure routing and helpers
 
@@ -199,10 +243,19 @@ exports.seed = function(knex) {
 
 - Create a module in dbHelpers.js
 
+- create `getUsers` to get the list of the users
+
 ```js
-module.exports = knex => {
+module.exports = (db) => {
   const getUsers = () => {
-    return knex.select('*').from('users');
+    const query = {
+      text: 'SELECT * FROM users',
+    };
+
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
   };
 
   return {
@@ -213,9 +266,13 @@ module.exports = knex => {
 
 - Add the require at the top of the server
 
-`const dbHelpers = require('./helpers/dbHelpers')(knex);`
+`const dbHelpers = require('./helpers/dbHelpers')(db);`
 
 ### Change The Router
+
+- change the app.use
+
+`app.use('/api/users', usersRouter(dbHelpers));`
 
 - use the following in the users router
 
@@ -223,38 +280,89 @@ module.exports = knex => {
 const express = require('express');
 const router = express.Router();
 
-module.exports = ({ getUsers }) => {
-  router.get('/', function(req, res) {
+const express = require('express');
+const router = express.Router();
+const { getPostsByUsers } = require('../helpers/dataHelpers');
+
+module.exports = ({ getUsers, getUsersPosts }) => {
+  /* GET users listing. */
+  router.get('/', (req, res) => {
     getUsers()
-      .then(result => {
-        res.json(result);
-      })
-      .catch(err => console.log(`Error retrieving data: ${err.message}`));
+      .then((users) => res.json(users))
+      .catch((err) => res.json({ error: err.message }));
   });
+
+  router.get('/posts', (req, res) => {
+    getUsersPosts()
+      .then((usersPosts) => {
+        const formattedPosts = getPostsByUsers(usersPosts);
+        res.json(formattedPosts);
+      })
+      .catch((err) => res.json({ error: err.message }));
+  });
+
+  router.post('/', (res, res) => {
+
+    const {first_name, last_name, email, password} = req.body;
+
+    getUserByEmail(email)
+      .then(user => {
+
+        if (user) {
+          res.json({msg: 'Sorry, a user account with this email already exists'});
+        } else {
+          return addUser(first_name, last_name, email, password)
+        }
+
+      })
+      .then(newUser => res.json(newUser))
+      .catch(err => res.json({error: err.message}));
+
+  })
 
   return router;
 };
+
 ```
 
-## Creating a Join with Knex
+## dataHelpers
 
-- in dbHelpers, add the following function
+You might need to reformat the output of the queries for easier manipulation from the front-end.
+
+- create `helpers/dataHelpers`
 
 ```js
-const getQuotesForUser = id => {
-  return knex
-    .select('*')
-    .from('users')
-    .innerJoin('quotes', 'users.id', 'quotes.user_id')
-    .where('users.id', '=', id);
+const getPostsByUsers = (usersPosts) => {
+  const postsByUsers = {};
+
+  for (let post of usersPosts) {
+    if (!postsByUsers[post.user_id]) {
+      postsByUsers[post.user_id] = {
+        userId: post.user_id,
+        firstName: post.first_name,
+        lastName: post.last_name,
+        email: post.email,
+        posts: [],
+      };
+    }
+
+
+    postsByUsers[post.user_id].posts.push({
+      title: post.title,
+      content: post.content,
+    });
+    
+
+  }
+
+  return Object.values(postsByUsers);
 };
+
+module.exports = {
+  getPostsByUsers,
+};
+
 ```
-
-- add the route in users
-
-- add the proper app.use for the users router in server
-
-`app.use('/api/users', usersRouter(dbHelpers));`
 
 ## Install the Front-End
 
@@ -293,7 +401,7 @@ const useApplicationData = () => {
         console.log(data);
         dispatch({ type: SET_USERS, users: data });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, []);
 
   return {
@@ -331,13 +439,13 @@ Display the list of users in App
 ```js
 const App = () => {
   const { state, dispatch } = useApplicationData();
-  const userList = state.users.map(user => (
+  const userList = state.users.map((user) => (
     <li key={user.id}>
       {user.first_name} {user.last_name} {user.email}
     </li>
   ));
   return (
-    <div className='App'>
+    <div className="App">
       <h1>Users</h1>
 
       <ul>{userList}</ul>
