@@ -2,12 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Homepage from './components/Homepage'
+import Scheduler from './components/scheduler'
 import * as serviceWorker from './serviceWorker';
 import 'semantic-ui-css/semantic.min.css'
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    {/* <Homepage /> */}
+    {/* <Scheduler /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
