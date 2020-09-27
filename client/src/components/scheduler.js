@@ -3,13 +3,23 @@ import { Calendar, Views, momentLocalizer } from "react-big-calendar";
 import events from "./events";
 import ExampleControlSlot from "./ExampleControlSlot";
 import moment from "moment";
+import axios from "axios";
 // import * as dates from 'react-big-calendar/lib/utils/dates'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const propTypes = {};
 const localizer = momentLocalizer(moment);
-
+const event = function (id) {
+// useEffect(() => {
+    axios.get(`/api/appointments`)
+  .then((all) => {
+    console.log(all)
+    return all
+  })
+// })
+}
 class Selectable extends React.Component {
+  
   constructor(...args) {
     super(...args);
     // events are set here into state which can be pulled from axios get call here  and delete events.js or have axios call put into events.js and
@@ -19,6 +29,36 @@ class Selectable extends React.Component {
   handleSelect = ({ start, end }) => {
     const title = window.prompt("New Event name");
     if (title) {
+      // function bookInterview(id, interview, edit) {
+      //   let action = "delete";
+      //   if (edit) {
+      //     action = "edit";
+      //   }
+    
+      //   const appointment = {
+      //     ...state.appointments[id],
+      //     interview: { ...interview },
+      //   };
+    
+      //   const appointments = {
+      //     ...state.appointments,
+      //     [id]: appointment,
+      //   };
+    
+      //   return axios.put(`/api/appointments/${id}`, appointment)
+      //     .then( () =>
+      //       setState({
+      //         ...state,
+      //         appointments,
+              
+      //       })
+      //     ).then(() =>
+      //     setState(spotsRemaining)
+    
+      //     )
+          
+      // }
+
       // HERE PUT IN POST API AXIOS TO SET APPT
       console.log("START", start, "END", end, "TITLE", title);
     this.setState({
@@ -63,5 +103,5 @@ class Selectable extends React.Component {
 }
 
 Selectable.propTypes = propTypes;
-
+event()
 export default Selectable;

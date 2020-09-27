@@ -10,8 +10,6 @@ import 'semantic-ui-css/semantic.min.css'
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    {/* <Homepage /> */}
-    {/* <Scheduler /> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
