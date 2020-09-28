@@ -1,8 +1,10 @@
 import { createMedia } from '@artsy/fresnel'
 import Scheduler from './components/scheduler'
 import Homepage from './components/Homepage'
+import Map from './components/Map'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import 'antd/dist/antd.css'
 import {
   Button,
   Container,
@@ -26,7 +28,7 @@ const { MediaContextProvider, Media } = createMedia({
 })
 
 
-  
+
 
 /* Heads up!
  * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
@@ -39,7 +41,7 @@ class DesktopContainer extends Component {
   showFixedMenu = () => this.setState({ fixed: true })
 
 
-  
+
   render() {
     const { children } = this.props
     const { fixed } = this.state
@@ -70,7 +72,7 @@ class DesktopContainer extends Component {
                 </Menu.Item>
                 <Menu.Item as='a'>About</Menu.Item>
                 <Menu.Item as='a'>Contact Us</Menu.Item>
-               
+
                 <Menu.Item position='right'>
                   <Button as='a' inverted={!fixed}>
                     Log in
@@ -149,7 +151,7 @@ class MobileContainer extends Component {
                   </Menu.Item>
                 </Menu>
               </Container>
-              
+
             </Segment>
 
             {children}
@@ -184,7 +186,8 @@ const HomepageLayout = () => (
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     <Segment style={{ margin: '4em' }} vertical>
       {/* <Homepage /> */}
-      <Scheduler />
+      {/* <Scheduler /> */}
+      <Map />
     </Segment>
 
 
