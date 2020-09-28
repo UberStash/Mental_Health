@@ -24,6 +24,7 @@ import Login from "./LoginForm";
               open={this.state.modalOpen}
               onClose={this.handleClose}
               closeIcon
+              size={'tiny'}
             >
               <Modal.Header>Login</Modal.Header>
               <Modal.Content>

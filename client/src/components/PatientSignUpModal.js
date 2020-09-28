@@ -24,6 +24,7 @@ import PSignUp from "./PatientSignUpForm";
               open={this.state.modalOpen}
               onClose={this.handleClose}
               closeIcon
+              size={'small'}
             >
               <Modal.Header>Patient Sign Up</Modal.Header>
               <Modal.Content>

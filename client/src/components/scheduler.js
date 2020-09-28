@@ -101,12 +101,12 @@ class ShowCalendar extends Component {
           // defaultView={Views.WEEK}
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2015, 3, 12)}
-          onSelectEvent={(event) => alert(`Patient Name: ${event.title}   \nPatient ID: ${event.patientId}   \nAppointment Description: ${event.description}`)}
+          // onSelectEvent={(event) => alert(`Patient Name: ${event.title}   \nPatient ID: ${event.patientId}   \nAppointment Description: ${event.description}`)}
           onSelectSlot={this.handleSelect}
           onSelectEvent = {event => this.onSelectEvent(event)} //Fires selecting existing event
           />
         </div>
-        {this.state.showModal ? (
+        {/* {this.state.showModal ? (
           <CreateEvent
             isOpen={this.state.showModal}
             onClose={this.handleCloseModal}
@@ -114,7 +114,7 @@ class ShowCalendar extends Component {
           />
         ) : (
           ""
-        )}
+        )} */}
       </div>
     );
   }
