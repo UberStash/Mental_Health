@@ -19,9 +19,10 @@ import {
   GoogleMap,
   Marker,
 } from "react-google-maps";
+
 import Geocode from "react-geocode";
 
-Geocode.setApiKey("AIzaSyAcp7uBU9DqiCNwZZnU0hD4WFAZW-samKk")
+Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 
 class Map extends React.Component {
 
@@ -39,40 +40,68 @@ class Map extends React.Component {
     markerPosition: {
       lat: 43.6426,
       lng: -79.3871,
-    },
-  }
-
-  getCity = (addressArray) => {
-    let city = '';
-    for (let index = 0; index < addressArray.length; index++) {
-      if ('political' === addressArray[index].types[0]) {
-        city = addressArray[index].long_name;
-      } else if ('locality' === addressArray[index].types[0]) {
-        city = addressArray[index].long_name;
-      }
-    }
-    return city;
-  }
-
-  getProvince = (addressArray) => {
-    let province = '';
-    for (let index = 0; index < addressArray.length; index++) {
-      if ('administrative_area_level_1' === addressArray[index].types[0]) {
-        province = addressArray[index].short_name;
-        return province;
-      }
     }
   }
 
-  getPostalCode = (addressArray) => {
-    let postalCode = '';
-    for (let index = 0; index < addressArray.length; index++) {
-      if ('postal_code' === addressArray[index].types[0]) {
-        postalCode = addressArray[index].long_name;
-        return postalCode;
-      }
+  componentDidMount() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          mapPosition: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          },
+          markerPosition: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          }
+        }, () => {
+          Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
+            .then(response => {
+
+              const address = response.results[0].formatted_address
+
+              this.setState({
+                address: (address) ? address : ""
+              })
+            })
+        })
+      })
     }
+
   }
+
+  // getCity = (addressArray) => {
+  //   let city = '';
+  //   for (let index = 0; index < addressArray.length; index++) {
+  //     if ('political' === addressArray[index].types[0]) {
+  //       city = addressArray[index].long_name;
+  //     } else if ('locality' === addressArray[index].types[0]) {
+  //       city = addressArray[index].long_name;
+  //     }
+  //   }
+  //   return city;
+  // }
+
+  // getProvince = (addressArray) => {
+  //   let province = '';
+  //   for (let index = 0; index < addressArray.length; index++) {
+  //     if ('administrative_area_level_1' === addressArray[index].types[0]) {
+  //       province = addressArray[index].short_name;
+  //       return province;
+  //     }
+  //   }
+  // }
+
+  // getPostalCode = (addressArray) => {
+  //   let postalCode = '';
+  //   for (let index = 0; index < addressArray.length; index++) {
+  //     if ('postal_code' === addressArray[index].types[0]) {
+  //       postalCode = addressArray[index].long_name;
+  //       return postalCode;
+  //     }
+  //   }
+  // }
 
   onMarkerDragEnd = (event) => {
     let newLat = event.latLng.lat();
@@ -80,24 +109,24 @@ class Map extends React.Component {
 
     Geocode.fromLatLng(newLat, newLng)
       .then(response => {
-        console.log("response", response)
+        // console.log("response", response)
         // console.log("newLat", newLat)
         // console.log("newLng", newLng)
 
-        const address = response.results[0].formatted_address,
-          addressArray = response.results[0].address_components,
-          city = this.getCity(addressArray),
-          province = this.getProvince(addressArray),
-          postalCode = this.getPostalCode(addressArray)
+        const address = response.results[0].formatted_address
+        // addressArray = response.results[0].address_components,
+        // city = this.getCity(addressArray),
+        // province = this.getProvince(addressArray),
+        // postalCode = this.getPostalCode(addressArray)
         // console.log("city:", city)
         // console.log("province:", province)
         // console.log("postalCode:", postalCode)
 
         this.setState({
           address: (address) ? address : "",
-          city: (city) ? city : "",
-          postalCode: (postalCode) ? postalCode : "",
-          province: (province) ? province : "",
+          //   //     city: (city) ? city : "",
+          //   //     postalCode: (postalCode) ? postalCode : "",
+          //   //     province: (province) ? province : "",
           markerPosition: {
             lat: newLat,
             lng: newLng
@@ -106,6 +135,7 @@ class Map extends React.Component {
             lat: newLat,
             lng: newLng
           },
+
         })
       })
   }
@@ -122,7 +152,7 @@ class Map extends React.Component {
           position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
         >
           <InfoWindow>
-            <div>MENTAL HEALTH LOCATION HELLO WORLD!</div>
+            <div>Clinic Name and Location here</div>
           </InfoWindow>
         </Marker>
       </GoogleMap >
@@ -132,9 +162,9 @@ class Map extends React.Component {
       <div>
 
         <Descriptions title="Location" bordered>
-          <Descriptions.Item label="City">{this.state.city}</Descriptions.Item>
+          {/* <Descriptions.Item label="City">{this.state.city}</Descriptions.Item>
           <Descriptions.Item label="Province">{this.state.province}</Descriptions.Item>
-          <Descriptions.Item label="Postal Code">{this.state.postalCode}</Descriptions.Item>
+          <Descriptions.Item label="Postal Code">{this.state.postalCode}</Descriptions.Item> */}
           <Descriptions.Item label="Address">{this.state.address}</Descriptions.Item>
 
 
@@ -142,7 +172,7 @@ class Map extends React.Component {
 
 
         <MapWithAMarker
-          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcp7uBU9DqiCNwZZnU0hD4WFAZW-samKk&v=3.exp&libraries=geometry,drawing,places"
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`}
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `400px` }} />}
           mapElement={<div style={{ height: `100%` }} />}
@@ -153,3 +183,4 @@ class Map extends React.Component {
 }
 
 export default Map
+
