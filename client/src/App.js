@@ -1,6 +1,9 @@
 import { createMedia } from '@artsy/fresnel'
 import Scheduler from './components/scheduler'
 import Homepage from './components/Homepage'
+import LoginModal from './components/LoginModal'
+import PSignUpModal from './components/PatientSignUpModal'
+import DSignUpModal from './components/DoctorSignUpModal'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
@@ -16,6 +19,7 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Modal
 } from 'semantic-ui-react'
 
 const { MediaContextProvider, Media } = createMedia({
@@ -78,12 +82,17 @@ class DesktopContainer extends Component {
                 <Menu.Item as='a'>Contact Us</Menu.Item>
                
                 <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
+                <LoginModal />
+                <PSignUpModal />
+                <DSignUpModal />
+                  
+                  
+                  {/* <Button as='a' inverted={!fixed}>
                     Log in
                   </Button>
                   <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
                     Sign Up
-                  </Button>
+                  </Button> */}
                 </Menu.Item>
               </Container>
             </Menu>
@@ -146,12 +155,13 @@ class MobileContainer extends Component {
                     <Icon name='sidebar' />
                   </Menu.Item>
                   <Menu.Item position='right'>
-                    <Button as='a' inverted >
+                    <LoginModal />
+                    {/* <Button as='a' inverted >
                       Log in
-                    </Button>
-                    <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
+                    </Button> */}
+                    {/* <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
                       Sign Up
-                    </Button>
+                    </Button> */}
                   </Menu.Item>
                 </Menu>
               </Container>
