@@ -3,6 +3,7 @@ import Scheduler from './components/scheduler'
 import Homepage from './components/Homepage'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+
 import {
   Button,
   Container,
@@ -24,6 +25,11 @@ const { MediaContextProvider, Media } = createMedia({
     computer: 1024,
   },
 })
+
+
+
+
+
 
 
   
@@ -184,6 +190,8 @@ const HomepageLayout = () => (
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     <Segment style={{ margin: '4em' }} vertical>
       {/* <Homepage /> */}
+      
+      
       <Scheduler />
     </Segment>
 
