@@ -2,6 +2,7 @@ import { createMedia } from '@artsy/fresnel'
 import Scheduler from './components/scheduler'
 import Homepage from './components/Homepage'
 import PropTypes from 'prop-types'
+import ContainerVideoChat from './components/ContainerVideoChat'
 import React, { Component } from 'react'
 import {
   Button,
@@ -184,7 +185,8 @@ const HomepageLayout = () => (
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     <Segment style={{ margin: '4em' }} vertical>
       {/* <Homepage /> */}
-      <Scheduler />
+      {/* <Scheduler /> */}
+      <ContainerVideoChat />
     </Segment>
 
 
