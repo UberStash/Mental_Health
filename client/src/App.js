@@ -5,6 +5,7 @@ import LoginModal from "./components/LoginModal";
 import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
+import AppointmentList from "./components/AppointmentList"
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
@@ -203,7 +204,8 @@ const HomepageLayout = () => (
     {/* #################################### */}
     <Segment style={{ margin: "4em" }} vertical>
       {/* <Homepage /> */}
-      <PatientsList />
+      {/* <PatientsList /> */}
+      <AppointmentList />
       {/* <Scheduler /> */}
     </Segment>
 
