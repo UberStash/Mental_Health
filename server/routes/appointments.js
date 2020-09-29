@@ -13,24 +13,24 @@
 
 // module.exports = router;
 
-const express = require('express');
-const router = express.Router();
+// const express = require('express');
+// const router = express.Router();
 
-// const {getAppointments} = require('../helpers/dataHelpers');
+// // const {getAppointments} = require('../helpers/dataHelpers');
 
-const getAppointments = () => {
-  console.log('in select')
-  const query = {
-    text: `SELECT * FROM appointments`,
-  };
-}
-module.exports = () => {
-  router.get('/api/appointments', (req, res) => {
-    console.log('index')
-    db.query
-      .then(console.log('success'))
-      .catch(console.log('didnt work'));
-  });
+// const getAppointments = () => {
+//   console.log('in select')
+//   const query = {
+//     text: `SELECT * FROM appointments`,
+//   };
+// }
+// module.exports = () => {
+//   router.get('/api/appointments', (req, res) => {
+//     console.log('index')
+//     db.query
+//       .then(console.log('success'))
+//       .catch(console.log('didnt work'));
+//   });
   
-  return router;
-}
+//   return router;
+// }

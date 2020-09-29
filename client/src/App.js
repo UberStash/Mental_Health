@@ -6,13 +6,13 @@ import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
+import PatientDashboard from "./components/PatientDashboard"
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import PropTypes from 'prop-types'
 import ContainerVideoChat from './components/ContainerVideoChat'
-import React, { Component } from 'react'
+
 import {
   Button,
   Container,
@@ -209,7 +209,8 @@ const HomepageLayout = () => (
       {/* <PatientsList /> */}
       {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
-      <ContainerVideoChat />
+      {/* <ContainerVideoChat /> */}
+      <PatientDashboard />
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>
