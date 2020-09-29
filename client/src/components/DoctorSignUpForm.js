@@ -1,12 +1,19 @@
-import React, {Component} from 'react'
-import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+import React, { Component } from "react";
+import {
+  Form,
+  Input,
+  TextArea,
+  Button,
+  Select,
+  Dropdown,
+  Message,
+} from "semantic-ui-react";
 
-
-const genderOptions = [
-  { key: 'm', text: 'Male', value: 'male' },
-  { key: 'f', text: 'Female', value: 'female' },
-  { key: 'o', text: 'Other', value: 'other' },
-]
+const options = [
+  { key: "m", text: "Male", value: "male" },
+  { key: "f", text: "Female", value: "female" },
+  { key: "o", text: "Other", value: "other" },
+];
 
 class SignUp extends Component {
   state = {
@@ -35,22 +42,109 @@ class SignUp extends Component {
           this.handleLoginSubmit(e);
           this.props.handleClose();
         }}
+        success
       >
-        <Form.Field>
-          <label htmlFor="username">Username</label>
+        <Form.Field required>
+          <label htmlFor="firstname">First Name</label>
           <input
-            className="username"
+          required
+            className="firstname"
             type="text"
-            name="username"
-            placeholder="Username"
-            value={fields.username}
+            name="firstname"
+            placeholder="firstname"
+            value={fields.firstname}
             onChange={this.handleChange}
           ></input>
         </Form.Field>
 
-        <Form.Field>
-          <label htmlFor="username">Password</label>
+        <Form.Field required>
+          <label htmlFor="lastname">Last Name</label>
           <input
+          required
+            className="lastname"
+            type="text"
+            name="lastname"
+            placeholder="lastname"
+            value={fields.lastname}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field>
+
+        <Form.Field required>
+          <label htmlFor="dob">Date of Birth</label>
+          <input
+          required
+            className="dob"
+            type="date"
+            name="dob"
+            placeholder="dob"
+            value={fields.dob}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field>
+
+        {/* <Form.Field>
+          <label htmlFor="gender">Gender</label>
+          <input
+            className="gender"
+            type=""
+            name="gender"
+            placeholder="gender"
+            value={fields.gender}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field> */}
+
+        <Form.Field required
+          control={Select}
+          label="Gender"
+          options={options}
+          placeholder="Gender"
+        />
+
+        <Form.Field required>
+          <label htmlFor="specialization">Specialization</label>
+          <input
+          required
+            className="specialization"
+            type="text"
+            name="specialization"
+            placeholder="specialization"
+            value={fields.specialization}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field>
+
+        <Form.Field required>
+          <label htmlFor="license">Medical License #</label>
+          <input
+          required
+            className="license"
+            type="text"
+            name="license"
+            placeholder="license"
+            value={fields.license}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field>
+
+        <Form.Field required>
+          <label htmlFor="email">Email</label>
+          <input
+          required
+            className="email"
+            type="email"
+            name="email"
+            placeholder="email"
+            value={fields.email}
+            onChange={this.handleChange}
+          ></input>
+        </Form.Field>
+
+        <Form.Field required>
+          <label htmlFor="password">Password</label>
+          <input
+          required
             className="password"
             type="password"
             name="password"
@@ -60,98 +154,69 @@ class SignUp extends Component {
           ></input>
         </Form.Field>
 
-        <Form.Field>
-          <label htmlFor="username">Password</label>
+        <Form.Field required>
+          <label htmlFor="confirmpassword">Confirm Password</label>
           <input
-            className="password"
+          required
+            className="confirmpassword"
             type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
+            name="confirmpassword"
+            placeholder="confirm password"
+            value={fields.confirmpassword}
             onChange={this.handleChange}
           ></input>
         </Form.Field>
 
-        <Form.Field>
-          <label htmlFor="username">Password</label>
+        <Form.Field required>
+          <label htmlFor="phone">Phone Number</label>
           <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
+          required
+            className="phone"
+            type="text"
+            name="phone"
+            placeholder="phone"
+            value={fields.phone}
             onChange={this.handleChange}
           ></input>
         </Form.Field>
 
-        <Form.Field>
-          <label htmlFor="username">Password</label>
+        <Form.Field required>
+          <label htmlFor="clinicname">Clinic Name</label>
           <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
+          required
+            className="clinicname"
+            type="text"
+            name="clinicname"
+            placeholder="Clinic Name"
+            value={fields.clinicname}
             onChange={this.handleChange}
           ></input>
         </Form.Field>
 
-        <Form.Field>
-          <label htmlFor="username">Password</label>
+        <Form.Field required>
+          <label htmlFor="clinic_address">Clinic Address</label>
           <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
+          required
+            className="clinic_address"
+            type="text"
+            name="clinic_address"
+            placeholder="clinic address"
+            value={fields.clinic_address}
             onChange={this.handleChange}
           ></input>
         </Form.Field>
-
-        <Form.Field>
-          <label htmlFor="username">Password</label>
-          <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
-            onChange={this.handleChange}
-          ></input>
-        </Form.Field>
-
-        <Form.Field>
-          <label htmlFor="username">Password</label>
-          <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
-            onChange={this.handleChange}
-          ></input>
-        </Form.Field>
-
-        <Form.Field>
-          <label htmlFor="username">Password</label>
-          <input
-            className="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={fields.password}
-            onChange={this.handleChange}
-          ></input>
-        </Form.Field>
-
-        <Button>Log In</Button>
+        {/* <Message
+          success
+          header="Form Completed"
+          content="You may now sign up, thank you!"
+        /> */}
+        <Button>Sign Up</Button>
       </Form>
     );
   }
 }
 
 export default SignUp;
-
 
 // const SignUpForm = () => (
 //   <Form onSubmit={(e) => {

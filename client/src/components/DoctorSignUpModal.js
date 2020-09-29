@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import { Button, Header, Image, Modal, Form } from "semantic-ui-react";
 
-import PSignUp from "./PatientSignUpForm";
+import DSignUp from "./DoctorSignUpForm";
 
 
 
@@ -31,7 +31,7 @@ import PSignUp from "./PatientSignUpForm";
               <Modal.Description>
           Please fill out all fields
               </Modal.Description>
-                <PSignUp handleClose={this.handleClose} />
+                <DSignUp handleClose={this.handleClose} />
               </Modal.Content>
             </Modal>
             
