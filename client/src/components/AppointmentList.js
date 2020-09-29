@@ -43,7 +43,7 @@ function appointmentList() {
   // const { state, dispatch } = useApplicationData();
 
   const apptList = appointmentData.map((appt) => (
-    <List.Item>
+    <List.Item >
       <Segment inverted>
         {`Name: ${appt.doctor_name} Clinic Name: ${appt.clinic_name} Address: ${appt.address} Times: ${appt.end} till ${appt.end}`}
       </Segment>
@@ -56,7 +56,7 @@ function appointmentList() {
 
       {/* {state.loading && <h3>Loading...</h3>} */}
 
-      <List>{apptList}</List>
+      <List size='huge' >{apptList}</List>
     </div>
   );
 }
