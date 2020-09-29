@@ -10,7 +10,9 @@ import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-
+import PropTypes from 'prop-types'
+import ContainerVideoChat from './components/ContainerVideoChat'
+import React, { Component } from 'react'
 import {
   Button,
   Container,
@@ -205,8 +207,9 @@ const HomepageLayout = () => (
     <Segment style={{ margin: "4em" }} vertical>
       {/* <Homepage /> */}
       {/* <PatientsList /> */}
-      <AppointmentList />
+      {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
+      <ContainerVideoChat />
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>
