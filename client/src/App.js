@@ -72,8 +72,8 @@ class DesktopContainer extends Component {
                     src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
                     as="a"
                     size="tiny"
-                    href="http://localhost:3000/"
-                    target="_blank"
+                    // href="http://localhost:3000/"
+                    // target="_blank"
                   />
                 </Menu.Item>
 
@@ -163,7 +163,7 @@ class MobileContainer extends Component {
                   </Menu.Item>
                   
                   <Menu.Item onClick={this.handleToggle} position="right">
-                    <Icon name="sidebar" size={'large'}/>
+                    <Icon name="sidebar" size='big'/>
                   </Menu.Item>
                   
                 </Menu>
@@ -202,8 +202,8 @@ const HomepageLayout = () => (
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     {/* #################################### */}
     <Segment style={{ margin: "4em" }} vertical>
-      <Homepage />
-      {/* <PatientsList /> */}
+      {/* <Homepage /> */}
+      <PatientsList />
       {/* <Scheduler /> */}
     </Segment>
 
