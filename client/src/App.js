@@ -153,10 +153,7 @@ class MobileContainer extends Component {
             >
               <Container>
                 <Menu inverted pointing secondary size="large">
-                  <Menu.Item onClick={this.handleToggle}>
-                    <Icon name="sidebar" size={'big'}/>
-                  </Menu.Item>
-                  <Menu.Item position="right">
+                <Menu.Item >
                   <Image
                     src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
                     size='mini'
@@ -164,6 +161,11 @@ class MobileContainer extends Component {
                     // target="_blank"
                   />
                   </Menu.Item>
+                  
+                  <Menu.Item onClick={this.handleToggle} position="right">
+                    <Icon name="sidebar" size={'large'}/>
+                  </Menu.Item>
+                  
                 </Menu>
               </Container>
             </Segment>
@@ -200,8 +202,8 @@ const HomepageLayout = () => (
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     {/* #################################### */}
     <Segment style={{ margin: "4em" }} vertical>
-      {/* <Homepage /> */}
-      <PatientsList />
+      <Homepage />
+      {/* <PatientsList /> */}
       {/* <Scheduler /> */}
     </Segment>
 
