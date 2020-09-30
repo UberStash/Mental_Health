@@ -4,17 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./db');
-<<<<<<< HEAD
-// const dbHelpers = require('./helpers/dbHelpers')(db)
-=======
-<<<<<<< HEAD
-const dbHelpers = require('./helpers/dbHelpers')(db) 
-=======
-const cors = require('cors');
+
+const dbHelpers = require('./helpers/dbHelpers')(db)
+
+// const cors = require('cors');
 const bodyParser = require('body-parser');
-//const dbHelpers = require('./helpers/dbHelpers')(db)
->>>>>>> production
->>>>>>> bb78d67e27fc26be61c7f47e2d27ba2e68273bff
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -24,7 +19,7 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.use(cors());
+// app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
