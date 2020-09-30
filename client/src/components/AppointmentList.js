@@ -14,6 +14,7 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Divider
 } from "semantic-ui-react";
 
 const appointmentData = [
@@ -44,8 +45,11 @@ function appointmentList() {
 
   const apptList = appointmentData.map((appt) => (
     <List.Item >
-      <Segment inverted>
-        {`Name: ${appt.doctor_name} Clinic Name: ${appt.clinic_name} Address: ${appt.address} Times: ${appt.end} till ${appt.end}`}
+      <Segment>
+      <Segment attached>Doctor's Name: {appt.doctor_name}</Segment>
+      <Segment attached>Clinic: {appt.clinic_name}</Segment>
+      <Segment attached>{appt.address}</Segment>
+      <Segment attached>{appt.start.slice(0,16)}</Segment>
       </Segment>
     </List.Item>
   ));
@@ -56,7 +60,7 @@ function appointmentList() {
 
       {/* {state.loading && <h3>Loading...</h3>} */}
 
-      <List size='huge' >{apptList}</List>
+      <List size='huge'>{apptList}</List>
     </div>
   );
 }

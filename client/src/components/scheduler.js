@@ -4,14 +4,26 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CreateEvent from "./CreateEvent";
-import events from "./events";
+// import events from "./events";
 import axios from 'axios'
 
 const localizer = momentLocalizer(moment);
 
-
+const events = Promise.all([
+  axios(
+  `http://localhost:3001/api/appointments`, {
+  method: 'get',
+  mode: 'no-cors'
+  }
+  ),
+]).then((all) => {
+  console.log('in')
+  return all
+});
 
 class ShowCalendar extends Component {
+
+  
   constructor() {
     super();
     const now = new Date();

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Card, Icon, Responsive } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import VideoChat from './VideoChat'
 
@@ -13,25 +13,17 @@ function AppointmentModal() {
       open={open}
       size='large'
       centered
-      trigger={ <Card inverted raised fluid Responsive color='red' style={{backgroundColor: 'antiquewhite' }}>
-        <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Click Here to meet with your Doctor!"} />
+      trigger={ <Card raised fluid Responsive style={{border: "solid 2px black"}}>
+        <Card.Content header='News' style={{ fontSize: "1.5em"}} />
+        <Card.Content description={"Click Here For MEntal Health News!"} />
         <Card.Content extra>
-          <Image size='medium' src="https://cdn.pixabay.com/photo/2020/05/10/21/56/video-call-5155662_960_720.png" />
+          <Icon name='user' />
         </Card.Content>
       </Card>}
     >
       
-      <Modal.Content centered>
-          <Container >
-          <Grid>
-            <Grid.Row>
-              <Grid.Column widescreen>
+      <Modal.Content image>
           <VideoChat />
-          </Grid.Column>
-          </Grid.Row>
-          </Grid>
-          </Container>
       </Modal.Content>
       <Modal.Actions>
         
