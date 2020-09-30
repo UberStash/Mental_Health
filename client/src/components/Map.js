@@ -1,76 +1,60 @@
+/*global google*/
 import React from 'react'
-import { Descriptions } from 'antd';
-// import App from './App'
-// import {
-//   Container,
-//   Divider,
-//   Dropdown,
-//   Grid,
-//   Header,
-//   Image,
-//   List,
-//   Menu,
-//   Segment,
-// } from 'semantic-ui-react';
-import {
-  InfoWindow,
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker,
-  DirectionsRenderer
-} from "react-google-maps";
-
+import { compose, withProps, lifecycle } from 'recompose'
+import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
 import Geocode from "react-geocode";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 
-class Map extends React.Component {
+class MyMapComponent extends React.Component {
+  constructor(props) {
+    super(props)
 
-  state = {
-    address: '',
-    city: '',
-    province: '',
-    postalCode: '',
-    zoom: 12,
-    height: 400,
-    mapPosition: {
-      lat: 0,
-      lng: 0,
-    },
-    markerPosition: {
-      lat: 43.6426,
-      lng: -79.3871,
+    this.state = {
+      location: {
+        lat: 0,
+        lng: 0,
+      },
+      address: '',
+      directions: null,
+      mapPosition: {
+        lat: 0,
+        lng: 0,
+      },
+      markerPosition: {
+        lat: 0,
+        lng: 0,
+      }
     }
   }
 
-  componentDidMount() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          mapPosition: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          },
-          markerPosition: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          }
-        }, () => {
-          Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
-            .then(response => {
+  // newLocation() {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(position => {
+  //       this.setState({
+  //         mapPosition: {
+  //           lat: position.coords.latitude,
+  //           lng: position.coords.longitude
+  //         },
+  //         // markerPosition: {
+  //         //   lat: position.coords.latitude,
+  //         //   lng: position.coords.longitude
+  //         // }
+  //       }, () => {
+  //         Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
+  //           .then(response => {
+  //             // console.log("response", response)
 
-              const address = response.results[0].formatted_address
+  //             const address = response.results[0].formatted_address
 
-              this.setState({
-                address: (address) ? address : ""
-              })
-            })
-        })
-      })
-    }
-
-  }
+  //             this.setState({
+  //               address: (address) ? address : ""
+  //             })
+  //           })
+  //       })
+  //     })
+  //   }
+  // }
 
   onMarkerDragEnd = (event) => {
     let newLat = event.latLng.lat();
@@ -78,7 +62,13 @@ class Map extends React.Component {
 
     Geocode.fromLatLng(newLat, newLng)
       .then(response => {
+        // console.log("Geocode.fromLatLng", Geocode.fromLatLng)
+        // console.log("response", response)
+        // console.log("response.results[0].geometry", response.results[0].geometry)
+        // console.log("response.results[0].geometry.location", response.results[0].geometry.location)
+
         const address = response.results[0].formatted_address
+        // const current = response.results[0].geometry
         this.setState({
           address: (address) ? address : "",
           markerPosition: {
@@ -94,41 +84,126 @@ class Map extends React.Component {
   }
 
   render() {
-    const MapWithAMarker = withScriptjs(withGoogleMap(props =>
+
+
+    const DirectionsComponent = compose(
+      withProps({
+        googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`,
+        loadingElement: <div style={{ height: `400px` }} />,
+        containerElement: <div style={{ width: `100%` }} />,
+        mapElement: <div style={{ height: `600px`, width: `600px` }} />,
+      }),
+      withScriptjs,
+      withGoogleMap,
+      lifecycle({
+        componentDidMount() {
+          // console.log('state:', this.state);
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+              this.setState({
+                location: {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                }
+              }, () => {
+                Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
+                  .then(response => {
+                    // console.log("new response", response)
+                    let location = response.results[0].geometry.location
+
+                    const address = response.results[0].formatted_address
+
+                    this.setState((state) => {
+                      return {
+                        address: (address) ? address : "",
+                        location: {
+                          lat: location.lat,
+                          lng: location.lng
+                        }
+                      }
+                    })
+                    // console.log('latitude: ', this.state.location.lat)
+                    // console.log('longitutde: ', this.state.location.lng)
+                    // console.log('state:', this.state);
+
+                    const DirectionsService = new google.maps.DirectionsService();
+
+                    DirectionsService.route({
+                      // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
+                      origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
+                      destination: new google.maps.LatLng(43.8177, -79.1859),
+                      travelMode: google.maps.TravelMode.DRIVING,
+                    }, (result, status) => {
+                      if (status === google.maps.DirectionsStatus.OK) {
+                        // console.log('result', result)
+                        this.setState({
+                          directions: { ...result },
+                          markers: true
+                        })
+                      } else {
+                        console.error(`error fetching directions ${result}`);
+                      }
+                    });
+                  })
+              })
+            })
+
+          }
+          // const DirectionsService = new google.maps.DirectionsService();
+          // console.log("DirectionsService.route", DirectionsService.route)
+          // console.log("google.maps.markerPosition:", google.maps.markerPosition)
+          // // console.log("getCurrentLocation():", getCurrentLocation())
+          // // console.log('address:', address)
+          // console.log("navigator.geolocation.getCurrentPosition", navigator.geolocation.getCurrentPosition)
+          // // console.log('markerPosition:', markerPosition)
+          // console.log("google:", google)
+          // console.log("google.maps:", google.maps)
+          // console.log("google.maps.Marker:", google.maps.Marker)
+
+          // console.log("Geocode.fromLatLng:", Geocode.fromLatLng(newLat, newLng))
+          // console.log("coords.lat:", coords.latitude)
+          // console.log("results:", results)
+          // console.log('state:', this.state);
+
+          // DirectionsService.route({
+
+          //   origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
+          //   // origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
+          //   destination: new google.maps.LatLng(43.8177, -79.1859),
+          //   travelMode: google.maps.TravelMode.DRIVING,
+          // }, (result, status) => {
+          //   if (status === google.maps.DirectionsStatus.OK) {
+          //     // console.log('result', result)
+          //     this.setState({
+          //       directions: { ...result },
+          //       markers: true
+          //     })
+          //   } else {
+          //     console.error(`error fetching directions ${result}`);
+          //   }
+          // });
+        }
+      })
+    )(props =>
       <GoogleMap
-        defaultZoom={12}
-        defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+        defaultZoom={8}
       >
         <Marker
           draggable={true}
           onDragEnd={this.onMarkerDragEnd}
-          position={{ lat: this.state.markerPosition.lat, lng: this.state.markerPosition.lng }}
+          position={{ origin }}
         >
           <InfoWindow>
-            <div>Clinic Name and Location here</div>
+            {<div>position here</div>}
           </InfoWindow>
         </Marker>
-      </GoogleMap >
-    ));
+        {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} />}
+      </GoogleMap>
+    );
     return (
-
-      <div>
-
-        <Descriptions title="Location" bordered>
-          <Descriptions.Item label="Address">{this.state.address}</Descriptions.Item>
-        </Descriptions>
-
-
-        <MapWithAMarker
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `400px` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-        />
-      </div>
+      <DirectionsComponent
+      />
     )
   }
 }
-
-export default Map
-
+export default MyMapComponent
