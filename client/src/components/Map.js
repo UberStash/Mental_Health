@@ -193,9 +193,9 @@ class MyMapComponent extends React.Component {
           onDragEnd={this.onMarkerDragEnd}
           position={{ origin }}
         >
-          <InfoWindow>
+          {/* <InfoWindow>
             {<div>position here</div>}
-          </InfoWindow>
+          </InfoWindow> */}
         </Marker>
         {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} />}
       </GoogleMap>
