@@ -6,13 +6,14 @@ import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
+import Map from "./components/Map";
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import ContainerVideoChat from './components/ContainerVideoChat'
-import React, { Component } from 'react'
+// import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import {
   Button,

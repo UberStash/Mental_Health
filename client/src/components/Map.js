@@ -85,7 +85,6 @@ class MyMapComponent extends React.Component {
 
   render() {
 
-
     const DirectionsComponent = compose(
       withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`,
@@ -127,6 +126,7 @@ class MyMapComponent extends React.Component {
                     // console.log('state:', this.state);
 
                     const DirectionsService = new google.maps.DirectionsService();
+                    // const mode = DRIVING;
 
                     DirectionsService.route({
                       // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
