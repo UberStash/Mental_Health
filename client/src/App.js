@@ -7,12 +7,15 @@ import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
 import PatientDashboard from "./components/PatientDashboard"
+import Map from "./components/Map";
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+// import PropTypes from 'prop-types'
 import ContainerVideoChat from './components/ContainerVideoChat'
-
+// import React, { Component } from 'react'
+import 'antd/dist/antd.css'
 import {
   Button,
   Container,
@@ -49,9 +52,9 @@ class DesktopContainer extends Component {
     return (
       <Media greaterThan="mobile">
         <Visibility
-          // once={false}
-          // onBottomPassed={this.showFixedMenu}
-          // onBottomPassedReverse={this.hideFixedMenu}
+        // once={false}
+        // onBottomPassed={this.showFixedMenu}
+        // onBottomPassedReverse={this.hideFixedMenu}
         >
           <Segment
             inverted
@@ -65,9 +68,9 @@ class DesktopContainer extends Component {
               pointing={!fixed}
               secondary={!fixed}
               size="large"
-              
-           
-                       
+
+
+
             >
               <Container>
                 <Menu.Item position="left">
@@ -75,8 +78,8 @@ class DesktopContainer extends Component {
                     src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
                     as="a"
                     size="tiny"
-                    // href="http://localhost:3000/"
-                    // target="_blank"
+                  // href="http://localhost:3000/"
+                  // target="_blank"
                   />
                 </Menu.Item>
 
@@ -156,19 +159,19 @@ class MobileContainer extends Component {
             >
               <Container>
                 <Menu inverted pointing secondary size="large">
-                <Menu.Item >
-                  <Image
-                    src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
-                    size='mini'
+                  <Menu.Item >
+                    <Image
+                      src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
+                      size='mini'
                     // href="http://localhost:3000/"
                     // target="_blank"
-                  />
+                    />
                   </Menu.Item>
-                  
+
                   <Menu.Item onClick={this.handleToggle} position="right">
-                    <Icon name="sidebar" size='big'/>
+                    <Icon name="sidebar" size='big' />
                   </Menu.Item>
-                  
+
                 </Menu>
               </Container>
             </Segment>
@@ -210,7 +213,7 @@ const HomepageLayout = () => (
       {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
       {/* <ContainerVideoChat /> */}
-      <PatientDashboard />
+      <Map />
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>
