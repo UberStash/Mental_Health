@@ -1,8 +1,17 @@
-import { createMedia } from '@artsy/fresnel'
-import Scheduler from './components/scheduler'
-import Homepage from './components/Homepage'
-import Map from './components/Map'
+import { createMedia } from "@artsy/fresnel";
+import Scheduler from "./components/scheduler";
+import Homepage from "./components/Homepage";
+import LoginModal from "./components/LoginModal";
+import PSignUpModal from "./components/PatientSignUpModal";
+import DSignUpModal from "./components/DoctorSignUpModal";
+import PatientsList from "./components/PatientList";
+import AppointmentList from "./components/AppointmentList"
+import AboutModal from "./components/AboutModal";
+import ContactModal from "./components/ContactModal";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 import PropTypes from 'prop-types'
+import ContainerVideoChat from './components/ContainerVideoChat'
 import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import {
@@ -17,7 +26,8 @@ import {
   Segment,
   Sidebar,
   Visibility,
-} from 'semantic-ui-react'
+  Modal,
+} from "semantic-ui-react";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -25,146 +35,156 @@ const { MediaContextProvider, Media } = createMedia({
     tablet: 768,
     computer: 1024,
   },
-})
+});
 
-
-
-
-/* Heads up!
- * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
- * It can be more complicated, but you can create really flexible markup.
- */
 class DesktopContainer extends Component {
-  state = {}
+  state = {};
 
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
-
-
+  hideFixedMenu = () => this.setState({ fixed: false });
+  showFixedMenu = () => this.setState({ fixed: true });
 
   render() {
-    const { children } = this.props
-    const { fixed } = this.state
+    const { children } = this.props;
+    const { fixed } = this.state;
 
     return (
-      <Media greaterThan='mobile'>
+      <Media greaterThan="mobile">
         <Visibility
-          once={false}
-          onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}
+        // once={false}
+        // onBottomPassed={this.showFixedMenu}
+        // onBottomPassedReverse={this.hideFixedMenu}
         >
           <Segment
             inverted
-            textAlign='center'
+            textAlign="center"
             // style={{ minHeight: 700, padding: '1em 0em' }}
             vertical
           >
             <Menu
-              fixed={fixed ? 'top' : null}
-              inverted={!fixed}
+              // fixed={fixed ? "top" : null}
+              inverted={true}
               pointing={!fixed}
               secondary={!fixed}
-              size='large'
+              size="large"
+
+
+
             >
               <Container>
-                <Menu.Item as='a' active>
-                  Home
+                <Menu.Item position="left">
+                  <Image
+                    src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
+                    as="a"
+                    size="tiny"
+                  // href="http://localhost:3000/"
+                  // target="_blank"
+                  />
                 </Menu.Item>
-                <Menu.Item as='a'>About</Menu.Item>
-                <Menu.Item as='a'>Contact Us</Menu.Item>
 
-                <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button as='a' inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-                    Sign Up
-                  </Button>
+                <Menu.Item position="right">
+                  <AboutModal />
+                  <ContactModal />
+                  <LoginModal />
+                  <PSignUpModal />
+                  <DSignUpModal />
                 </Menu.Item>
               </Container>
             </Menu>
-            {/* <HomepageHeading /> */}
           </Segment>
         </Visibility>
 
         {children}
       </Media>
-    )
+    );
   }
 }
 
 DesktopContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 class MobileContainer extends Component {
-  state = {}
+  state = {};
 
-  handleSidebarHide = () => this.setState({ sidebarOpened: false })
+  handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
-  handleToggle = () => this.setState({ sidebarOpened: true })
+  handleToggle = () => this.setState({ sidebarOpened: true });
 
   render() {
-    const { children } = this.props
-    const { sidebarOpened } = this.state
+    const { children } = this.props;
+    const { sidebarOpened } = this.state;
 
     return (
-      <Media as={Sidebar.Pushable} at='mobile'>
+      <Media as={Sidebar.Pushable} at="mobile">
         <Sidebar.Pushable>
           <Sidebar
             as={Menu}
-            animation='overlay'
+            animation="overlay"
             inverted
             onHide={this.handleSidebarHide}
             vertical
             visible={sidebarOpened}
           >
-            <Menu.Item as='a' active>
+            {/* <Menu.Item as="a" active>
               Home
+            </Menu.Item> */}
+            <Menu.Item>
+              <LoginModal />
             </Menu.Item>
-            <Menu.Item as='a'>Work</Menu.Item>
-            <Menu.Item as='a'>Company</Menu.Item>
-            <Menu.Item as='a'>Careers</Menu.Item>
-            <Menu.Item as='a'>Log in</Menu.Item>
-            <Menu.Item as='a'>Sign Up</Menu.Item>
+            <Menu.Item>
+              <PSignUpModal />
+            </Menu.Item>
+            <Menu.Item>
+              <DSignUpModal />
+            </Menu.Item>
+            <Menu.Item>
+              <AboutModal />
+            </Menu.Item>
+            <Menu.Item>
+              <ContactModal />
+            </Menu.Item>
+            {/* <Menu.Item as="a">
+              <Button inverted={true}>Contact Us</Button>
+            </Menu.Item> */}
           </Sidebar>
 
           <Sidebar.Pusher dimmed={sidebarOpened}>
             <Segment
               inverted
-              textAlign='center'
+              textAlign="center"
               // style={{ minHeight: 350, padding: '1em 0em' }}
               vertical
             >
               <Container>
-                <Menu inverted pointing secondary size='large'>
-                  <Menu.Item onClick={this.handleToggle}>
-                    <Icon name='sidebar' />
+                <Menu inverted pointing secondary size="large">
+                  <Menu.Item >
+                    <Image
+                      src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
+                      size='mini'
+                    // href="http://localhost:3000/"
+                    // target="_blank"
+                    />
                   </Menu.Item>
-                  <Menu.Item position='right'>
-                    <Button as='a' inverted >
-                      Log in
-                    </Button>
-                    <Button as='a' inverted style={{ marginLeft: '0.5em' }}>
-                      Sign Up
-                    </Button>
+
+                  <Menu.Item onClick={this.handleToggle} position="right">
+                    <Icon name="sidebar" size='big' />
                   </Menu.Item>
+
                 </Menu>
               </Container>
-
             </Segment>
 
             {children}
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </Media>
-    )
+    );
   }
 }
 
 MobileContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 const ResponsiveContainer = ({ children }) => (
   /* Heads up!
@@ -175,50 +195,46 @@ const ResponsiveContainer = ({ children }) => (
     <DesktopContainer>{children}</DesktopContainer>
     <MobileContainer>{children}</MobileContainer>
   </MediaContextProvider>
-)
+);
 
 ResponsiveContainer.propTypes = {
   children: PropTypes.node,
-}
+};
 
 const HomepageLayout = () => (
   <ResponsiveContainer>
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
-    <Segment style={{ margin: '4em' }} vertical>
+    {/* #################################### */}
+    <Segment style={{ margin: "4em" }} vertical>
       {/* <Homepage /> */}
+      {/* <PatientsList /> */}
+      {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
+      {/* <ContainerVideoChat /> */}
       <Map />
     </Segment>
 
-
-    <Segment inverted vertical style={{ padding: '5em 0em' }}>
+    <Segment inverted vertical style={{ padding: "5em 0em" }}>
       <Container>
         <Grid divided inverted stackable>
           <Grid.Row>
-            <Grid.Column width={3}>
-              <Header inverted as='h4' content='About' />
+            <Grid.Column width={3} floated="right">
+              <Header inverted as="h4" content="Links" />
               <List link inverted>
-                <List.Item as='a'>Sitemap</List.Item>
-                <List.Item as='a'>Contact Us</List.Item>
-                <List.Item as='a'>Religious Ceremonies</List.Item>
-                <List.Item as='a'>Gazebo Plans</List.Item>
+                <List.Item as="a">Contact Us</List.Item>
+                <List.Item as="a">About</List.Item>
+                <List.Item as="a">Home</List.Item>
               </List>
             </Grid.Column>
-            <Grid.Column width={3}>
-              <Header inverted as='h4' content='Services' />
-              <List link inverted>
-                <List.Item as='a'>Banana Pre-Order</List.Item>
-                <List.Item as='a'>DNA FAQ</List.Item>
-                <List.Item as='a'>How To Access</List.Item>
-                <List.Item as='a'>Favorite X-Men</List.Item>
-              </List>
-            </Grid.Column>
-            <Grid.Column width={7}>
-              <Header as='h4' inverted>
-                Footer Header
+            <Grid.Column width={7} floated="left">
+              <Header as="h4" inverted>
+                Mental Health User
               </Header>
               <p>
-                Extra space for a call to action inside the footer that could help re-engage users.
+                "Mental Health has changed my therapy game 100%. Not only is my
+                counselor phenomenal, but I can also message her on my own
+                time...I can sit at home in my sweats, not be embarrassed to
+                cry, and pour my guts out online."
               </p>
             </Grid.Column>
           </Grid.Row>
@@ -226,6 +242,6 @@ const HomepageLayout = () => (
       </Container>
     </Segment>
   </ResponsiveContainer>
-)
+);
 
-export default HomepageLayout
+export default HomepageLayout;

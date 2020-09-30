@@ -1,19 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const {getPostsByUsers} = require('../helpers/dataHelpers');
+const {getAppointments} = require('../helpers/dbHelpers');
 
-module.exports = ({ getUsers, getUsersPosts }) => {
+module.exports = ({ getAppointments }) => {
   /* GET users listing. */
-  router.get('/', (req, res) => {
-    getUsers()
-      .then((users) => res.json(users))
-      .catch((err) => res.json({ err }));
-  });
-
-  router.get('/posts', (req, res) => {
-    getUsersPosts()
-      .then((users) => res.json(getPostsByUsers(users)))
+  
+  router.get('/api/appointments', (req, res) => {
+    getAppointments()
+      .then((users) => res.json(getAppointments(users)))
       .catch((err) => res.json({ err }));
   });
 
