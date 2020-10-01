@@ -7,6 +7,7 @@ import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
 import PatientDashboard from "./components/PatientDashboard"
+import DoctorDashboard from './components/DoctorDashboard'
 import Map from "./components/Map";
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
@@ -214,7 +215,8 @@ const HomepageLayout = () => (
       {/* <Scheduler /> */}
       {/* <ContainerVideoChat /> */}
       {/* <Map /> */}
-      <PatientDashboard />
+      {/* <PatientDashboard /> */}
+      <DoctorDashboard />
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>
