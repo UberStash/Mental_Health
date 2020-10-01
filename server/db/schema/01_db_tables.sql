@@ -48,7 +48,8 @@ CREATE TABLE appointments
   user_patient_id INTEGER REFERENCES users_patients(id),
   user_doctor_id INTEGER REFERENCES users_doctors(id),
   appt_start TEXT,
-  appt_end TEXT
+  appt_end TEXT,
+  title TEXT NOT NULL
 
 );
 

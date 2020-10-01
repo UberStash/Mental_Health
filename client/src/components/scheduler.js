@@ -4,26 +4,15 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CreateEvent from "./CreateEvent";
-// import events from "./events";
+import { getAppts, createAppts } from "./events";
 import axios from 'axios'
+
 
 const localizer = momentLocalizer(moment);
 
-const events = Promise.all([
-  axios(
-  `http://localhost:3001/api/appointments`, {
-  method: 'get',
-  mode: 'no-cors'
-  }
-  ),
-]).then((all) => {
-  console.log('in')
-  return all
-});
+
 
 class ShowCalendar extends Component {
-
-  
   constructor() {
     super();
     const now = new Date();
@@ -31,7 +20,7 @@ class ShowCalendar extends Component {
     this.state = {
       name: "React",
       showModal: false,
-      events
+      events: [],
     };
     this.openModal = this.openModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -61,7 +50,7 @@ class ShowCalendar extends Component {
 
 
   handleSelect = ({ start, end }) => {
-    // const title = this.openModal()
+    // const title = this.openModal()npm run db:reset
     const title = window.prompt("Patient Name");
     const patientId = window.prompt("Patient ID");
     const description = window.prompt("Describe what the appt is for");
@@ -72,8 +61,9 @@ class ShowCalendar extends Component {
       end,
       title,
       patientId,
-      description
     }
+
+    createAppts(event)
     
     
 
@@ -85,14 +75,37 @@ class ShowCalendar extends Component {
            end,
            title,
            patientId,
-           description
          },
        ],
      });
     }
    }
 
+componentDidMount() {
+  const newArr = [];
+console.log('did mount')
+ const events = getAppts()
+  .then(response => {
+    response.map((appt) => {
+  newArr.push({
+    id: appt.id,
+    start: new Date(appt.appt_start),
+    end: new Date(appt.appt_end),
+    title: appt.title
+    // id: 1,
+    //     title: 'Long Event',
+    //     start: new Date(2015, 3, 7),
+    //     end: new Date(2015, 3, 10),
+    //   },
 
+  })
+    })
+    console.log('res', response);
+    console.log(newArr)
+    this.setState({ events: newArr })
+  })
+  
+}
 
   render() {
     return (

@@ -72,8 +72,8 @@ router.post('/video/token',function (req, res) {
 router.get('/api/appointments', (req, res) => {
   getAppointments()
     .then(data => {
-      console.log('appts: ', data);
-      return data.rows})
+      console.log('appts: ', data.data);
+      return res.json(data)})
     .catch((err) => res.json({ err }));
 });
 

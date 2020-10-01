@@ -1,25 +1,32 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
 import axios from "axios";
 
 
 const now = new Date()
 
-export default events =
-// useEffect(() => {
-  Promise.all([
-    axios.get(`/api/appointments`),
-  ]).then((all) => {
-    console.log(all)
-    return all
-  });
-// }, []);
 
+  export function getAppts() {
+    console.log('ininin')
+    return axios.get(`http://localhost:3001/api/appointments`)
+    .then((all) => {
+    console.log('client', all.data)
+    return all.data
+  })
+  }
 
+  export function createAppts(appt) {
+    console.log('ininin')
+    return axios.post(`http://localhost:3001/api/appointments`, appt)
+    .then((res) => {
+    console.log('post made', res)
+    // return all.data
+  })
+  }
 
  
 
-// export default [
+//  [
 //   {
 //     id: 0,
 //     title: 'All Day Event very long title',

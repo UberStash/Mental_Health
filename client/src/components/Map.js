@@ -2,7 +2,7 @@
 import React from 'react'
 import { compose, withProps, lifecycle } from 'recompose'
 import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
-import Geocode from "react-geocode";
+import Geocode from 'react-geocode';
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 

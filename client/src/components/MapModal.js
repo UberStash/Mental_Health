@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Header, Image, Modal, Card, Icon, Responsive } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
-import VideoChat from './VideoChat'
+import Map from './Map'
 
 function AppointmentModal() {
   const [open, setOpen] = React.useState(false)
@@ -23,7 +23,7 @@ function AppointmentModal() {
     >
       
       <Modal.Content image>
-          <VideoChat />
+          <Map />
       </Modal.Content>
       <Modal.Actions>
         
