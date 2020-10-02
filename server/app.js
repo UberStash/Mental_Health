@@ -4,13 +4,9 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./db');
-<<<<<<< HEAD
-const dbHelpers = require('./helpers/dbHelpers')(db) 
-=======
 const cors = require('cors');
 const bodyParser = require('body-parser');
-//const dbHelpers = require('./helpers/dbHelpers')(db)
->>>>>>> production
+const dbHelpers = require('./helpers/dbHelpers')(db)
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
