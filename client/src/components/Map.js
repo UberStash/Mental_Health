@@ -1,8 +1,11 @@
 /*global google*/
 import React from 'react'
 import { compose, withProps, lifecycle } from 'recompose'
-import { InfoWindow, withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
-import Geocode from 'react-geocode';
+import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
+import Geocode from "react-geocode";
+// import mapStyler from "./mapStyler";
+import axios from 'axios';
+import { Button, Container, Grid } from "semantic-ui-react";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 
@@ -17,6 +20,7 @@ class MyMapComponent extends React.Component {
       },
       address: '',
       directions: null,
+      travelMode: 'DRIVING',
       mapPosition: {
         lat: 0,
         lng: 0,
@@ -26,61 +30,6 @@ class MyMapComponent extends React.Component {
         lng: 0,
       }
     }
-  }
-
-  // newLocation() {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(position => {
-  //       this.setState({
-  //         mapPosition: {
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude
-  //         },
-  //         // markerPosition: {
-  //         //   lat: position.coords.latitude,
-  //         //   lng: position.coords.longitude
-  //         // }
-  //       }, () => {
-  //         Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
-  //           .then(response => {
-  //             // console.log("response", response)
-
-  //             const address = response.results[0].formatted_address
-
-  //             this.setState({
-  //               address: (address) ? address : ""
-  //             })
-  //           })
-  //       })
-  //     })
-  //   }
-  // }
-
-  onMarkerDragEnd = (event) => {
-    let newLat = event.latLng.lat();
-    let newLng = event.latLng.lng();
-
-    Geocode.fromLatLng(newLat, newLng)
-      .then(response => {
-        // console.log("Geocode.fromLatLng", Geocode.fromLatLng)
-        // console.log("response", response)
-        // console.log("response.results[0].geometry", response.results[0].geometry)
-        // console.log("response.results[0].geometry.location", response.results[0].geometry.location)
-
-        const address = response.results[0].formatted_address
-        // const current = response.results[0].geometry
-        this.setState({
-          address: (address) ? address : "",
-          markerPosition: {
-            lat: newLat,
-            lng: newLng
-          },
-          mapPosition: {
-            lat: newLat,
-            lng: newLng
-          },
-        })
-      })
   }
 
   render() {
@@ -95,8 +44,16 @@ class MyMapComponent extends React.Component {
       withScriptjs,
       withGoogleMap,
       lifecycle({
+
         componentDidMount() {
-          // console.log('state:', this.state);
+          axios.get(`http://localhost:3001/api/directionTo`)
+            .then((all) => {
+              console.log('anyone here?')
+              // console.log('all.data', all.data)
+              return all.data
+            })
+
+
           if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
               this.setState({
@@ -107,23 +64,23 @@ class MyMapComponent extends React.Component {
               }, () => {
                 Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
                   .then(response => {
-                    // console.log("new response", response)
+
                     let location = response.results[0].geometry.location
 
                     const address = response.results[0].formatted_address
 
                     this.setState((state) => {
+                      console.log('STATE', state)
+                      console.log('THIS.props.travelMode', this.props.travelMode)
                       return {
                         address: (address) ? address : "",
+                        travelMode: this.props.travelMode,
                         location: {
                           lat: location.lat,
                           lng: location.lng
                         }
                       }
                     })
-                    // console.log('latitude: ', this.state.location.lat)
-                    // console.log('longitutde: ', this.state.location.lng)
-                    // console.log('state:', this.state);
 
                     const DirectionsService = new google.maps.DirectionsService();
                     // const mode = DRIVING;
@@ -131,17 +88,19 @@ class MyMapComponent extends React.Component {
                     DirectionsService.route({
                       // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
                       origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
+                      // destination: new google.maps.Place("The Downtown Psychology Clinic"),
                       destination: new google.maps.LatLng(43.8177, -79.1859),
-                      travelMode: google.maps.TravelMode.DRIVING,
-                    }, (result, status) => {
+
+                      travelMode: google.maps.TravelMode[this.props.travelMode],
+                    }, (results, status) => {
                       if (status === google.maps.DirectionsStatus.OK) {
-                        // console.log('result', result)
+                        console.log('results', results)
                         this.setState({
-                          directions: { ...result },
+                          directions: { ...results },
                           markers: true
                         })
                       } else {
-                        console.error(`error fetching directions ${result}`);
+                        console.error(`error fetching directions ${results}`);
                       }
                     });
                   })
@@ -149,61 +108,57 @@ class MyMapComponent extends React.Component {
             })
 
           }
-          // const DirectionsService = new google.maps.DirectionsService();
-          // console.log("DirectionsService.route", DirectionsService.route)
-          // console.log("google.maps.markerPosition:", google.maps.markerPosition)
-          // // console.log("getCurrentLocation():", getCurrentLocation())
-          // // console.log('address:', address)
-          // console.log("navigator.geolocation.getCurrentPosition", navigator.geolocation.getCurrentPosition)
-          // // console.log('markerPosition:', markerPosition)
-          // console.log("google:", google)
-          // console.log("google.maps:", google.maps)
-          // console.log("google.maps.Marker:", google.maps.Marker)
+        },
 
-          // console.log("Geocode.fromLatLng:", Geocode.fromLatLng(newLat, newLng))
-          // console.log("coords.lat:", coords.latitude)
-          // console.log("results:", results)
-          // console.log('state:', this.state);
-
-          // DirectionsService.route({
-
-          //   origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
-          //   // origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
-          //   destination: new google.maps.LatLng(43.8177, -79.1859),
-          //   travelMode: google.maps.TravelMode.DRIVING,
-          // }, (result, status) => {
-          //   if (status === google.maps.DirectionsStatus.OK) {
-          //     // console.log('result', result)
-          //     this.setState({
-          //       directions: { ...result },
-          //       markers: true
-          //     })
-          //   } else {
-          //     console.error(`error fetching directions ${result}`);
-          //   }
-          // });
+        componentWillReceiveProps(nextProps) {
+          console.log('nextProps:', nextProps)
+          this.setState(prevState => {
+            return {
+              ...prevState,
+              travelMode: nextProps.travelMode
+            }
+          });
         }
+
       })
     )(props =>
+      console.log('props:', props) ||
       <GoogleMap
         defaultZoom={8}
+
       >
-        <Marker
-          draggable={true}
-          onDragEnd={this.onMarkerDragEnd}
-          position={{ origin }}
-        >
-          {/* <InfoWindow>
-            {<div>position here</div>}
-          </InfoWindow> */}
-        </Marker>
-        {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} />}
+
+        <Container floated="right"><div id="panel"></div></Container>
+
+        {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} panel={document.getElementById('panel')} />}
+
+
       </GoogleMap>
+
     );
-    return (
+
+    return (<>
+
+      <Button onClick={() => { this.setState({ travelMode: 'DRIVING' }) }}>
+        Driving
+    </Button>
+
+      <Button onClick={() => { this.setState({ travelMode: 'BICYCLING' }) }} >
+        Bicycling
+    </Button>
+
+      <Button onClick={() => { this.setState({ travelMode: 'WALKING' }) }} >
+        Walking
+    </Button>
+
+      <Button onClick={() => { this.setState({ travelMode: 'TRANSIT' }) }} >
+        Transit
+    </Button>
+
       <DirectionsComponent
+        travelMode={this.state.travelMode}
       />
-    )
+    </>)
   }
 }
-export default MyMapComponent
+export default MyMapComponent;

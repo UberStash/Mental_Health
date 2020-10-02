@@ -1,6 +1,7 @@
 import { createMedia } from "@artsy/fresnel";
 import Scheduler from "./components/scheduler";
 import Homepage from "./components/Homepage";
+import Map from "./components/Map";
 import LoginModal from "./components/LoginModal";
 import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
@@ -8,7 +9,6 @@ import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
 import PatientDashboard from "./components/PatientDashboard"
 import DoctorDashboard from './components/DoctorDashboard'
-import Map from "./components/Map";
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
