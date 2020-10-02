@@ -38,11 +38,11 @@ function AppointmentModal() {
         <Header as='h2'>
         Click for a full list of your appointments
       </Header>
-      <Header as='h4' attached='top' block>
+      {/* <Header as='h4' attached='top' block>
         Your Next Appointment
       </Header>
       <Segment inverted size='large'>Doctor's ID: {}</Segment>
-         
+          */}
         </Card.Content>
       </Card>}
     >
