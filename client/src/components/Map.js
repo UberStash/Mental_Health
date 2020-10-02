@@ -4,7 +4,7 @@ import { compose, withProps, lifecycle } from 'recompose'
 import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
 import Geocode from "react-geocode";
 // import mapStyler from "./mapStyler";
-import axios from 'axios';
+import { getAddress, getLatLng } from "./ClinicAddress";
 import { Button, Container, Grid } from "semantic-ui-react";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
@@ -14,6 +14,10 @@ class MyMapComponent extends React.Component {
     super(props)
 
     this.state = {
+      clinicAddress: {
+        destLat: 0,
+        destLng: 0
+      },
       location: {
         lat: 0,
         lng: 0,
@@ -25,10 +29,7 @@ class MyMapComponent extends React.Component {
         lat: 0,
         lng: 0,
       },
-      markerPosition: {
-        lat: 0,
-        lng: 0,
-      }
+
     }
   }
 
@@ -46,68 +47,85 @@ class MyMapComponent extends React.Component {
       lifecycle({
 
         componentDidMount() {
-          axios.get(`http://localhost:3001/api/directionTo`)
-            .then((all) => {
-              console.log('anyone here?')
-              // console.log('all.data', all.data)
-              return all.data
-            })
 
 
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-              this.setState({
-                location: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                }
-              }, () => {
-                Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
-                  .then(response => {
 
-                    let location = response.results[0].geometry.location
 
-                    const address = response.results[0].formatted_address
 
-                    this.setState((state) => {
-                      console.log('STATE', state)
-                      console.log('THIS.props.travelMode', this.props.travelMode)
-                      return {
-                        address: (address) ? address : "",
-                        travelMode: this.props.travelMode,
-                        location: {
-                          lat: location.lat,
-                          lng: location.lng
-                        }
+          //Geocode.fromAddress(all.data[0].clinic_address)
+
+
+          // if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.setState({
+              location: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            }, () => {
+              getAddress()
+                .then(data => {
+                  let destLatLng = data.results[0].geometry.location
+                  // console.log('Data from clinicAddress', data)
+                  // console.log("data.results[0].geometry.location", data.results[0].geometry.location)
+                  this.setState((state) => {
+                    return {
+                      clinicAddress: {
+                        destLat: destLatLng.lat,
+                        destLng: destLatLng.lng
                       }
-                    })
-
-                    const DirectionsService = new google.maps.DirectionsService();
-                    // const mode = DRIVING;
-
-                    DirectionsService.route({
-                      // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
-                      origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
-                      // destination: new google.maps.Place("The Downtown Psychology Clinic"),
-                      destination: new google.maps.LatLng(43.8177, -79.1859),
-
-                      travelMode: google.maps.TravelMode[this.props.travelMode],
-                    }, (results, status) => {
-                      if (status === google.maps.DirectionsStatus.OK) {
-                        console.log('results', results)
-                        this.setState({
-                          directions: { ...results },
-                          markers: true
-                        })
-                      } else {
-                        console.error(`error fetching directions ${results}`);
-                      }
-                    });
+                    }
                   })
-              })
-            })
 
-          }
+                }).then(() => Geocode.fromLatLng(position.coords.latitude, position.coords.longitude))
+
+                .then(response => {
+
+                  let location = response.results[0].geometry.location
+
+                  const address = response.results[0].formatted_address
+
+                  this.setState((state) => {
+                    // console.log('STATE', state)
+                    // console.log('THIS.props.travelMode', this.props.travelMode)
+                    return {
+                      address: (address) ? address : "",
+                      travelMode: this.props.travelMode,
+
+                      location: {
+                        lat: location.lat,
+                        lng: location.lng
+                      }
+                    }
+                  })
+
+                  const DirectionsService = new google.maps.DirectionsService();
+                  // const mode = DRIVING;
+                  console.log('Line 104', this.state)
+                  DirectionsService.route({
+                    // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
+                    origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
+                    // destination: new google.maps.Place("The Downtown Psychology Clinic"),
+                    // destination: new google.maps.LatLng(43.8177, -79.1859),
+                    destination: new google.maps.LatLng(this.state.clinicAddress.destLat, this.state.clinicAddress.destLng),
+
+                    travelMode: google.maps.TravelMode[this.props.travelMode],
+                  }, (results, status) => {
+                    if (status === google.maps.DirectionsStatus.OK) {
+                      console.log('results', results)
+                      this.setState({
+                        directions: { ...results },
+                        markers: true
+                      })
+                    } else {
+                      console.error(`error fetching directions ${results}`);
+                    }
+                  });
+                })
+            })
+          })
+
+          // }
         },
 
         componentWillReceiveProps(nextProps) {

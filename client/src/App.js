@@ -214,9 +214,9 @@ const HomepageLayout = () => (
       {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
       {/* <ContainerVideoChat /> */}
-      {/* <Map /> */}
-      <PatientDashboard />
-      <DoctorDashboard />
+      <Map />
+      {/* <PatientDashboard />
+      <DoctorDashboard /> */}
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>
