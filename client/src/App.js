@@ -7,6 +7,8 @@ import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
+import PatientDashboard from "./components/PatientDashboard"
+import DoctorDashboard from './components/DoctorDashboard'
 import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
@@ -74,9 +76,9 @@ class DesktopContainer extends Component {
               <Container>
                 <Menu.Item position="left">
                   <Image
-                    src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
+                    src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/476/3838803476_844adb0d-dc12-4585-bdf5-518b35787a9b.png?cb=1601585149"
                     as="a"
-                    size="tiny"
+                    size="small"
                   // href="http://localhost:3000/"
                   // target="_blank"
                   />
@@ -160,15 +162,15 @@ class MobileContainer extends Component {
                 <Menu inverted pointing secondary size="large">
                   <Menu.Item >
                     <Image
-                      src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/184/3816957184_fd9b1a79-318b-4fb1-9720-eceb7f985d17.png?cb=1601323515"
-                      size='mini'
+                      src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/476/3838803476_844adb0d-dc12-4585-bdf5-518b35787a9b.png?cb=1601585149"
+                      size='small'
                     // href="http://localhost:3000/"
                     // target="_blank"
                     />
                   </Menu.Item>
 
                   <Menu.Item onClick={this.handleToggle} position="right">
-                    <Icon name="sidebar" size='big' />
+                    <Icon name="sidebar" size='huge' />
                   </Menu.Item>
 
                 </Menu>
@@ -212,7 +214,9 @@ const HomepageLayout = () => (
       {/* <AppointmentList /> */}
       {/* <Scheduler /> */}
       {/* <ContainerVideoChat /> */}
-      <Map />
+      {/* <Map /> */}
+      <PatientDashboard />
+      <DoctorDashboard />
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>

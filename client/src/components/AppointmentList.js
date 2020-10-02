@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import useApplicationData from "../hooks/useApplicationData";
+import {getApptsPatient} from './events'
 
 import {
   Button,
@@ -14,51 +15,47 @@ import {
   Segment,
   Sidebar,
   Visibility,
+  Divider
 } from "semantic-ui-react";
 
-const appointmentData = [
-  {
-    doctor_name: "jack Johnson",
-    clinic_name: "Happy Land",
-    address: "123 Edward St Suite 1103 Toronto ON M5G 1E2 Canada",
-    start: "2020-10-18 12:30:00",
-    end: "2020-10-18 13:00:00",
-  },
-  {
-    doctor_name: "jack Johnson",
-    clinic_name: "Happy Land",
-    address: "123 Edward St Suite 1103 Toronto ON M5G 1E2 Canada",
-    start: "2020-10-18 12:30:00",
-    end: "2020-10-18 13:00:00",
-  },
-  {doctor_name: 'jack Johnson',
-    clinic_name: "Happy Land",
-    address: '123 Edward St Suite 1103 Toronto ON M5G 1E2 Canada',
-    start:'2020-10-18 12:30:00',
-    end: '2020-10-18 13:00:00'}
 
-];
+function AppointmentList() {
+  const [state, setState] = useState({
+    list: []
+  });
+  useEffect(() => {
+    
+    getApptsPatient(2).then((response) => {
+      setState((prev) => ({
+        ...prev,
+        list: response
+      }))  
+      // console.log(state.list)
+     
+    });
+  }, []);
 
-function appointmentList() {
-  // const { state, dispatch } = useApplicationData();
 
-  const apptList = appointmentData.map((appt) => (
-    <List.Item >
-      <Segment inverted>
-        {`Name: ${appt.doctor_name} Clinic Name: ${appt.clinic_name} Address: ${appt.address} Times: ${appt.end} till ${appt.end}`}
+  const userList = state.list.map(user => (
+    
+    <List.Item>
+     <Segment inverted>
+      {`Name: ${user.title} Doctor Id(change to name using join): ${user.user_doctor_id} Start Time: ${user.appt_start.slice(0, 16)} End Time: ${user.appt_end.slice(0, 16)}`}
       </Segment>
     </List.Item>
   ));
-
+  
+  
+  
   return (
     <div className="App">
       <Header as="h1">Your Appointments</Header>
 
       {/* {state.loading && <h3>Loading...</h3>} */}
 
-      <List size='huge' >{apptList}</List>
+      <List size='huge'>{userList}</List>
     </div>
   );
 }
 
-export default appointmentList;
+export default AppointmentList;

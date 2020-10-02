@@ -7,7 +7,7 @@ const db = require('./db');
 
 const dbHelpers = require('./helpers/dbHelpers')(db)
 
-// const cors = require('cors');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 
@@ -19,7 +19,7 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-// app.use(cors());
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -29,7 +29,7 @@ app.use(bodyParser.json()); // <---  Added Here
 // app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/', indexRouter);
-app.use('/api/appointments', usersRouter(dbHelpers));
+// app.use('/api/appointments', usersRouter(dbHelpers));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -83,6 +83,7 @@ class MyMapComponent extends React.Component {
                     })
 
                     const DirectionsService = new google.maps.DirectionsService();
+                    // const mode = DRIVING;
 
                     DirectionsService.route({
                       // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
