@@ -1,5 +1,4 @@
 import React, { Component, useEffect } from "react";
-import { render } from "react-dom";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -15,7 +14,7 @@ class ShowCalendar extends Component {
   constructor() {
     super();
     const now = new Date();
-    
+
     this.state = {
       name: "React",
       showModal: false,
@@ -36,7 +35,7 @@ class ShowCalendar extends Component {
   onSelectEvent(pEvent) {
     const r = window.confirm(`NAME: ${pEvent.title} \n PATIENT ID:${pEvent.patientId} \n DESCRIPTION:${pEvent.description} \n\n 'Would you like to remove this appointment?`)
     console.log(pEvent)
-    if(r === true){
+    if (r === true) {
       // AXIOS CALL TO DELETE EVENT!!!!!!
       this.setState((prevState, props) => {
         const events = [...prevState.events]
@@ -53,32 +52,32 @@ class ShowCalendar extends Component {
     const title = window.prompt("Patient Name");
     const patientId = window.prompt("Patient ID");
     const description = window.prompt("Describe what the appt is for");
-    
-    if (title && patientId) { 
-    const event = {
-      start,
-      end,
-      title,
-      patientId,
-      description
-    }
-    
-    
+
+    if (title && patientId) {
+      const event = {
+        start,
+        end,
+        title,
+        patientId,
+        description
+      }
+
+
 
       this.setState({
-       events: [
-         ...this.state.events,
-         {
-           start,
-           end,
-           title,
-           patientId,
-           description
-         },
-       ],
-     });
+        events: [
+          ...this.state.events,
+          {
+            start,
+            end,
+            title,
+            patientId,
+            description
+          },
+        ],
+      });
     }
-   }
+  }
 
 
 
@@ -93,17 +92,17 @@ class ShowCalendar extends Component {
             // defaultDate={moment().toDate()}
             onDrillDown={this.openModal}
             selectable
-          length={30}
-          min={new Date(2014, 10, 0, 9, 0, 0)}
-          max={new Date(2014, 10, 5, 19, 0, 0)}
-          // max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
-          localizer={localizer}
-          // defaultView={Views.WEEK}
-          scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2015, 3, 12)}
-          // onSelectEvent={(event) => alert(`Patient Name: ${event.title}   \nPatient ID: ${event.patientId}   \nAppointment Description: ${event.description}`)}
-          onSelectSlot={this.handleSelect}
-          onSelectEvent = {event => this.onSelectEvent(event)} //Fires selecting existing event
+            length={30}
+            min={new Date(2014, 10, 0, 9, 0, 0)}
+            max={new Date(2014, 10, 5, 19, 0, 0)}
+            // max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
+            localizer={localizer}
+            // defaultView={Views.WEEK}
+            scrollToTime={new Date(1970, 1, 1, 6)}
+            defaultDate={new Date(2015, 3, 12)}
+            // onSelectEvent={(event) => alert(`Patient Name: ${event.title}   \nPatient ID: ${event.patientId}   \nAppointment Description: ${event.description}`)}
+            onSelectSlot={this.handleSelect}
+            onSelectEvent={event => this.onSelectEvent(event)} //Fires selecting existing event
           />
         </div>
         {/* {this.state.showModal ? (
