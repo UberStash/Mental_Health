@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container, Segment } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import VideoChat from './VideoChat'
 
@@ -13,20 +13,26 @@ function AppointmentModal() {
       open={open}
       size='large'
       centered
-      trigger={ <Card inverted raised fluid Responsive color='red' style={{backgroundColor: 'antiquewhite' }}>
+      style={{border: '8px solid black'}}
+      trigger={ <Card inverted raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Click Here to meet with your Doctor!"} />
-        <Card.Content extra>
-          <Image size='medium' src="https://cdn.pixabay.com/photo/2020/05/10/21/56/video-call-5155662_960_720.png" />
+        <Card.Content description={"Click Here to meet with: (insert patient name of next appt and pass props of room name into the form)"} />
+        <Card.Content>
+          <Icon size='massive' name='video' />
         </Card.Content>
       </Card>}
     >
       
-      <Modal.Content centered>
+      <Modal.Content centered >
           <Container >
-          <Grid>
+          <Grid centered container stackable verticalAlign="middle">
             <Grid.Row>
-              <Grid.Column widescreen>
+              <Grid.Column centered width={8}>
+                
+                <Header textAlign='center' verticalAlign centered size='huge'>Welcome to our video chat, please enter your name and password to enter the room.</Header>
+                
+          </Grid.Column>
+          <Grid.Column width={8}>
           <VideoChat />
           </Grid.Column>
           </Grid.Row>
@@ -38,9 +44,10 @@ function AppointmentModal() {
         <Button
           content="Close"
           labelPosition='right'
-          icon='checkmark'
+          icon='close'
           onClick={() => setOpen(false)}
-          positive
+          
+          color='red'
         />
       </Modal.Actions>
     </Modal>

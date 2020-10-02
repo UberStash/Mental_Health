@@ -19,12 +19,38 @@ const now = new Date()
     console.log('ininin')
     return axios.post(`http://localhost:3001/api/appointments`, appt)
     .then((res) => {
-    console.log('post made', res)
+    console.log('EVENTS RES', res)
+    return res
+  })
+  }
+
+  export function deleteAppts(id) {
+    console.log('ininin')
+    return axios.delete(`http://localhost:3001/api/appointments/${id}`)
+    .then((res) => {
+    console.log('deleted!!!!!!')
     // return all.data
   })
   }
 
- 
+  export function getPatients(id) {
+    console.log('in patients events')
+    return axios.get(`http://localhost:3001/api/patients/${id}`)
+    .then((all) => {
+    console.log('events getpatients', all.data)
+    return all.data
+  })
+  }
+
+  export function getApptsPatient(id) {
+    console.log('in patients events')
+    return axios.get(`http://localhost:3001/api/patients/appointments/${id}`)
+    .then((all) => {
+    console.log('events getpatients', all.data)
+    return all.data
+  })
+  }
+
 
 export const fakeData = [
   {

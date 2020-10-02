@@ -7,7 +7,7 @@ const db = require('../db/index');
 
 var router = express.Router();
 
-
+// APPOINTMENT HELPERS////////////////////////////
 const getAppointments = () => {
   console.log('in select')
   const query = {
@@ -20,12 +20,12 @@ const getAppointments = () => {
     .catch((err) => err);
 };
 
-const addAppointment = (firstName, lastName, email, password) => {
+const addAppointment = ({user_patient_id, user_doctor_id, appt_start, appt_end, title}) => {
   const query = {
-    text: `INSERT INTO users (first_name, last_name, email, password) 
-           VALUES ($1, $2, $3, $4)
-           RETURNING *`,
-    values: [firstName, lastName, email, password],
+    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title) 
+           VALUES ($1, $2, $3, $4, $5)
+           RETURNING id`,
+    values: [user_patient_id, user_doctor_id, appt_start, appt_end, title],
   };
 
   return db
@@ -33,6 +33,47 @@ const addAppointment = (firstName, lastName, email, password) => {
     .then((result) => result.rows)
     .catch((err) => err);
 };
+
+const deleteAppointment = (id) => {
+  console.log('id', id)
+  const query = {
+    text: `DELETE FROM appointments WHERE id = $1`,
+    values: [id],
+  };
+
+  return db
+    .query(query)
+    .then((result) => result.rows)
+    .catch((err) => err);
+};
+
+const getAppointmentsPatientId = (id) => {
+  console.log('id', id)
+  const query = {
+    text: `SELECT * FROM appointments WHERE user_patient_id = $1`,
+    values: [id],
+  };
+
+  return db
+    .query(query)
+    .then((result) => result.rows)
+    .catch((err) => err);
+};
+
+
+const getPatients = (id) => {
+  console.log('id', id)
+  const query = {
+    text: `SELECT * FROM users_patients WHERE user_doctor_id = $1`,
+    values: [id],
+  };
+
+  return db
+    .query(query)
+    .then((result) => result.rows)
+    .catch((err) => err);
+};
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -68,7 +109,7 @@ router.post('/video/token',function (req, res) {
 });
 
 ////////////////////////////////////////////////////////////////////////////////////
-
+// APPOINTMENT ROUTES
 router.get('/api/appointments', (req, res) => {
   getAppointments()
     .then(data => {
@@ -77,12 +118,43 @@ router.get('/api/appointments', (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
-router.post('/api/appointments', (req, res) => {
-  addAppointment()
+router.get('/api/patients/appointments/:id', (req, res) => {
+  getAppointmentsPatientId(req.params.id)
     .then(data => {
-      console.log('appts: ', data);
-      return data.rows})
+      console.log('appts: ', data.data);
+      return res.json(data)})
     .catch((err) => res.json({ err }));
 });
+
+router.post('/api/appointments', (req, res) => {
+  addAppointment(req.body)
+    .then(data => {
+      console.log('appts: ', data);
+      return res.json(data)})
+    .catch((err) => res.json({ err }));
+});
+
+router.delete('/api/appointments/:id', (req, res) => {
+  console.log('req', req.params)
+  deleteAppointment(req.params.id)
+    .then(data => {
+      console.log('deleted')})
+    .catch((err) => res.json({ err }));
+});
+
+// NEED TO BUILD PUT ROUTE TO CHANGE APPT DATA
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+router.get('/api/patients/:id', (req, res) => {
+  getPatients(req.params.id)
+    .then(data => {
+      console.log('appts: ', data.data);
+      return res.json(data)})
+    .catch((err) => res.json({ err }));
+});
+
 
 module.exports = router;

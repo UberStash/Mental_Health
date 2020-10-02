@@ -10,14 +10,17 @@ import {getAppts} from './events'
 function AppointmentModal() {
   const [open, setOpen] = React.useState(false)
 
-  useEffect(() => {
-  const appointments = getAppts()
-  .then(response => {
-    response.map((appt) => (
-      <List.Item>Doctor's Name:</List.Item>
-    ))
-  })
-});
+
+  
+//   const appointments = 
+//   useEffect(() => {
+//     getAppts()
+//   .then(response => {
+//     response.map((appt) => (
+//       <List.Item>{appt}</List.Item>
+//     ))
+//   })
+// });
   
         
 
@@ -30,12 +33,13 @@ function AppointmentModal() {
       open={open}
       size='large'
       centered
-      trigger={ <Card inverted raised fluid Responsive color='red' style={{backgroundColor: 'antiquewhite' }}>
-        <Card.Content header='Book, Veiw and Change Patient Appointments' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Your Next 5 appointments:"} />
-        <Card.Content extra>
-        <List>{appointments}</List>
-          
+      trigger={ <Card inverted raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
+        <Card.Content> 
+         <Header style={{ fontSize: "2em"}}>Book, Veiw and Change Patient Appointments</Header>
+         </Card.Content>
+        <Card.Content>
+        {/* <List>{appointments}</List> */}
+        <Icon size="massive" name="calendar plus" /> 
         </Card.Content>
       </Card>}
     >

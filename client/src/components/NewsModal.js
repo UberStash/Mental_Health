@@ -13,17 +13,17 @@ function AppointmentModal() {
       open={open}
       size='large'
       centered
-      trigger={ <Card raised fluid Responsive style={{border: "solid 2px black"}}>
+      trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='News' style={{ fontSize: "1.5em"}} />
         <Card.Content description={"Click Here For MEntal Health News!"} />
-        <Card.Content extra>
-          <Icon name='user' />
+        <Card.Content>
+          <Icon name='newspaper' size='massive'/>
         </Card.Content>
       </Card>}
     >
       
       <Modal.Content image>
-          <VideoChat />
+          Insert news content here
       </Modal.Content>
       <Modal.Actions>
         

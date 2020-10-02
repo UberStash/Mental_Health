@@ -49,7 +49,7 @@ CREATE TABLE appointments
   user_doctor_id INTEGER REFERENCES users_doctors(id),
   appt_start TEXT,
   appt_end TEXT,
-  title TEXT NOT NULL
+  title TEXT
 
 );
 

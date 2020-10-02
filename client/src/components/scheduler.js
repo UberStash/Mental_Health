@@ -4,7 +4,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CreateEvent from "./CreateEvent";
-import { getAppts, createAppts } from "./events";
+import { getAppts, createAppts, deleteAppts } from "./events";
 import axios from 'axios'
 
 
@@ -35,10 +35,12 @@ class ShowCalendar extends Component {
   }
 
   onSelectEvent(pEvent) {
-    const r = window.confirm(`NAME: ${pEvent.title} \n PATIENT ID:${pEvent.patientId} \n DESCRIPTION:${pEvent.description} \n\n 'Would you like to remove this appointment?`)
-    console.log(pEvent)
+    const r = window.confirm(`NAME: ${pEvent.title} \n PATIENT ID:${pEvent.user_patient_id}`)
+    const id = pEvent.id
+    console.log(pEvent.id)
     if(r === true){
       // AXIOS CALL TO DELETE EVENT!!!!!!
+      deleteAppts(id)
       this.setState((prevState, props) => {
         const events = [...prevState.events]
         const idx = events.indexOf(pEvent)
@@ -52,32 +54,48 @@ class ShowCalendar extends Component {
   handleSelect = ({ start, end }) => {
     // const title = this.openModal()npm run db:reset
     const title = window.prompt("Patient Name");
-    const patientId = window.prompt("Patient ID");
-    const description = window.prompt("Describe what the appt is for");
+    const user_patient_id = window.prompt("Patient ID");
+    const user_doctor_id = window.prompt("Doctor ID");
     
-    if (title && patientId) { 
+    if (title && user_patient_id) { 
     const event = {
-      start,
-      end,
+      appt_start: start,
+      appt_end: end,
       title,
-      patientId,
+      user_patient_id,
+      user_doctor_id
+
     }
 
     createAppts(event)
-    
-    
+    .then((response) => {
 
       this.setState({
-       events: [
-         ...this.state.events,
-         {
-           start,
-           end,
-           title,
-           patientId,
-         },
-       ],
-     });
+        events: [
+          ...this.state.events,
+          {
+            start,
+            end,
+            title,
+            user_doctor_id,
+            user_doctor_id,
+            id: response.data[0].id
+            
+          },
+        ],
+      });      
+      
+      
+      
+      
+    }
+    
+
+
+
+    )
+    
+
     }
    }
 
@@ -91,7 +109,9 @@ console.log('did mount')
     id: appt.id,
     start: new Date(appt.appt_start),
     end: new Date(appt.appt_end),
-    title: appt.title
+    title: appt.title,
+    user_patient_id: appt.user_patient_id,
+    user_doctor_id: appt.user_doctor_id
     // id: 1,
     //     title: 'Long Event',
     //     start: new Date(2015, 3, 7),
@@ -123,9 +143,9 @@ console.log('did mount')
           max={new Date(2014, 10, 5, 19, 0, 0)}
           // max={dates.add(dates.endOf(new Date(2015, 17, 1), 'day'), -1, 'hours')}
           localizer={localizer}
-          // defaultView={Views.WEEK}
+          defaultView={"week"}
           scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2015, 3, 12)}
+          defaultDate={new Date()}
           // onSelectEvent={(event) => alert(`Patient Name: ${event.title}   \nPatient ID: ${event.patientId}   \nAppointment Description: ${event.description}`)}
           onSelectSlot={this.handleSelect}
           onSelectEvent = {event => this.onSelectEvent(event)} //Fires selecting existing event

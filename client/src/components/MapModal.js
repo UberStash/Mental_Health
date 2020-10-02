@@ -13,11 +13,11 @@ function AppointmentModal() {
       open={open}
       size='large'
       centered
-      trigger={ <Card raised fluid Responsive color='red' style={{backgroundColor: 'Red' }}>
+      trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Directions' style={{ fontSize: "2em"}} />
         <Card.Content description={"Click Here for directions to your doctor's office!"} />
-        <Card.Content extra>
-          <Icon name='user' />
+        <Card.Content>
+          <Icon name='map signs' size='massive'/>
         </Card.Content>
       </Card>}
     >
