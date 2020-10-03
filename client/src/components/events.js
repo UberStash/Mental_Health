@@ -52,6 +52,22 @@ const now = new Date()
   }
 
 
+  const url = 'http://newsapi.org/v2/everything?' +
+  'q=Mental&Health' +
+  'from=2020-10-02&' +
+  'sortBy=popularity&' +
+  'apiKey=254d4cf11e734881b99ed8e845ffe230';
+
+  export function getNews() {
+    console.log('in patients events')
+    return axios.get(`${url}`)
+    .then((all) => {
+    console.log('events getpatients', all.data)
+    return all.data
+  })
+  }
+
+
 export const fakeData = [
   {
     id: 0,

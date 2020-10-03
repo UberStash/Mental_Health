@@ -35,6 +35,7 @@ function AppointmentModal() {
       trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Appointment List' style={{ fontSize: "2em"}} />
         <Card.Content>
+      <Icon size="massive" name="calendar plus" />
         <Header as='h2'>
         Click for a full list of your appointments
       </Header>

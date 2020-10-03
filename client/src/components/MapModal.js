@@ -15,9 +15,9 @@ function AppointmentModal() {
       centered
       trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Directions' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Click Here for directions to your doctor's office!"} />
         <Card.Content>
           <Icon name='map signs' size='massive'/>
+        <Header as='h2'>Click Here for directions to your doctor's office!</Header>
         </Card.Content>
       </Card>}
     >

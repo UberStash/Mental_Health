@@ -40,6 +40,7 @@ function AppointmentModal() {
         <Card.Content>
         {/* <List>{appointments}</List> */}
         <Icon size="massive" name="calendar plus" /> 
+        <Header as='h2'>Book or delete patient appointment's here!</Header>
         </Card.Content>
       </Card>}
     >

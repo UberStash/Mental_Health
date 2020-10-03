@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Header, Image, Modal, Card, Icon, Responsive } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
-import VideoChat from './VideoChat'
+import News from './News'
 
 function AppointmentModal() {
   const [open, setOpen] = React.useState(false)
@@ -14,16 +14,16 @@ function AppointmentModal() {
       size='large'
       centered
       trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
-        <Card.Content header='News' style={{ fontSize: "1.5em"}} />
-        <Card.Content description={"Click Here For MEntal Health News!"} />
+        <Card.Content header='News' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon name='newspaper' size='massive'/>
+        <Header as='h2'>Click Here For Mental Health News!</Header>
         </Card.Content>
       </Card>}
     >
       
       <Modal.Content image>
-          Insert news content here
+          <News />
       </Modal.Content>
       <Modal.Actions>
         

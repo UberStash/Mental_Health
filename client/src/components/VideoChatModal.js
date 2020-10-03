@@ -16,9 +16,9 @@ function AppointmentModal() {
       style={{border: '8px solid black'}}
       trigger={ <Card inverted raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Click Here to meet with: (insert patient name of next appt and pass props of room name into the form)"} />
         <Card.Content>
           <Icon size='massive' name='video' />
+        <Header as='h2'>Click Here to meet with: (insert patient name of next appt and pass props of room name into the form)"</Header> 
         </Card.Content>
       </Card>}
     >
