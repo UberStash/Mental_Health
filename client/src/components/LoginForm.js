@@ -1,45 +1,49 @@
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "semantic-ui-react";
+import axios from 'axios';
 // src/components/Login.js
 
-import React, { Component } from "react";
 
-class Login extends Component {
-  state = {
-    fields: {
-      username: "",
-      password: "",
-    },
+const LoginForm = () => {
+  
+  const [state, setState] = useState({
+      email: "",
+      password: ""
+  });
+
+  const handleChange = (e) => {
+    const newFields = { ...state, [e.target.name]: e.target.value };
+    setState(newFields);
   };
 
-  handleChange = (e) => {
-    const newFields = { ...this.state.fields, [e.target.name]: e.target.value };
-    this.setState({ fields: newFields });
-  };
-
-  handleLoginSubmit = (e) => {
+  const handleSubmit = (e) => {
+    console.log("20")
     e.preventDefault();
-    // whatever you want to do when user submits a form
+    
+
+       return axios.post('http://localhost:3001/login', {state})
+      
+                  .then((res) => console.log(res))
+                  .then(() => props.handleClose())
+                  .catch(err => console.log(err));
+ 
   };
 
-  render() {
-    const { fields } = this.state;
+ 
 
     return (
       <Form
-        onSubmit={(e) => {
-          this.handleLoginSubmit(e);
-          this.props.handleClose();
-        }}
+      onSubmit={ handleSubmit }
       >
         <Form.Field>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input
-            className="username"
+            className="email"
             type="text"
-            name="username"
-            placeholder="Username"
-            value={fields.username}
-            onChange={this.handleChange}
+            name="email"
+            placeholder="Email"
+            value={state.email}
+            onChange={handleChange}
           ></input>
         </Form.Field>
         <Form.Field>
@@ -49,14 +53,14 @@ class Login extends Component {
             type="password"
             name="password"
             placeholder="Password"
-            value={fields.password}
-            onChange={this.handleChange}
+            value={state.password}
+            onChange={handleChange}
           ></input>
         </Form.Field>
         <Button>Log In</Button>
       </Form>
     );
-  }
+
 }
 
-export default Login;
+export default LoginForm;

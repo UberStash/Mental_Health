@@ -3,6 +3,7 @@ import Scheduler from "./components/scheduler";
 import Homepage from "./components/Homepage";
 import LoginModal from "./components/LoginModal";
 import PSignUpModal from "./components/PatientSignUpModal";
+import DoctorSignUpForm from './components/DoctorSignUpForm'
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientsList from "./components/PatientList";
 import AppointmentList from "./components/AppointmentList"
@@ -10,9 +11,9 @@ import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 import ContainerVideoChat from './components/ContainerVideoChat'
-import React, { Component } from 'react'
+//import React, { Component } from 'react'
 import {
   Button,
   Container,
@@ -65,9 +66,9 @@ class DesktopContainer extends Component {
               pointing={!fixed}
               secondary={!fixed}
               size="large"
-              
-           
-                       
+
+
+
             >
               <Container>
                 <Menu.Item position="left">
@@ -86,6 +87,7 @@ class DesktopContainer extends Component {
                   <LoginModal />
                   <PSignUpModal />
                   <DSignUpModal />
+                  {/* <DoctorSignUpForm /> */}
                 </Menu.Item>
               </Container>
             </Menu>
@@ -164,11 +166,11 @@ class MobileContainer extends Component {
                     // target="_blank"
                   />
                   </Menu.Item>
-                  
+
                   <Menu.Item onClick={this.handleToggle} position="right">
                     <Icon name="sidebar" size='big'/>
                   </Menu.Item>
-                  
+
                 </Menu>
               </Container>
             </Segment>

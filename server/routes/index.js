@@ -42,16 +42,8 @@ router.post('/video/token',function (req, res) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////Authenticaton Routes///////////////////////////////////
-
-router.get('patient/login', (req, res) => {
-
-});
-
-router.post('doc/login', (req, res) => {
-
-});
-
-router.get('patient/register', (req, res) => {
+//Register Patients
+router.post('/patient/register', (req, res) => {
   console.log('PrintRESPONSEBody', req.body);
 
   const {
@@ -61,14 +53,14 @@ router.get('patient/register', (req, res) => {
     email,
     password,
     confirmpassword,
-    phone,
-    address
+    phone
   } = req.body.state;
   
     const first_name = req.body.state.firstname;
     const last_name = req.body.state.lastname;
     const date_of_birth = req.body.state.dob;
-    const patient_address = req.body.state.clinicname;
+    patient_address = req.body.state.address;
+    // const patient_address = req.body.state.patient_address;
     
     //password = bcrypt.hashSync(req.body.password, salt)
     const text = `SELECT * FROM users_patients WHERE email = $1;`;
@@ -76,32 +68,28 @@ router.get('patient/register', (req, res) => {
     db.query(text, [email])
       .then(data => {
 
-        //Check if there are users with this email
-        if (data.rows.length !== 0 ) {
-          res.send("An user with this email already exists, please change email or login");
-          // check if password matches
-        } else if (password !== confirmpassword) {
-          res.send("please confirm the password")
-        } else {
-          
-          //Create a new user
-          const text = `INSERT INTO users_patients (first_name,
-            last_name, date_of_birth, gender, diagnosis, health_card, email,
-          password, phone, patient_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`;
-  
-          const values = [first_name,
-            last_name, date_of_birth, gender, diagnosis, health_card, email,
-          password, phone, patient_address];
+      //Check if there are users with this email
+      if (data.rows.length !== 0 ) {
+        res.send("An user with this email already exists, please change email or login");
+        // check if password matches
+      } else if (password !== confirmpassword) {
+        res.send("please confirm the password")
+      } else {
+        
+        //Create a new user
+        const text = `INSERT INTO users_patients (first_name, last_name, date_of_birth, gender, diagnosis, health_card, email, password, phone, patient_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`;
 
-          return db.query(text, values)
-          .then((savedRows) => {
-            res.send(savedRows)
-          });
-        }
-
+        const values = [first_name,
+          last_name, date_of_birth, gender, diagnosis, health_card, email,
+        password, phone, patient_address];
+        return db.query(text, values)
+        .then((savedRows) => {
+          res.send(savedRows)
+        });
+      }
   });
 });
-
+//Register Doctors
 router.post('/doc/register', (req, res) => {
   console.log("print RESBODY",req.body.state);
   console.log("printFirstName", req.body.state.firstname);
@@ -153,7 +141,28 @@ router.post('/doc/register', (req, res) => {
 
 });
 
+//Login
+router.post('/login', (req, res) => {
+  const email = req.body.state.email;
+  const queryDoc = `SELECT * FROM users_doctors WHERE email = $1;`;
 
+    db.query(queryDoc, [email])
+      .then(data => {
+        if (data.rows.length === 0) {
+          res.status(400).send("email does not exist");
+        }
+
+        console.log(data.rows[0]);
+      });
+
+  // const { email,password } = req.body.state;
+  // const text = `SELECT * FROM users_doctors WHERE email = $1;`;
+  // db.query(text, [email])
+  //   .then(data => {
+  //     console.log(data)
+  //   })
+  //   .catch(err => {res.status(500).json({error: err.message})})
+});
 
 ///////////////////////////////////////////////////////////////////////////////////
 

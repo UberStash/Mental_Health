@@ -1,45 +1,31 @@
-import React, {Component} from "react";
-import { Button, Header, Image, Modal, Form } from "semantic-ui-react";
+import React from 'react';
+import { Button, Header, Modal } from 'semantic-ui-react'
+import DoctorSignUpForm from './DoctorSignUpForm';
 
-import DSignUp from "./DoctorSignUpForm";
-
-
-
-  class PostsList extends Component {
-    state = {
-      modalOpen: false,
-    };
+function DoctorSignUpModal() {
+  const [open, setOpen] = React.useState(false)
   
-    handleOpen = () => this.setState({ modalOpen: true });
-  
-    handleClose = () => this.setState({ modalOpen: false });
-  
-    render() {
-      return (
-         <div>
-           <Button as='a' inverted={true} onClick={this.handleOpen}>Doctor Sign Up</Button>
-            
-            
-            <Modal
-              open={this.state.modalOpen}
-              onClose={this.handleClose}
-              closeIcon
-              size={'small'}
-            >
-              <Modal.Header>Doctor Sign Up</Modal.Header>
-              <Modal.Content>
-              <Modal.Description>
-          Please fill out all fields
-              </Modal.Description>
-                <DSignUp handleClose={this.handleClose} />
-              </Modal.Content>
-            </Modal>
-            
-
-          </div>
-       )
-     }
+  const handClose = () => { 
+    setOpen(false);
   }
 
+  return (
+    <Modal 
+      closeIcon
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button inverted={true}>Doctor Sign Up</Button>}
+    >
+      <Modal.Header>Doctor Sign Up</Modal.Header>
+      <Modal.Content image>
+        <Modal.Description>
+          <Header>Please Sign up</Header>
+            <DoctorSignUpForm handleClose={handClose} />
+        </Modal.Description>
+      </Modal.Content>
+    </Modal>
+  )
+}
 
-export default PostsList
+export default DoctorSignUpModal;
