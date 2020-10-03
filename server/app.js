@@ -4,9 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./db');
+
+const dbHelpers = require('./helpers/dbHelpers')(db)
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const dbHelpers = require('./helpers/dbHelpers')(db)
+
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -26,7 +29,7 @@ app.use(bodyParser.json()); // <---  Added Here
 // app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/', indexRouter);
-app.use('/api/appointments', usersRouter(dbHelpers));
+// app.use('/api/appointments', usersRouter(dbHelpers));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -36,4 +36,6 @@ function initialize (passport) {
       authenticateUser
     )
   );
+
+  
 }
