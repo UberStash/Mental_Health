@@ -56,10 +56,10 @@ const now = new Date()
   'q=Mental&Health' +
   'from=2020-10-02&' +
   'sortBy=popularity&' +
-  'apiKey=254d4cf11e734881b99ed8e845ffe230';
+  `${process.env.NEWS_API_KEY}`;
 
   export function getNews() {
-    console.log('in patients events')
+    console.log('in news events', process.env.NEWS_API_KEY)
     return axios.get(`${url}`)
     .then((all) => {
     console.log('events getpatients', all.data)
