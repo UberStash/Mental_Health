@@ -18,6 +18,7 @@ import React, { Component } from "react";
 import ContainerVideoChat from './components/ContainerVideoChat'
 // import React, { Component } from 'react'
 import 'antd/dist/antd.css'
+import axios from 'axios';
 import {
   Button,
   Container,
@@ -40,9 +41,20 @@ const { MediaContextProvider, Media } = createMedia({
     computer: 1024,
   },
 });
+const user = {}
+
+export const logIn =(state) => {
+  console.log("printStateAPP46",state)
+  axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+       .then((res) => console.log("printRESTPONS",res.data.user))
+       .then((res)=> { user = res.data.user})
+       //.then((res) =>this.setState(res.data) ) 
+       .then(console.log('settingSTATE',state))
+} 
 
 class DesktopContainer extends Component {
-  state = {};
+  state = { };
+
 
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
@@ -50,6 +62,7 @@ class DesktopContainer extends Component {
   render() {
     const { children } = this.props;
     const { fixed } = this.state;
+
 
     return (
       <Media greaterThan="mobile">
@@ -88,7 +101,8 @@ class DesktopContainer extends Component {
                 <Menu.Item position="right">
                   <AboutModal />
                   <ContactModal />
-                  <LoginModal />
+                  {user ? <Button>Log out</Button> :
+                  <LoginModal /> }
                   <PSignUpModal />
                   <DSignUpModal />
                   {/* <DoctorSignUpForm /> */}
@@ -207,6 +221,7 @@ ResponsiveContainer.propTypes = {
 };
 
 const HomepageLayout = () => (
+
   <ResponsiveContainer>
     {/* MAIN CONTAINER!!!!!!!!!!!! */}
     {/* #################################### */}

@@ -320,7 +320,7 @@ router.post('/doc/register', (req, res) => {
   router.post("/login", (req, res, next) => {
     
     passport.authenticate("local", (err, user, info) => {
-    console.log("354", user, err)
+    
       if (err) {
         res.send(err);
         

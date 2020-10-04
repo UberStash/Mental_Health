@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Form, Button } from "semantic-ui-react";
 import axios from 'axios';
+import {logIn} from '../App';
 // src/components/Login.js
 
 
@@ -21,12 +22,14 @@ const LoginForm = (props) => {
     console.log("20")
     e.preventDefault();
 
-    
-      axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+     console.log("pritnSTATE:", state)
+    //   axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
       
-      .then((res) => console.log("printRESTPONS",res))
-      .then(() => props.handleClose())
-      .catch(err => console.log(err));
+    //.then((res) => console.log("printRESTPONS",res.data))
+      logIn(state)
+      //.then((res) => setState(res.data))
+      //.then(() => props.handleClose())
+      //.catch(err => console.log(err));
    
     
  
