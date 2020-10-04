@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Form, Button } from "semantic-ui-react";
 import axios from 'axios';
 // src/components/Login.js
 
 
-const LoginForm = () => {
+const LoginForm = (props) => {
   
   const [state, setState] = useState({
       email: "",
@@ -16,20 +16,22 @@ const LoginForm = () => {
     setState(newFields);
   };
 
+
   const handleSubmit = (e) => {
     console.log("20")
     e.preventDefault();
+
     
-
-       return axios.post('http://localhost:3001/login', {state})
+      axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
       
-                  .then((res) => console.log(res))
-                  .then(() => props.handleClose())
-                  .catch(err => console.log(err));
+      .then((res) => console.log("printRESTPONS",res))
+      .then(() => props.handleClose())
+      .catch(err => console.log(err));
+   
+    
  
+    
   };
-
- 
 
     return (
       <Form

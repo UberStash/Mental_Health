@@ -48,13 +48,24 @@ const DoctorSignUpForm = (props) => {
   // }
 
   const handleSubmit = (e) => {
-
+    // const {
+    //   firstname,
+    //   lastname,
+    //   dob,
+    //   gender,
+    //   specialization,
+    //   license,
+    //   email,
+    //   password,
+    //   confirmpassword,
+    //   phone,
+    //   clinicname,
+    //   clinic_address
+    // } = state;
     e.preventDefault();
-      
+  
       return axios.post('http://localhost:3001/doc/register', {state})
-         .then(() => {
-      
-         })
+         .then((res) => console.log(res))
          .then(() => props.handleClose())
          .catch(err => console.log(err));
   };

@@ -5,6 +5,22 @@ const config = require('./config');
 const router = express.Router();
 const db = require('../db');
 const { JobContext } = require('twilio/lib/rest/bulkexports/v1/export/job');
+const passport = require("passport");
+const passportLocal = require("passport-local").Strategy;
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
+require("./passportConfig")(passport);
+//const session = require("express-session");
+//const bodyParser = require("body-parser");
+
+///???????????????
+// const app = express();
+// app.use(cookieParser("secretcode"));
+// app.use(passport.initialize());
+// app.use(passport.session());
+
 // const bcrypt = require('bcrypt');
 // const saltRounds = 10;
 // const salt = bcrypt.genSaltSync(saltRounds);
@@ -245,80 +261,87 @@ router.post('/patient/register', (req, res) => {
       }
   });
 });
+
+
 //Register Doctors
 router.post('/doc/register', (req, res) => {
-  console.log("print RESBODY",req.body.state);
-  console.log("printFirstName", req.body.state.firstname);
-  
-  const {
-  gender,
-  specialization,
-  license,
-  email,
-  password,
-  confirmpassword,
-  phone,
-  clinic_address
-} = req.body.state;
 
+
+  const email = req.body.state.email;
+  const text = `SELECT * FROM users_doctors WHERE email = $1; `;
+  db.query(text, [email])
+    .then(data => {
+      console.log("256")
+      //Check if there are users with this email
+      if (data.rows.length !== 0 ) {
+        res.send("User Already Exists");
+      };
+
+  const {
+    gender,
+    specialization,
+    license,
+    confirmpassword,
+    phone,
+    clinic_address
+  } = req.body.state;
+
+  const password =  bcrypt.hashSync(req.body.state.password, salt);
   const first_name = req.body.state.firstname;
   const last_name = req.body.state.lastname;
   const date_of_birth = req.body.state.dob;
   const clinic_name = req.body.state.clinicname;
-  console.log("print", first_name, last_name);
-  //password = bcrypt.hashSync(req.body.password, salt)
-  const text = `SELECT * FROM users_doctors WHERE email = $1; `;
+  console.log("pritntingPASSWORD",password);
+  console.log("printCONFIRMPASSWJORD", confirmpassword);
+  console.log("printBycrypt",bcrypt.compareSync(password, confirmpassword))
+    if (!bcrypt.compareSync(password,confirmpassword)) {
+      
+      res.send("Please confirm password");
+    };
 
-  db.query(text, [email])
-    .then(data => {
-      //Check if there are users with this email
-      if (data.rows.length !== 0 ) {
-        res.send("An user with this email already exists, please change email or login");
-        // check if password matches
-      } else if (password !== confirmpassword) {
-        res.send("please confirm the password");
-      } else {
-        //Create a new user
-        const text = `INSERT INTO users_doctors (first_name,
-          last_name, date_of_birth, gender, specialization, license, email,
-        password, phone, clinic_name, clinic_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+  //Create a new user
+  const text = `INSERT INTO users_doctors
+  (first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
 
-        const values = [first_name,
-          last_name, date_of_birth, gender, specialization, license, email,
-        password, phone, clinic_name, clinic_address];
-        
-        return db.query(text, values)
-        .then((savedRows) => {
-          res.send(savedRows)
-        });
+  const values = [first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address];
+  
+  return db.query(text, values)
+  .then(() => {
+    res.status(200).send("User Created");
+  });
 
-      }
-    });
-
+  });
 });
 
 //Login
-router.post('/login', (req, res) => {
-  const email = req.body.state.email;
-  const queryDoc = `SELECT * FROM users_doctors WHERE email = $1;`;
 
-    db.query(queryDoc, [email])
-      .then(data => {
-        if (data.rows.length === 0) {
-          res.status(400).send("email does not exist");
-        }
+//working Login
+  router.post("/login", (req, res, next) => {
+    
+    passport.authenticate("local", (err, user, info) => {
+    console.log("354", user, err)
+      if (err) {
+        res.send(err);
+        
+      } 
+      if (!user) {
+        res.send("No User Exists");
+      }
+      else {
+        req.logIn(user, (err) => {
+          if (err) throw err;
+          res.json({user: user})
+          //res.json({id: user.id, email: user.email, name: user.name});
+        });
+      }
+    })(req, res, next);
+  });
 
-        console.log(data.rows[0]);
-      });
-
-  // const { email,password } = req.body.state;
-  // const text = `SELECT * FROM users_doctors WHERE email = $1;`;
-  // db.query(text, [email])
-  //   .then(data => {
-  //     console.log(data)
-  //   })
-  //   .catch(err => {res.status(500).json({error: err.message})})
-});
+  router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
 
 ///////////////////////////////////////////////////////////////////////////////////
 

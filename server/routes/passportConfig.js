@@ -1,41 +1,49 @@
-const { LocalInstance } = require("twilio/lib/rest/api/v2010/account/availablePhoneNumber/local")
 
-const LocalStrategy = require("passport-local").Strategy;
 const db = require('../db');
 const bcrypt = require('bcrypt');
+const LocalStrategy = require("passport-local").Strategy;
+//const passport = require('passport');
 
-
-function initialize (passport) {
-
-  cosnt authenticateUser = (email, password, done) => {
-    
-    //queryPat = `SELECT * FROM users_patients WHERE email = $1;`;
-    queryDoc = `SELECT * FROM users_doctors WHERE email = $1;`;
-
-    db.query(queryDoc, [email])
-      .then(data => {
-        if (data.rows.length === 0) {
-          res.status(400).send("email does not exist");
-        }
-
-        const user = data.rows[0];
-
-        if (bcrypt.compare(password, user.password)) {
-          return user;
-        } else {
-          res.status(400).send("Email / password combination do not match");
-        }
-
-      });
-  }
-
+module.exports = function (passport) {
 
   passport.use(
-    new LocalStrategy(
-      { usernameField: "email", passwordField: "password" },
-      authenticateUser
-    )
+    new LocalStrategy({usernameField: "email" },(email, password, done) => {
+      console.log("calling passport")
+      const queryDocByEmail = `SELECT * FROM users_doctors WHERE email = $1;`;
+      const queryDocById = `SELECT * FROM users_doctors WHERE id = $1;`;
+      db.query(queryDocByEmail, [email])
+      .then(data => {
+        if (data.rows.length === 0) {
+         
+          return done(null, false);
+        }
+        
+        const user = data.rows[0];
+        console.log("PRINT USER: ", user);
+        if(bcrypt.compareSync(password, user.password)) {
+
+          done(null, user);
+        } else {
+          
+          done(null, false)
+        };
+
+      });
+     
+    })
   );
 
-  
-}
+  passport.serializeUser((user, cb) => {
+    cb(null, user.id);
+  });
+
+  passport.deserializeUser((id, cb) => {
+
+    db.query(queryDocById, [id])
+      .then((res) => {
+        if (data.rows.length === 0) {
+          return cb(null, user);
+        }
+      })
+  })
+};
