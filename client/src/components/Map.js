@@ -5,7 +5,7 @@ import { InfoWindow, BicyclingLayer, TrafficLayer, withScriptjs, withGoogleMap, 
 import Geocode from "react-geocode";
 // import mapStyler from "./mapStyler";
 import { getAddress } from "./ClinicAddress";
-import { Button, Container, Grid } from "semantic-ui-react";
+import { Icon, Button, Container, Grid, Segment, Header } from "semantic-ui-react";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 
@@ -34,12 +34,16 @@ class MyMapComponent extends React.Component {
 
   render() {
 
+    // loadingElement: <div style={{ height: `100%` }} />,
+    // containerElement: <div style={{ height: `400px` }} />,
+    // mapElement: <div style={{ height: `100%` }} />
+
     const DirectionsComponent = compose(
       withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`,
-        loadingElement: <div style={{ height: `400px` }} />,
-        containerElement: <div style={{ width: `100%` }} />,
-        mapElement: <div style={{ height: `600px`, width: `600px` }} />,
+        loadingElement: <div style={{ height: `300px` }} />,
+        containerElement: <div style={{ width: `100%`, textAlign: 'center' }} />,
+        mapElement: <div style={{ height: `600px`, width: `100%` }} />,
       }),
       withScriptjs,
       withGoogleMap,
@@ -123,15 +127,19 @@ class MyMapComponent extends React.Component {
       })
     )(props =>
       // console.log('props:', props) ||
+      <Grid centered>
+        <Grid.Row centered>
       <GoogleMap
+        
         defaultZoom={8}
+        
         options={{
           // styles: mapStyler
         }}
 
       >
 
-        <Container floated="right"><div id="panel"></div></Container>
+        <Segment><div id="panel"></div></Segment>
 
         {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} panel={document.getElementById('panel')} />}
 
@@ -139,30 +147,44 @@ class MyMapComponent extends React.Component {
         {/* <BicyclingLayer autoUpdate /> */}
 
       </GoogleMap>
-
+      </Grid.Row>
+      </Grid>
     );
 
     return (<>
-
-      <Button onClick={() => { this.setState({ travelMode: 'DRIVING' }) }}>
-        Driving
+<Grid centered>
+    <Grid.Row>
+    <Header>DIRECTIONS TO YOUR DOCTORS OFFICE</Header>
+    </Grid.Row>
+  <Grid.Row centered width={12}>
+      <Button onClick={() => { this.setState({ travelMode: 'DRIVING' }) }} color='blue' size='large'>
+         <Icon name='car' />   
+         Driving
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'BICYCLING' }) }} >
+      <Button onClick={() => { this.setState({ travelMode: 'BICYCLING' }) }} color='blue' size='large'>
+        <Icon name='bicycle' />   
         Bicycling
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'WALKING' }) }} >
-        Walking
+      <Button onClick={() => { this.setState({ travelMode: 'WALKING' }) }} color='blue' size='large'>
+       <Icon name='blind' /> 
+       Walking 
+       
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'TRANSIT' }) }} >
+      <Button onClick={() => { this.setState({ travelMode: 'TRANSIT' }) }} color='blue' size='large'>
+        <Icon name='subway' />
         Transit
     </Button>
+    </Grid.Row>
 
+    <Grid.Row>
       <DirectionsComponent
         travelMode={this.state.travelMode}
-      />
+        />
+        </Grid.Row>
+        </Grid>
     </>)
   }
 }

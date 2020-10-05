@@ -55,11 +55,11 @@ const now = new Date()
   const url = 'http://newsapi.org/v2/everything?' +
   'q=Mental&Health' +
   'from=2020-10-02&' +
-  'sortBy=popularity&' +
-  `${process.env.NEWS_API_KEY}`;
+  'sortBy=recent&' +
+  `apiKey=${process.env.REACT_APP_NEWS_API_KEY}`;
 
   export function getNews() {
-    console.log('in news events', process.env.NEWS_API_KEY)
+    console.log('in patients events')
     return axios.get(`${url}`)
     .then((all) => {
     console.log('events getpatients', all.data)

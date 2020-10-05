@@ -27,14 +27,14 @@ function AppointmentModal() {
           <Container >
           <Grid centered container stackable verticalAlign="middle">
             <Grid.Row>
-              <Grid.Column centered width={8}>
+              {/* <Grid.Column centered width={8}> */}
                 
                 <Header textAlign='center' verticalAlign centered size='huge'>Welcome to our video chat, please enter your name and password to enter the room.</Header>
                 
-          </Grid.Column>
-          <Grid.Column width={8}>
+          {/* </Grid.Column> */}
+          {/* <Grid.Column width={8}> */}
           <VideoChat />
-          </Grid.Column>
+          {/* </Grid.Column> */}
           </Grid.Row>
           </Grid>
           </Container>

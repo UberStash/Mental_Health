@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Header, Image, Modal, Card, Icon, Responsive } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import Map from './Map'
 
@@ -22,8 +22,11 @@ function AppointmentModal() {
       </Card>}
     >
       
-      <Modal.Content image>
+      <Modal.Content centered>
+         <Grid centered>
+          
           <Map />
+          </Grid>
       </Modal.Content>
       <Modal.Actions>
         
