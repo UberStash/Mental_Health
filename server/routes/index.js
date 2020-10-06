@@ -41,12 +41,12 @@ const getAppointments = () => {
     .catch((err) => err);
 };
 
-const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title }) => {
+const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password }) => {
   const query = {
-    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title) 
-           VALUES ($1, $2, $3, $4, $5)
+    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password) 
+           VALUES ($1, $2, $3, $4, $5, $6)
            RETURNING id`,
-    values: [user_patient_id, user_doctor_id, appt_start, appt_end, title],
+    values: [user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password],
   };
 
   return db
@@ -335,9 +335,9 @@ router.post('/doc/register', (req, res) => {
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
+          console.log("SESSION index",req.session.passport)
           res.json({user: user})
-          console.log("PRINTSESSION",req.session.passport)
-          //res.json({id: user.id, email: user.email, name: user.name});
+          // res.json({id: user.id, email: user.email, name: user.name});
         });
       }
     })(req, res, next);

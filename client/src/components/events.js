@@ -67,6 +67,15 @@ const now = new Date()
   })
   }
 
+  export function getHome() {
+    console.log('in home events')
+    return axios.get(`http://localhost:3001/`)
+    .then((all) => {
+    console.log('success')
+    
+  })
+  }
+
 
 export const fakeData = [
   {

@@ -6,6 +6,7 @@ const logger = require('morgan');
 const db = require('./db');
 const passport = require("passport");
 
+
 const dbHelpers = require('./helpers/dbHelpers')(db)
 
 const cors = require('cors');
@@ -32,6 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json()); // <---  Added Here
+const cookieSession = require('cookie-session');
 // app.use(bodyParser.urlencoded({extended: true}));
 
 // app.use('/api/appointments', usersRouter(dbHelpers));
@@ -39,7 +41,7 @@ app.use(bodyParser.json()); // <---  Added Here
 app.use(
   session({
     secret: "secretcode",
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     httpOnly: false
   })

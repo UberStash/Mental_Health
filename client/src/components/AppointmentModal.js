@@ -22,7 +22,6 @@ function AppointmentModal() {
     });
   }, []);
   
-  
 
   return (
 
@@ -43,7 +42,7 @@ function AppointmentModal() {
         Your Next Appointment
       </Header>
       <Segment inverted size='large'>Doctor's ID: {}</Segment>
-          */}
+           */}
         </Card.Content>
       </Card>}
     >
