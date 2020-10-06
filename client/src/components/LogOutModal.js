@@ -1,13 +1,20 @@
 import React from 'react';
-import { Button, Header, Modal } from 'semantic-ui-react'
-import PatientSignUpForm from './PatientSignUpForm';
+import { Button, Header, Modal } from 'semantic-ui-react';
+import axios from 'axios'
 
-function PatientSignUpModal() {
+function LogOutModal() {
+
   const [open, setOpen] = React.useState(false)
-  
-  const handClose = () => { 
-    setOpen(false);
+ 
+  const handleClose = () => { 
+    console.log("going herereeeeee")
+
+     axios.get('http://localhost:3001/logout')
+     .then(() => localStorage.removeItem('authUser'))
+      .then(() => setOpen(false) )
+      
   }
+  //onClick={() => window.location.reload(false)} was trying to do a hard code reload
 
   return (
     <Modal 
@@ -15,25 +22,20 @@ function PatientSignUpModal() {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button inverted={true}>Patient Sign Up</Button>}
+      trigger={<Button inverted={true} >Log Out</Button>}
     >
-      <Modal.Header>Patient Sign Up</Modal.Header>
+      <Modal.Header>LogOut</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
-          <Header>Please Sign up</Header>
-            <PatientSignUpForm handleClose={handClose} />
+          <Header>You are sure you want to log out</Header>
+          <Button onClick={handleClose}> Log Out </Button>
         </Modal.Description>
       </Modal.Content>
     </Modal>
   )
 }
 
-export default PatientSignUpModal;
-
-
-
-
-
+export default LogOutModal;
 
 
 
@@ -41,7 +43,7 @@ export default PatientSignUpModal;
 // import React, {Component} from "react";
 // import { Button, Header, Image, Modal, Form } from "semantic-ui-react";
 
-// import PSignUp from "./PatientSignUpForm";
+// import Login from "./LoginForm";
 
 
 
@@ -57,21 +59,21 @@ export default PatientSignUpModal;
 //     render() {
 //       return (
 //          <div>
-//            <Button as='a' inverted={true} onClick={this.handleOpen}>Patient Sign Up</Button>
+//            <Button as='a' inverted={true} onClick={this.handleOpen}>Login</Button>
             
             
 //             <Modal
 //               open={this.state.modalOpen}
 //               onClose={this.handleClose}
 //               closeIcon
-//               size={'small'}
+//               size={'tiny'}
 //             >
-//               <Modal.Header>Patient Sign Up</Modal.Header>
+//               <Modal.Header>Login</Modal.Header>
 //               <Modal.Content>
 //               <Modal.Description>
-//           Please fill out all fields
+//           Please Sign In To View Your Dashboard
 //               </Modal.Description>
-//                 <PSignUp handleClose={this.handleClose} />
+//                 <Login handleClose={this.handleClose} />
 //               </Modal.Content>
 //             </Modal>
             

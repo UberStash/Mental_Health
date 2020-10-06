@@ -10,12 +10,12 @@ import PatientListModal from './PatientListModal'
 
 
 
-function DesktopContainer() {
+function DesktopContainer(props) {
   const [open, setOpen] = React.useState(false)
 
   return (
     <Grid >
-      <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>DOCTOR DASHBOARD</Header></Grid.Row>
+      <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>DOCTOR DASHBOARD {props.loggedInStatus}</Header></Grid.Row>
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
           <SchedulerModal  />
