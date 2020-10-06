@@ -335,9 +335,9 @@ router.post('/doc/register', (req, res) => {
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
+          console.log("SESSION index",req.session.passport)
           res.json({user: user})
-          console.log("PRINTSESSION",req.session.passport)
-          //res.json({id: user.id, email: user.email, name: user.name});
+          // res.json({id: user.id, email: user.email, name: user.name});
         });
       }
     })(req, res, next);

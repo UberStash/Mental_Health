@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Form, Button } from "semantic-ui-react";
 import axios from 'axios';
-import {logIn} from '../App';
+import {login} from '../App';
 // src/components/Login.js
 
 
@@ -22,13 +22,8 @@ const LoginForm = (props) => {
     console.log("20")
     e.preventDefault();
 
-     console.log("pritnSTATE:", state)
-      axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
-      .then((res) => {
-        console.log("RESLOGINFORM",res.data)
-        localStorage.setItem('authUser',JSON.stringify(res.data.user.id))
-      })
-      .then(() => props.handleClose())
+     login(state)
+      .then(props.handleClose)
       
       
     //logIn(state)
