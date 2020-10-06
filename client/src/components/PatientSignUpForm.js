@@ -145,7 +145,7 @@ const PatientSignUpForm = (props) => {
             ></input>
           </Form.Field>
 
-          <Form.Field required>
+          {/* <Form.Field required>
             <label htmlFor="confirmpassword">Confirm Password</label>
             <input
               type="text"
@@ -153,7 +153,7 @@ const PatientSignUpForm = (props) => {
               value={state.confirmpassword}
               onChange={handleChange}
             ></input>
-          </Form.Field>
+          </Form.Field> */}
 
           <Form.Field>
             <label htmlFor="phone">Phone</label>

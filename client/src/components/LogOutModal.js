@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import axios from 'axios'
 
@@ -8,10 +8,13 @@ function LogOutModal() {
  
   const handleClose = () => { 
     console.log("going herereeeeee")
-
-     axios.get('http://localhost:3001/logout')
-     .then(() => localStorage.removeItem('authUser'))
+    
+      axios.get('http://localhost:3001/logout')
+      .then(() => localStorage.removeItem('authUser'))
       .then(() => setOpen(false) )
+
+   
+     
       
   }
   //onClick={() => window.location.reload(false)} was trying to do a hard code reload
