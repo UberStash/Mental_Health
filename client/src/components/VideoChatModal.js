@@ -3,9 +3,42 @@ import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container, 
 import AppointmentList from './AppointmentList'
 import VideoChat from './VideoChat'
 
-function AppointmentModal() {
-  const [open, setOpen] = React.useState(false)
+// const checkStatus = (user) => {
+//   console.log(user)
+// if (!user) {
+//  return <Homepage />
+// } else if (user.clinic_address){
+// return <DoctorDashboard user={user}/>
 
+// } else if (user.health_card){
+//   return <PatientDashboard user={user}/>
+// }
+// }
+
+const checkUser = (user) => {
+  if (user.clinic_address) {
+    return
+  }
+}
+
+function VideoChatModal(props) {
+  const [open, setOpen] = React.useState(false)
+  // const [state, setState] = useState({
+  //   list: []
+  // });
+  // useEffect(() => {
+    
+  //   getApptsPatient(2).then((response) => {
+  //     setState((prev) => ({
+  //       ...prev,
+  //       patientList: response
+  //     }))  
+      
+  //   });
+  // }, []);
+
+let list = props
+console.log(list)
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -18,7 +51,7 @@ function AppointmentModal() {
         <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon size='massive' name='video' />
-        <Header as='h2'>Click Here to meet with: (insert patient name of next appt and pass props of room name into the form)"</Header> 
+  <Header as='h2'>Click Here to meet with: {}</Header> 
         </Card.Content>
       </Card>}
     >
@@ -54,4 +87,4 @@ function AppointmentModal() {
   )
 }
 
-export default AppointmentModal
+export default VideoChatModal

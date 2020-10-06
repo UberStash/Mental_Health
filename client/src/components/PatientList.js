@@ -27,14 +27,14 @@ let patientData;
 
 
 
-function PatientsList() {
+function PatientsList(props) {
   const [open, setOpen] = React.useState(false)
   const [state, setState] = useState({
     list: []
   });
   useEffect(() => {
     
-    getPatients(2).then((response) => {
+    getPatients(props.user.id).then((response) => {
       setState((prev) => ({
         ...prev,
         list: response

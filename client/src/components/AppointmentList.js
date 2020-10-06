@@ -26,25 +26,11 @@ function convertTime (time) {
   return moment.utc(time).subtract(4, 'hours').format("YYYY-MM-DD HH:mm:ss.SSS")
 }
 
-function AppointmentList() {
+function AppointmentList(props) {
   const [open, setOpen] = React.useState(false)
-  const [state, setState] = useState({
-    list: []
-  });
-  useEffect(() => {
-    
-    getApptsPatient(2).then((response) => {
-      setState((prev) => ({
-        ...prev,
-        list: response
-      }))  
-      
-    });
-  }, []);
   
-  console.log(state.list)
 
-  const userList = state.list.map(user => (
+  const userList = props.list.map(user => (
 
     
    <List.Item>

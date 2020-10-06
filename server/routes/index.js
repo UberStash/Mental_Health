@@ -29,11 +29,12 @@ require("./passportConfig")(passport);
 //var router = express.Router();
 
 // APPOINTMENT HELPERS////////////////////////////
-const getAppointments = () => {
-  console.log('in select')
-  const query = {
-    text: `SELECT * FROM appointments`,
-  };
+  const getAppointments = (id) => {
+    console.log('id', id)
+    const query = {
+      text: `SELECT * FROM appointments WHERE user_doctor_id = $1`,
+      values: [id],
+    };
 
   return db
     .query(query)
@@ -43,8 +44,8 @@ const getAppointments = () => {
 
 const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password }) => {
   const query = {
-    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password) 
-           VALUES ($1, $2, $3, $4, $5, $6)
+    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password)       
+    VALUES ($1, $2, $3, $4, $5, $6)
            RETURNING id`,
     values: [user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password],
   };
@@ -69,6 +70,22 @@ const deleteAppointment = (id) => {
 };
 
 const getAppointmentsPatientId = (id) => {
+  console.log('id', id)
+  const query = {
+    text: `SELECT * FROM appointments 
+    JOIN users_doctors ON users_doctors.id = user_doctor_id
+    WHERE user_patient_id = $1`,
+    values: [id],
+  };
+
+  return db
+    .query(query)
+    .then((result) => result.rows)
+    .catch((err) => err);
+};
+
+
+const getNextAppointmentById = (id) => {
   console.log('id', id)
   const query = {
     text: `SELECT * FROM appointments 
@@ -135,8 +152,8 @@ router.post('/video/token', function(req, res) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 // APPOINTMENT ROUTES
-router.get('/api/appointments', (req, res) => {
-  getAppointments()
+router.get('/api/appointments/:id', (req, res) => {
+  getAppointments(req.params.id)
     .then(data => {
       console.log('appts: ', data.data);
       return res.json(data)
@@ -153,7 +170,7 @@ router.get('/api/patients/appointments/:id', (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
-router.post('/api/appointments', (req, res) => {
+router.post('/api/appointments/', (req, res) => {
   addAppointment(req.body)
     .then(data => {
       console.log('appts: ', data);
@@ -249,11 +266,12 @@ router.post('/patient/register', (req, res) => {
         const last_name = req.body.state.lastname;
         const date_of_birth = req.body.state.dob;
         const patient_address = req.body.state.address;
+        const doctor_id = req.body.state.doctor_id;
   
   
         //Create a new user
-        const text = `INSERT INTO users_patients (first_name,last_name, date_of_birth, gender, diagnosis, health_card,email, password, phone, patient_address) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10) RETURNING *;`;
-        const values = [first_name, last_name, date_of_birth, gender,diagnosis, health_card, email, password, phone,patient_address];
+        const text = `INSERT INTO users_patients (first_name,last_name, date_of_birth, gender, diagnosis, health_card,email, password, phone, patient_address, user_doctor_id) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+        const values = [first_name, last_name, date_of_birth, gender,diagnosis, health_card, email, password, phone, patient_address, doctor_id];
         
         return db.query(text, values)
         .then(() => {

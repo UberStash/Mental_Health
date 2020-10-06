@@ -1,6 +1,7 @@
 import { createMedia } from "@artsy/fresnel";
 import Homepage from "./components/Homepage";
 import LoginModal from "./components/LoginModal";
+import LogOutModal from "./components/LogOutModal";
 import PSignUpModal from "./components/PatientSignUpModal";
 import DSignUpModal from "./components/DoctorSignUpModal";
 import PatientDashboard from "./components/PatientDashboard"
@@ -38,16 +39,39 @@ const { MediaContextProvider, Media } = createMedia({
 });
 
 
+const logOut = (user, setUser) => {
+if (!user) {
+  return (
+    <>
+    <AboutModal />
+    <ContactModal />
+      <LoginModal login={setUser}/>
+        <PSignUpModal />
+          <DSignUpModal />              
+                 
+    </>
+  )
+} else {
+  return (
+    <>
+       <AboutModal />
+        <ContactModal />
+      <LogOutModal />
+    </>
+
+  )
+}
+}
 
 const checkStatus = (user) => {
   console.log(user)
 if (!user) {
  return <Homepage />
 } else if (user.clinic_address){
-return <DoctorDashboard />
+return <DoctorDashboard user={user}/>
 
 } else if (user.health_card){
-  return <PatientDashboard />
+  return <PatientDashboard user={user}/>
 }
 }
 
@@ -107,13 +131,8 @@ class HomepageLayout extends Component {
                   // target="_blank"
                   />
                 </Menu.Item>
-
                 <Menu.Item position="right">
-                  <AboutModal />
-                  <ContactModal />
-                  <LoginModal login={this.setUser}/>
-                  <PSignUpModal />
-                  <DSignUpModal />
+                {logOut(this.state.user.user, this.setUser)}
                 </Menu.Item>
               </Container>
             </Menu>

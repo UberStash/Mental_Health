@@ -6,9 +6,9 @@ import axios from "axios";
 const now = new Date()
 
 
-  export function getAppts() {
+  export function getAppts(id) {
     console.log('ininin')
-    return axios.get(`http://localhost:3001/api/appointments`)
+    return axios.get(`http://localhost:3001/api/appointments/${id}`)
     .then((all) => {
     console.log('client', all.data)
     return all.data
@@ -17,7 +17,7 @@ const now = new Date()
 
   export function createAppts(appt) {
     console.log('ininin')
-    return axios.post(`http://localhost:3001/api/appointments`, appt)
+    return axios.post(`http://localhost:3001/api/appointments/`, appt)
     .then((res) => {
     console.log('EVENTS RES', res)
     return res

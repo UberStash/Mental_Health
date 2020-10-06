@@ -10,6 +10,7 @@ function DoctorSignUpModal() {
   }
 
   return (
+    <div>
     <Modal 
       closeIcon
       onClose={() => setOpen(false)}
@@ -25,6 +26,7 @@ function DoctorSignUpModal() {
         </Modal.Description>
       </Modal.Content>
     </Modal>
+    </div>
   )
 }
 

@@ -18,18 +18,18 @@ function DesktopContainer(props) {
       <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>DOCTOR DASHBOARD {props.loggedInStatus}</Header></Grid.Row>
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-          <SchedulerModal  />
+          <SchedulerModal user={props.user} />
         </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>
         <Grid.Column textAlign={'centered'} width={14}>
-          <VideoChatModal />
+          <VideoChatModal user={props.user} />
         </Grid.Column>
       </Grid.Row>
       
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-          <PatientListModal />
+          <PatientListModal user={props.user}/>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row centered>

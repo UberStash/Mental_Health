@@ -7,7 +7,7 @@ import {getAppts} from './events'
 
 
 
-function AppointmentModal() {
+function AppointmentModal(props) {
   const [open, setOpen] = React.useState(false)
 
 
@@ -50,7 +50,7 @@ function AppointmentModal() {
           <Grid>
             <Grid.Row>
               <Grid.Column widescreen>
-          <Scheduler />
+          <Scheduler user={props.user}/>
           </Grid.Column>
           </Grid.Row>
           </Grid>

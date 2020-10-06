@@ -17,7 +17,7 @@ import PSignUp from "./PatientSignUpForm";
     render() {
       return (
          <div>
-           <Button as='a' inverted={true} onClick={this.handleOpen}>Contact Us</Button>
+           <Button inverted={true} onClick={this.handleOpen}>Contact Us</Button>
             
             
             <Modal

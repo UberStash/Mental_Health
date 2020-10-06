@@ -29,7 +29,7 @@ function homepage() {
             information and statistics to doctors.
           </p>
           <Header as="h3" style={{ fontSize: "2em" }}>
-            We Make Make People Feel Better See WHat Other's Say
+            We Make Make People Feel Better See What Other's Say
           </Header>
           <p style={{ fontSize: "1.33em" }}>
             "Dude, your stuff is the bomb! Your company is truly upstanding and

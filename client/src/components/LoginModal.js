@@ -11,6 +11,7 @@ function LoginModal(props) {
   }
 console.log(props)
   return (
+    <div>
     <Modal 
       closeIcon
       onClose={() => setOpen(false)}
@@ -26,6 +27,7 @@ console.log(props)
         </Modal.Description>
       </Modal.Content>
     </Modal>
+    </div>
   )
 }
 

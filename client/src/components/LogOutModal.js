@@ -20,6 +20,7 @@ function LogOutModal() {
   //onClick={() => window.location.reload(false)} was trying to do a hard code reload
 
   return (
+    <div>
     <Modal 
       closeIcon
       onClose={() => setOpen(false)}
@@ -35,6 +36,7 @@ function LogOutModal() {
         </Modal.Description>
       </Modal.Content>
     </Modal>
+    </div>
   )
 }
 

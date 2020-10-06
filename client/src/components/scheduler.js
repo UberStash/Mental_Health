@@ -60,7 +60,7 @@ class ShowCalendar extends Component {
     console.log(start)
     const title = window.prompt("Patient Name");
     const user_patient_id = window.prompt("Patient ID");
-    const user_doctor_id = window.prompt("Doctor ID");
+    const user_doctor_id = this.props.user.id
    const appt_password = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
 console.log(appt_password)
     if (title && user_patient_id) {
@@ -110,7 +110,7 @@ console.log(appt_password)
   componentDidMount() {
     const newArr = [];
     console.log('did mount')
-    const events = getAppts()
+    const events = getAppts(this.props.user.id)
       .then(response => {
         response.map((appt) => {
           newArr.push({
