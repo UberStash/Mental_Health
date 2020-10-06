@@ -47,9 +47,10 @@ CREATE TABLE appointments
   id SERIAL PRIMARY KEY NOT NULL,
   user_patient_id INTEGER REFERENCES users_patients(id),
   user_doctor_id INTEGER REFERENCES users_doctors(id),
-  appt_start TEXT,
-  appt_end TEXT,
-  title TEXT
+  appt_start TIMESTAMP WITH TIME ZONE,
+  appt_end TIMESTAMP WITH TIME ZONE,
+  title TEXT,
+  appt_password TEXT
 
 );
 

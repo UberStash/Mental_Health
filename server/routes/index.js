@@ -18,12 +18,12 @@ const getAppointments = () => {
     .catch((err) => err);
 };
 
-const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title }) => {
+const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password }) => {
   const query = {
-    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title) 
-           VALUES ($1, $2, $3, $4, $5)
+    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password) 
+           VALUES ($1, $2, $3, $4, $5, $6)
            RETURNING id`,
-    values: [user_patient_id, user_doctor_id, appt_start, appt_end, title],
+    values: [user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password],
   };
 
   return db
@@ -77,7 +77,7 @@ const getPatients = (id) => {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  // res.render('index', { title: 'Express' });
 });
 
 

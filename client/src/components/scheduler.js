@@ -9,6 +9,11 @@ import axios from 'axios'
 
 const localizer = momentLocalizer(moment);
 
+function randomString(length, chars) {
+  let result = '';
+  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
+}
 
 
 class ShowCalendar extends Component {
@@ -34,7 +39,7 @@ class ShowCalendar extends Component {
   }
 
   onSelectEvent(pEvent) {
-    const r = window.confirm(`NAME: ${pEvent.title} \n PATIENT ID:${pEvent.user_patient_id}`)
+    const r = window.confirm(`NAME: ${pEvent.title} \n PATIENT ID:${pEvent.user_patient_id} \n PASSWORD:${pEvent.appt_password}`)
     const id = pEvent.id
     console.log(pEvent.id)
     if (r === true) {
@@ -52,17 +57,20 @@ class ShowCalendar extends Component {
 
   handleSelect = ({ start, end }) => {
     // const title = this.openModal()npm run db:reset
+    console.log(start)
     const title = window.prompt("Patient Name");
     const user_patient_id = window.prompt("Patient ID");
     const user_doctor_id = window.prompt("Doctor ID");
-
+   const appt_password = randomString(8, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+console.log(appt_password)
     if (title && user_patient_id) {
       const event = {
         appt_start: start,
         appt_end: end,
         title,
         user_patient_id,
-        user_doctor_id
+        user_doctor_id,
+        appt_password,
 
       }
 
@@ -78,7 +86,8 @@ class ShowCalendar extends Component {
                 title,
                 user_doctor_id,
                 user_doctor_id,
-                id: response.data[0].id
+                id: response.data[0].id,
+                appt_password,
 
               },
             ],
