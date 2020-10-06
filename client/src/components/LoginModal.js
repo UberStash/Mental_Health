@@ -1,14 +1,15 @@
 import React from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react'
 import LoginForm from './LoginForm';
+import { checkPropTypes } from 'prop-types';
 
-function LoginModal() {
+function LoginModal(props) {
   const [open, setOpen] = React.useState(false)
   
   const handClose = () => { 
     setOpen(false);
   }
-
+console.log(props)
   return (
     <Modal 
       closeIcon
@@ -21,7 +22,7 @@ function LoginModal() {
       <Modal.Content image>
         <Modal.Description>
           <Header>Please Login In To View Your Dashboard</Header>
-            <LoginForm handleClose={handClose} />
+            <LoginForm handleClose={handClose} login={props.login}/>
         </Modal.Description>
       </Modal.Content>
     </Modal>

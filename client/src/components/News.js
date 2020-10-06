@@ -50,6 +50,7 @@ console.log(newsData)
 
 const articles = state.news.map(article => (
   // console.log(article)
+<Segment color="blue" style={{boxShadow: '5px 5px black'}}>
 <List.Item as='a' href={article.url}>
     <Image src={article.urlToImage} size='small' floated='left' />
 <Header textAlign='center'>{article.title}</Header>
@@ -59,6 +60,7 @@ const articles = state.news.map(article => (
     
     <Divider></Divider>
   </List.Item>
+  </Segment>
 
 
   ));
