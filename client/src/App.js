@@ -14,6 +14,8 @@ import AboutModal from "./components/AboutModal";
 import ContactModal from "./components/ContactModal";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import LoginForm from "./components/LoginForm";
+
 // import PropTypes from 'prop-types'
 import ContainerVideoChat from './components/ContainerVideoChat'
 // import React, { Component } from 'react'
@@ -33,6 +35,7 @@ import {
   Visibility,
   Modal,
 } from "semantic-ui-react";
+import LogOutModal from "./components/LogOutModal";
 
 const { MediaContextProvider, Media } = createMedia({
   breakpoints: {
@@ -41,20 +44,47 @@ const { MediaContextProvider, Media } = createMedia({
     computer: 1024,
   },
 });
-const user = {}
 
-export const logIn =(state) => {
-  console.log("printStateAPP46",state)
-  axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
-       .then((res) => console.log("printRESTPONS",res.data.user))
-       .then((res)=> { user = res.data.user})
-       //.then((res) =>this.setState(res.data) ) 
-       .then(console.log('settingSTATE',state))
-} 
+//let authUser = {};
 
+let authUser = localStorage.getItem('authUser');
+console.log('printingAUTHERUSER',JSON.stringify(authUser) );
+console.log(window.document)
+
+
+
+
+// componentDidMount() {
+  //   let authUser = {}
+  //export const logIn =(state) => {
+    //   const [login, setLogin] = useState({
+    //     email: "",
+    //     password: ""
+    // });
+      //console.log("printStateAPP46",state)
+       //axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+      //.then((res) => {
+            
+            //let authUser = res.data.user;
+            //console.log("PRINTFROM PROMIS", authUser);
+            //setLogin(res.data.user)
+         // })
+  //         //  .then((res) => {
+  //         //   console.log("printRESTPONS46",res.data.user)
+  //         //   user = res.data.user;
+  //         //   console.log("printUSER", user)
+  //         //   })
+            
+  //         //  //.then((res)=> {const user = res.data.user})
+  //         //  //.then((res) =>this.setState(res.data) ) 
+  //         //  .then(console.log('settingSTATE',state))
+        
+   // } 
+ // } 
 class DesktopContainer extends Component {
-  state = { };
-
+  state = {  };
+  
+  
 
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
@@ -101,8 +131,10 @@ class DesktopContainer extends Component {
                 <Menu.Item position="right">
                   <AboutModal />
                   <ContactModal />
-                  {user ? <Button>Log out</Button> :
-                  <LoginModal /> }
+                  {/* {console.log("PRINTFROM APP", authUser)} */}
+                  {authUser ? < LogOutModal /> : <LoginModal /> }
+                  {/* <LogOutModal /> */}
+                  {/* <LoginModal /> */}
                   <PSignUpModal />
                   <DSignUpModal />
                   {/* <DoctorSignUpForm /> */}
@@ -128,6 +160,8 @@ class MobileContainer extends Component {
   handleSidebarHide = () => this.setState({ sidebarOpened: false });
 
   handleToggle = () => this.setState({ sidebarOpened: true });
+
+
 
   render() {
     const { children } = this.props;

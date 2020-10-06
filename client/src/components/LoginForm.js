@@ -23,12 +23,16 @@ const LoginForm = (props) => {
     e.preventDefault();
 
      console.log("pritnSTATE:", state)
-    //   axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+      axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+      .then((res) => {
+        console.log("RESLOGINFORM",res.data)
+        localStorage.setItem('authUser',JSON.stringify(res.data.user.id))
+      })
+      .then(() => props.handleClose())
       
-    //.then((res) => console.log("printRESTPONS",res.data))
-      logIn(state)
+      
+    //logIn(state)
       //.then((res) => setState(res.data))
-      //.then(() => props.handleClose())
       //.catch(err => console.log(err));
    
     

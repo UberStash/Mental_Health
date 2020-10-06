@@ -12,6 +12,7 @@
     "bcrypt": "^5.0.0",
     "chalk": "^4.1.0",
     "cookie-parser": "~1.4.4",
+    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",

@@ -98,6 +98,8 @@ const getPatients = (id) => {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  let authUser = req.session.passport
+  res.json(authUser);
   res.render('index', { title: 'Express' });
 });
 
@@ -332,6 +334,7 @@ router.post('/doc/register', (req, res) => {
         req.logIn(user, (err) => {
           if (err) throw err;
           res.json({user: user})
+          console.log("PRINTSESSION",req.session.passport)
           //res.json({id: user.id, email: user.email, name: user.name});
         });
       }
@@ -340,7 +343,7 @@ router.post('/doc/register', (req, res) => {
 
   router.get('/logout', function(req, res){
     req.logout();
-    res.redirect('/');
+    res.json('user loged out')
   });
 
 ///////////////////////////////////////////////////////////////////////////////////
