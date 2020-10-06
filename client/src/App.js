@@ -38,21 +38,24 @@ const { MediaContextProvider, Media } = createMedia({
 });
 
 
-export const login = (state) => {
-  
-   console.log("pritnSTATE:", state)
-    return axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
-    .then((res) => {
-      console.log("RES LOGIN FORM",res.data)
-      return res.data
-      // localStorage.setItem('authUser',JSON.stringify(res.data.user))
-    })
-  }
+
 
   
 class DesktopContainer extends Component {
-  state = {};
+  constructor() {
+    super();
+    const now = new Date();
 
+    this.state = {
+      user: {},
+      showModal: false,
+      events: [],
+    };
+  
+  }
+  setUser = (user) => {
+    this.setState({ user })
+  }
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
 
@@ -97,7 +100,7 @@ class DesktopContainer extends Component {
                 <Menu.Item position="right">
                   <AboutModal />
                   <ContactModal />
-                  <LoginModal />
+                  <LoginModal login={this.setUser}/>
                   <PSignUpModal />
                   <DSignUpModal />
                 </Menu.Item>
@@ -142,7 +145,7 @@ class MobileContainer extends Component {
               Home
             </Menu.Item> */}
             <Menu.Item>
-              <LoginModal />
+              <LoginModal/>
             </Menu.Item>
             <Menu.Item>
               <PSignUpModal />

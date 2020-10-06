@@ -76,6 +76,17 @@ const now = new Date()
   })
   }
 
+  // export const login = (state) => {
+  
+  //   console.log("pritnSTATE:", state)
+  //    return axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+  //    .then((res) => {
+  //      console.log("RES LOGIN FORM",res.data)
+  //      localStorage.setItem('authUser',JSON.stringify(res.data.user))
+  //      id = res.data.user.id
+  //      return res.data
+  //    })
+  //  }
 
 export const fakeData = [
   {

@@ -17,13 +17,25 @@ const LoginForm = (props) => {
     setState(newFields);
   };
 
+  const login = (state) => {
+  
+    console.log("pritnSTATE:", state)
+     return axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
+     .then((res) => {
+       console.log("RES LOGIN FORM",res.data)
+       localStorage.setItem('authUser',JSON.stringify(res.data.user))
+       return res.data
+     })
+   }
 
   const handleSubmit = (e) => {
     console.log("20")
     e.preventDefault();
-
      login(state)
-      .then(props.handleClose)
+      .then((data) => {
+        props.handleClose()
+        props.login(data)
+      })
       
       
     //logIn(state)
