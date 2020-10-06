@@ -47,6 +47,8 @@ const { MediaContextProvider, Media } = createMedia({
 
 //let authUser = {};
 
+
+
 let authUser = localStorage.getItem('authUser');
 console.log('printingAUTHERUSER',JSON.stringify(authUser) );
 console.log(window.document)

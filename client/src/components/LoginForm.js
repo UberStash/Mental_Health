@@ -20,13 +20,14 @@ const LoginForm = (props) => {
 
   const handleSubmit = (e) => {
     console.log("20")
-    e.preventDefault();
+    //e.preventDefault();
 
      console.log("pritnSTATE:", state)
       axios.post('http://localhost:3001/login', {...state}, {withCredentials: true})
       .then((res) => {
         console.log("RESLOGINFORM",res.data)
         localStorage.setItem('authUser',JSON.stringify(res.data.user.id))
+        //forceLoading()
       })
       .then(() => props.handleClose())
       
