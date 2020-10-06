@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Header, Image, Modal, Card, Icon, Responsive } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import Map from './Map'
 
@@ -15,15 +15,18 @@ function AppointmentModal() {
       centered
       trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Directions' style={{ fontSize: "2em"}} />
-        <Card.Content description={"Click Here for directions to your doctor's office!"} />
         <Card.Content>
           <Icon name='map signs' size='massive'/>
+        <Header as='h2'>Click Here for directions to your doctor's office!</Header>
         </Card.Content>
       </Card>}
     >
       
-      <Modal.Content image>
+      <Modal.Content centered>
+         <Grid centered>
+          
           <Map />
+          </Grid>
       </Modal.Content>
       <Modal.Actions>
         

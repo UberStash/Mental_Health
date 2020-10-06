@@ -35,14 +35,15 @@ function AppointmentModal() {
       trigger={ <Card raised fluid Responsive color='grey' style={{backgroundColor:'whitesmoke' }}>
         <Card.Content header='Appointment List' style={{ fontSize: "2em"}} />
         <Card.Content>
+      <Icon size="massive" name="calendar plus" />
         <Header as='h2'>
         Click for a full list of your appointments
       </Header>
-      <Header as='h4' attached='top' block>
+      {/* <Header as='h4' attached='top' block>
         Your Next Appointment
       </Header>
       <Segment inverted size='large'>Doctor's ID: {}</Segment>
-         
+          */}
         </Card.Content>
       </Card>}
     >

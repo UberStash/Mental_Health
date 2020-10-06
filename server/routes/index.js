@@ -71,7 +71,9 @@ const deleteAppointment = (id) => {
 const getAppointmentsPatientId = (id) => {
   console.log('id', id)
   const query = {
-    text: `SELECT * FROM appointments WHERE user_patient_id = $1`,
+    text: `SELECT * FROM appointments 
+    JOIN users_doctors ON users_doctors.id = user_doctor_id
+    WHERE user_patient_id = $1`,
     values: [id],
   };
 

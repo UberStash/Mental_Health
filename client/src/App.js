@@ -267,7 +267,7 @@ const HomepageLayout = () => (
       {/* <ContainerVideoChat /> */}
       {/* <Map /> */}
       <PatientDashboard />
-      <DoctorDashboard />
+      <DoctorDashboard /> 
     </Segment>
 
     <Segment inverted vertical style={{ padding: "5em 0em" }}>

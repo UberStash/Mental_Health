@@ -1,11 +1,11 @@
 /*global google*/
 import React from 'react'
 import { compose, withProps, lifecycle } from 'recompose'
-import { withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker } from 'react-google-maps'
+import { InfoWindow, BicyclingLayer, TrafficLayer, withScriptjs, withGoogleMap, GoogleMap, DirectionsRenderer, Marker, Polyline } from 'react-google-maps'
 import Geocode from "react-geocode";
 // import mapStyler from "./mapStyler";
-import axios from 'axios';
-import { Button, Container, Grid } from "semantic-ui-react";
+import { getAddress } from "./ClinicAddress";
+import { Icon, Button, Container, Grid, Segment, Header } from "semantic-ui-react";
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAP_API_KEY)
 
@@ -14,6 +14,10 @@ class MyMapComponent extends React.Component {
     super(props)
 
     this.state = {
+      clinicAddress: {
+        destLat: 0,
+        destLng: 0
+      },
       location: {
         lat: 0,
         lng: 0,
@@ -25,93 +29,93 @@ class MyMapComponent extends React.Component {
         lat: 0,
         lng: 0,
       },
-      markerPosition: {
-        lat: 0,
-        lng: 0,
-      }
     }
   }
 
   render() {
 
+    // loadingElement: <div style={{ height: `100%` }} />,
+    // containerElement: <div style={{ height: `400px` }} />,
+    // mapElement: <div style={{ height: `100%` }} />
+
     const DirectionsComponent = compose(
       withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`,
-        loadingElement: <div style={{ height: `400px` }} />,
-        containerElement: <div style={{ width: `100%` }} />,
-        mapElement: <div style={{ height: `600px`, width: `600px` }} />,
+        loadingElement: <div style={{ height: `300px` }} />,
+        containerElement: <div style={{ width: `100%`, textAlign: 'center' }} />,
+        mapElement: <div style={{ height: `600px`, width: `100%` }} />,
       }),
       withScriptjs,
       withGoogleMap,
       lifecycle({
 
         componentDidMount() {
-          axios.get(`http://localhost:3001/api/directionTo`)
-            .then((all) => {
-              console.log('anyone here?')
-              // console.log('all.data', all.data)
-              return all.data
-            })
 
-
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => {
-              this.setState({
-                location: {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                }
-              }, () => {
-                Geocode.fromLatLng(position.coords.latitude, position.coords.longitude)
-                  .then(response => {
-
-                    let location = response.results[0].geometry.location
-
-                    const address = response.results[0].formatted_address
-
-                    this.setState((state) => {
-                      console.log('STATE', state)
-                      console.log('THIS.props.travelMode', this.props.travelMode)
-                      return {
-                        address: (address) ? address : "",
-                        travelMode: this.props.travelMode,
-                        location: {
-                          lat: location.lat,
-                          lng: location.lng
-                        }
+          navigator.geolocation.getCurrentPosition(position => {
+            this.setState({
+              location: {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+              }
+            }, () => {
+              getAddress()
+                .then(data => {
+                  let destLatLng = data.results[0].geometry.location
+                  this.setState((state) => {
+                    return {
+                      clinicAddress: {
+                        destLat: destLatLng.lat,
+                        destLng: destLatLng.lng
                       }
-                    })
-
-                    const DirectionsService = new google.maps.DirectionsService();
-                    // const mode = DRIVING;
-
-                    DirectionsService.route({
-                      // origin: new google.maps.LatLng(43.8389, -79.5385),//43.8389, -79.5385),
-                      origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
-                      // destination: new google.maps.Place("The Downtown Psychology Clinic"),
-                      destination: new google.maps.LatLng(43.8177, -79.1859),
-
-                      travelMode: google.maps.TravelMode[this.props.travelMode],
-                    }, (results, status) => {
-                      if (status === google.maps.DirectionsStatus.OK) {
-                        console.log('results', results)
-                        this.setState({
-                          directions: { ...results },
-                          markers: true
-                        })
-                      } else {
-                        console.error(`error fetching directions ${results}`);
-                      }
-                    });
+                    }
                   })
-              })
-            })
 
-          }
+                }).then(() => Geocode.fromLatLng(position.coords.latitude, position.coords.longitude))
+
+                .then(response => {
+
+                  let location = response.results[0].geometry.location
+
+                  const address = response.results[0].formatted_address
+
+                  this.setState((state) => {
+
+                    return {
+                      address: (address) ? address : "",
+                      travelMode: this.props.travelMode,
+
+                      location: {
+                        lat: location.lat,
+                        lng: location.lng
+                      }
+                    }
+                  })
+
+                  const DirectionsService = new google.maps.DirectionsService();
+
+                  DirectionsService.route({
+
+                    origin: new google.maps.LatLng(this.state.location.lat, this.state.location.lng),
+                    destination: new google.maps.LatLng(this.state.clinicAddress.destLat, this.state.clinicAddress.destLng),
+                    travelMode: google.maps.TravelMode[this.props.travelMode],
+
+                  }, (results, status) => {
+                    if (status === google.maps.DirectionsStatus.OK) {
+
+                      this.setState({
+                        directions: { ...results },
+                        markers: true
+                      })
+                    } else {
+                      console.error(`error fetching directions ${results}`);
+                    }
+                  });
+                })
+            })
+          })
         },
 
         componentWillReceiveProps(nextProps) {
-          console.log('nextProps:', nextProps)
           this.setState(prevState => {
             return {
               ...prevState,
@@ -122,42 +126,65 @@ class MyMapComponent extends React.Component {
 
       })
     )(props =>
-      console.log('props:', props) ||
+      // console.log('props:', props) ||
+      <Grid centered>
+        <Grid.Row centered>
       <GoogleMap
+        
         defaultZoom={8}
+        
+        options={{
+          // styles: mapStyler
+        }}
 
       >
 
-        <Container floated="right"><div id="panel"></div></Container>
+        <Segment><div id="panel"></div></Segment>
 
         {props.directions && <DirectionsRenderer directions={props.directions} suppressMarkers={props.markers} panel={document.getElementById('panel')} />}
 
+        <TrafficLayer autoUpdate />
+        {/* <BicyclingLayer autoUpdate /> */}
 
       </GoogleMap>
-
+      </Grid.Row>
+      </Grid>
     );
 
     return (<>
-
-      <Button onClick={() => { this.setState({ travelMode: 'DRIVING' }) }}>
-        Driving
+<Grid centered>
+    <Grid.Row>
+    <Header>DIRECTIONS TO YOUR DOCTORS OFFICE</Header>
+    </Grid.Row>
+  <Grid.Row centered width={12}>
+      <Button onClick={() => { this.setState({ travelMode: 'DRIVING' }) }} color='blue' size='large'>
+         <Icon name='car' />   
+         Driving
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'BICYCLING' }) }} >
+      <Button onClick={() => { this.setState({ travelMode: 'BICYCLING' }) }} color='blue' size='large'>
+        <Icon name='bicycle' />   
         Bicycling
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'WALKING' }) }} >
-        Walking
+      <Button onClick={() => { this.setState({ travelMode: 'WALKING' }) }} color='blue' size='large'>
+       <Icon name='blind' /> 
+       Walking 
+       
     </Button>
 
-      <Button onClick={() => { this.setState({ travelMode: 'TRANSIT' }) }} >
+      <Button onClick={() => { this.setState({ travelMode: 'TRANSIT' }) }} color='blue' size='large'>
+        <Icon name='subway' />
         Transit
     </Button>
+    </Grid.Row>
 
+    <Grid.Row>
       <DirectionsComponent
         travelMode={this.state.travelMode}
-      />
+        />
+        </Grid.Row>
+        </Grid>
     </>)
   }
 }
