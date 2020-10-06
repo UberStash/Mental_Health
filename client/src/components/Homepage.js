@@ -16,6 +16,7 @@ import {
 
 function homepage() {
   return (
+    <Container style={{backgroundColor: 'whitesmoke' }}>
     <Grid container stackable verticalAlign="middle">
       <Grid.Row>
         <Grid.Column width={8}>
@@ -57,6 +58,7 @@ function homepage() {
         </Grid.Column>
       </Grid.Row>
     </Grid>
+    </Container>
   );
 }
 
