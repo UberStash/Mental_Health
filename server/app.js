@@ -38,14 +38,15 @@ const cookieSession = require('cookie-session');
 
 // app.use('/api/appointments', usersRouter(dbHelpers));
 
-app.use(
-  session({
-    secret: "secretcode",
-    resave: false,
-    saveUninitialized: true,
-    httpOnly: false
-  })
-  );
+// app.use(
+//   session({
+
+//     secret: "secretcode",
+//     resave: false,
+//     saveUninitialized: false,
+//     httpOnly: false
+//   })
+//   );
   app.use(cookieParser("secretcode"));
   app.use(passport.initialize());
   app.use(passport.session());

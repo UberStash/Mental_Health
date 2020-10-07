@@ -364,18 +364,19 @@ router.post('/doc/register', (req, res) => {
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          console.log("SESSION index",req.session.passport)
+          
           res.json({user: user})
-          // res.json({id: user.id, email: user.email, name: user.name});
+      
         });
       }
     })(req, res, next);
   });
 
-  router.get('/logout', function(req, res){
+  router.get('/logout', function(req, res) {
     req.logout();
-    res.json('user loged out')
+    res.json("user loged out")
   });
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 
