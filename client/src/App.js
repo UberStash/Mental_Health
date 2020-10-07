@@ -57,12 +57,7 @@ if (!user) {
       <List.Item><Segment inverted><Header>Welcome {user.first_name}</Header></Segment></List.Item>
        <AboutModal />
         <ContactModal />
-<<<<<<< HEAD
-      <LogOutModal />
-      
-=======
       <LogOutModal logingOut={setUser}/>
->>>>>>> 316290827efc42a2fed832f8e053ecd23431ea38
     </>
 
   )
