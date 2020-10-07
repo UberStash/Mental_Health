@@ -30,7 +30,8 @@ const PatientSignUpForm = (props) => {
     password: "",
     confirmpassword: "",
     phone: "", 
-    address: ""
+    address: "",
+    doctor_id: "",
 })
 
 
@@ -62,7 +63,9 @@ const PatientSignUpForm = (props) => {
         <Form
           onSubmit={ handleSubmit }
         >
+         
           <Form.Group>
+                  
             <Form.Field required>
               <label htmlFor="firstname">First Name</label>
               <input
@@ -145,7 +148,7 @@ const PatientSignUpForm = (props) => {
             ></input>
           </Form.Field>
 
-          <Form.Field required>
+          {/* <Form.Field required>
             <label htmlFor="confirmpassword">Confirm Password</label>
             <input
               type="text"
@@ -153,7 +156,7 @@ const PatientSignUpForm = (props) => {
               value={state.confirmpassword}
               onChange={handleChange}
             ></input>
-          </Form.Field>
+          </Form.Field> */}
 
           <Form.Field>
             <label htmlFor="phone">Phone</label>
@@ -174,7 +177,16 @@ const PatientSignUpForm = (props) => {
               onChange={handleChange}
             ></input>
           </Form.Field>
-
+ 
+          <Form.Field required>
+              <label htmlFor="doctor_id">Your doctor's ID</label>
+              <input
+                type="text"
+                name="doctor_id"
+                value={state.doctor_id}
+                onChange={handleChange}
+              ></input>
+            </Form.Field>
           <Button >Sign Up</Button>
         </Form>
     );

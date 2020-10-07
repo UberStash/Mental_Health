@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container, Segment } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import VideoChat from './VideoChat'
 
-function AppointmentModal() {
-  const [open, setOpen] = React.useState(false)
 
+function VideoChatModal(props) {
+  const [open, setOpen] = React.useState(false)
+ 
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -18,7 +19,7 @@ function AppointmentModal() {
         <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon size='massive' name='video' />
-        <Header as='h2'>Click Here to meet with: (insert patient name of next appt and pass props of room name into the form)"</Header> 
+  <Header as='h2'>Click Here to meet with: {}</Header> 
         </Card.Content>
       </Card>}
     >
@@ -33,7 +34,7 @@ function AppointmentModal() {
                 
           {/* </Grid.Column> */}
           {/* <Grid.Column width={8}> */}
-          <VideoChat />
+          <VideoChat user={props.user}/>
           {/* </Grid.Column> */}
           </Grid.Row>
           </Grid>
@@ -54,4 +55,4 @@ function AppointmentModal() {
   )
 }
 
-export default AppointmentModal
+export default VideoChatModal

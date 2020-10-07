@@ -30,6 +30,10 @@ const LoginForm = (props) => {
 
   const handleSubmit = (e) => {
     console.log("20")
+    //e.preventDefault();
+
+     login(state)
+      .then(props.handleClose)
     e.preventDefault();
      login(state)
       .then((data) => {

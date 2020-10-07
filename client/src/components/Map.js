@@ -34,10 +34,6 @@ class MyMapComponent extends React.Component {
 
   render() {
 
-    // loadingElement: <div style={{ height: `100%` }} />,
-    // containerElement: <div style={{ height: `400px` }} />,
-    // mapElement: <div style={{ height: `100%` }} />
-
     const DirectionsComponent = compose(
       withProps({
         googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}&v=3.exp&libraries=geometry,drawing,places}`,
@@ -58,7 +54,7 @@ class MyMapComponent extends React.Component {
                 lng: position.coords.longitude
               }
             }, () => {
-              getAddress()
+              getAddress(this.props.user.id)
                 .then(data => {
                   let destLatLng = data.results[0].geometry.location
                   this.setState((state) => {
@@ -182,6 +178,7 @@ class MyMapComponent extends React.Component {
     <Grid.Row>
       <DirectionsComponent
         travelMode={this.state.travelMode}
+        user={this.props.user}
         />
         </Grid.Row>
         </Grid>

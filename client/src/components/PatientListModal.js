@@ -14,7 +14,7 @@ import PatientList from "./PatientList";
 
 
 
-function AppointmentModal() {
+function AppointmentModal(props) {
   const [open, setOpen] = React.useState(false);
   const [patients, setPatients] = React.useState([]);
 
@@ -64,7 +64,7 @@ function AppointmentModal() {
       }
     >
       <Modal.Content centered>
-        <PatientList />
+        <PatientList user={props.user}/>
       </Modal.Content>
       <Modal.Actions>
         <Button

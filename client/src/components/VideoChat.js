@@ -1,13 +1,39 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
 import axios from "axios";
+import {getApptsDoctor, getApptsPatient} from './events'
 
-const VideoChat = () => {
+const checkUser = (user) => {
+  
+  if (user.clinic_address) {
+  return getApptsDoctor(user.id)
+  } else {
+   return  getApptsPatient(user.id)
+  }
+}
+
+const VideoChat = (props) => {
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
   const [token, setToken] = useState(null);
+  const [state, setState] = useState({
+    appointmentList: []
+  });
+  useEffect(() => {
+    
+    checkUser(props.user)
+    .then((response) => {
+      console.log(response)
+      setState((response) => ({
+       appointmentList: response
+      }))  
+      console.log(state.appointmentList[0].id)
+    });
+  }, []);
+ 
 
+console.log('state.appointmentList', state.appointmentList)
   const handleUsernameChange = useCallback(event => {
     setUsername(event.target.value);
   }, []);

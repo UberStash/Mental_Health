@@ -1,31 +1,47 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button, Header, Image, Modal, Card, Icon, Grid } from 'semantic-ui-react'
 import AppointmentModal from './AppointmentModal'
 import VideoChatModal from './VideoChatModal'
 import MapModal from './MapModal'
 import NewsModal from './NewsModal'
+import { getApptsPatient } from './events'
 
 
-function DesktopContainer() {
+function PatientDashboard(props) {
   const [open, setOpen] = React.useState(false)
+  const [state, setState] = useState({
+    list: []
+  });
+  useEffect(() => {
+    
+    getApptsPatient(2).then((response) => {
+     const data = response
+      setState((prev) => ({
+        ...prev,
+        list: data
+      }))  
+      
+    });
+  }, []);
+
 
   return (
     <Grid >
       <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>YOUR DASHBOARD</Header></Grid.Row>
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-      <AppointmentModal  />
+      <AppointmentModal user={props.user} />
         </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>
         <Grid.Column textAlign={'centered'} width={14}>
-          <VideoChatModal />
+          <VideoChatModal user={props.user}/>
         </Grid.Column>
       </Grid.Row>
       
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-      <MapModal />
+      <MapModal user={props.user}/>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row centered>
@@ -42,7 +58,7 @@ function DesktopContainer() {
   )
 }
 
-export default DesktopContainer
+export default PatientDashboard
 
 
 // function DesktopContainer() {

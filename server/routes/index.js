@@ -29,11 +29,12 @@ require("./passportConfig")(passport);
 //var router = express.Router();
 
 // APPOINTMENT HELPERS////////////////////////////
-const getAppointments = () => {
-  console.log('in select')
-  const query = {
-    text: `SELECT * FROM appointments`,
-  };
+  const getAppointments = (id) => {
+    console.log('id', id)
+    const query = {
+      text: `SELECT * FROM appointments WHERE user_doctor_id = $1`,
+      values: [id],
+    };
 
   return db
     .query(query)
@@ -43,8 +44,8 @@ const getAppointments = () => {
 
 const addAppointment = ({ user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password }) => {
   const query = {
-    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password) 
-           VALUES ($1, $2, $3, $4, $5, $6)
+    text: `INSERT INTO appointments (user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password)       
+    VALUES ($1, $2, $3, $4, $5, $6)
            RETURNING id`,
     values: [user_patient_id, user_doctor_id, appt_start, appt_end, title, appt_password],
   };
@@ -74,6 +75,22 @@ const getAppointmentsPatientId = (id) => {
     text: `SELECT * FROM appointments 
     JOIN users_doctors ON users_doctors.id = user_doctor_id
     WHERE user_patient_id = $1`,
+    values: [id],
+  };
+
+  return db
+    .query(query)
+    .then((result) => result.rows)
+    .catch((err) => err);
+};
+
+
+const getAppointmentsList = (id) => {
+  console.log('id', id)
+  const query = {
+    text: `SELECT * FROM appointments 
+    JOIN users_patients ON users_patients.id = user_patient_id
+    WHERE user_doctor_id = $1`,
     values: [id],
   };
 
@@ -135,8 +152,18 @@ router.post('/video/token', function(req, res) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 // APPOINTMENT ROUTES
-router.get('/api/appointments', (req, res) => {
-  getAppointments()
+router.get('/api/appointments/:id', (req, res) => {
+  getAppointments(req.params.id)
+    .then(data => {
+      console.log('appts: ', data.data);
+      return res.json(data)
+    })
+    .catch((err) => res.json({ err }));
+});
+
+router.get('/api/doctor/appointments/:id', (req, res) => {
+  console.log('its me your looking for', req.params.id)
+  getAppointmentsList(req.params.id)
     .then(data => {
       console.log('appts: ', data.data);
       return res.json(data)
@@ -153,7 +180,7 @@ router.get('/api/patients/appointments/:id', (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
-router.post('/api/appointments', (req, res) => {
+router.post('/api/appointments/', (req, res) => {
   addAppointment(req.body)
     .then(data => {
       console.log('appts: ', data);
@@ -192,7 +219,7 @@ router.get('/api/patients/:id', (req, res) => {
 
 
 //<------------------- map route --------------------->
-const getAddress = (loggedPatient) => {
+const getAddress = (id) => {
   console.log('in select')
 
   const query = {
@@ -203,13 +230,13 @@ const getAddress = (loggedPatient) => {
   };
 
   return db
-    .query(query, [loggedPatient])
+    .query(query, [id])
     .then((result) => result.rows)
     .catch((err) => err);
 };
 
-router.get("/api/directionTo", (req, res) => {
-  getAddress(2)//req.sessions.id))
+router.get("/api/directionTo/:id", (req, res) => {
+  getAddress(req.params.id)//req.sessions.id))
     .then(data => {
       // console.log("data", data)
       return res.json(data)
@@ -220,49 +247,51 @@ router.get("/api/directionTo", (req, res) => {
 /////////////////////////////Authenticaton Routes///////////////////////////////////
 //Register Patients
 router.post('/patient/register', (req, res) => {
-  console.log('PrintRESPONSEBody', req.body);
-
-  const {
-    gender,
-    diagnosis,
-    health_card,
-    email,
-    password,
-    confirmpassword,
-    phone
-  } = req.body.state;
   
-    const first_name = req.body.state.firstname;
-    const last_name = req.body.state.lastname;
-    const date_of_birth = req.body.state.dob;
-    patient_address = req.body.state.address;
-    // const patient_address = req.body.state.patient_address;
+
+
     
-    //password = bcrypt.hashSync(req.body.password, salt)
+    const email = req.body.state.email;
     const text = `SELECT * FROM users_patients WHERE email = $1;`;
   
     db.query(text, [email])
       .then(data => {
-
       //Check if there are users with this email
       if (data.rows.length !== 0 ) {
-        res.send("An user with this email already exists, please change email or login");
-        // check if password matches
-      } else if (password !== confirmpassword) {
-        res.send("please confirm the password")
-      } else {
+        res.send("User Already Exists");
         
-        //Create a new user
-        const text = `INSERT INTO users_patients (first_name, last_name, date_of_birth, gender, diagnosis, health_card, email, password, phone, patient_address) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *;`;
+      } else {
 
-        const values = [first_name,
-          last_name, date_of_birth, gender, diagnosis, health_card, email,
-        password, phone, patient_address];
+        const {
+          gender,
+          diagnosis,
+          health_card,
+          email,
+          
+          phone
+        } = req.body.state;
+  
+        const password =  bcrypt.hashSync(req.body.state.password, salt);
+        const first_name = req.body.state.firstname;
+        const last_name = req.body.state.lastname;
+        const date_of_birth = req.body.state.dob;
+        const patient_address = req.body.state.address;
+        const doctor_id = req.body.state.doctor_id;
+  
+  
+        //Create a new user
+        const text = `INSERT INTO users_patients (first_name,last_name, date_of_birth, gender, diagnosis, health_card,email, password, phone, patient_address, user_doctor_id) VALUES ($1, $2, $3,$4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+        const values = [first_name, last_name, date_of_birth, gender,diagnosis, health_card, email, password, phone, patient_address, doctor_id];
+        
         return db.query(text, values)
-        .then((savedRows) => {
-          res.send(savedRows)
+        .then(() => {
+          res.status(200).send("User Created");
         });
-      }
+      }        
+  }).catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
   });
 });
 
@@ -279,42 +308,41 @@ router.post('/doc/register', (req, res) => {
       //Check if there are users with this email
       if (data.rows.length !== 0 ) {
         res.send("User Already Exists");
+      } else {
+
+        const {
+          gender,
+          specialization,
+          license,
+          phone,
+          clinic_address
+        } = req.body.state;
+      
+        const password =  bcrypt.hashSync(req.body.state.password, salt);
+        const first_name = req.body.state.firstname;
+        const last_name = req.body.state.lastname;
+        const date_of_birth = req.body.state.dob;
+        const clinic_name = req.body.state.clinicname;
+        
+        //Create a new user
+        const text = `INSERT INTO users_doctors
+        (first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+      
+        const values = [first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address];
+        
+        return db.query(text, values)
+        .then(() => {
+          res.status(200).send("User Created");
+        });
+
       };
 
-  const {
-    gender,
-    specialization,
-    license,
-    confirmpassword,
-    phone,
-    clinic_address
-  } = req.body.state;
 
-  const password =  bcrypt.hashSync(req.body.state.password, salt);
-  const first_name = req.body.state.firstname;
-  const last_name = req.body.state.lastname;
-  const date_of_birth = req.body.state.dob;
-  const clinic_name = req.body.state.clinicname;
-  console.log("pritntingPASSWORD",password);
-  console.log("printCONFIRMPASSWJORD", confirmpassword);
-  console.log("printBycrypt",bcrypt.compareSync(password, confirmpassword))
-    if (!bcrypt.compareSync(password,confirmpassword)) {
-      
-      res.send("Please confirm password");
-    };
-
-  //Create a new user
-  const text = `INSERT INTO users_doctors
-  (first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address)
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
-
-  const values = [first_name, last_name, date_of_birth, gender, specialization, license, email, password, phone, clinic_name, clinic_address];
-  
-  return db.query(text, values)
-  .then(() => {
-    res.status(200).send("User Created");
-  });
-
+  }).catch(err => {
+    res
+      .status(500)
+      .json({ error: err.message });
   });
 });
 
