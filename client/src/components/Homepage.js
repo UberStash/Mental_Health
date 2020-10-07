@@ -29,22 +29,21 @@ function homepage() {
             information and statistics to doctors.
           </p>
           <Header as="h3" style={{ fontSize: "2em" }}>
-            We Make Make People Feel Better See What Other's Say
+            We Make People Feel Better See What Other's Say
           </Header>
           <p style={{ fontSize: "1.33em" }}>
             "Dude, your stuff is the bomb! Your company is truly upstanding and
-            is behind its product 100%. If you aren't sure, always go for Health
-            Lever." - Phylys G.
+            is behind its product 100%. If you aren't sure, always go for ACA." - Phylys G.
           </p>
           <p style={{ fontSize: "1.33em" }}>
-            "If you aren't sure, always go for Health Lever. It's just amazing.
+            "If you aren't sure, always go for ACA. It's just amazing.
             It fits our needs perfectly. It's exactly what I've been looking
             for." - Mahmoud G.
           </p>
           <p style={{ fontSize: "1.33em" }}>
-            "Keep up the excellent work. Health Lever is the most valuable
+            "Keep up the excellent work. ACA is the most valuable
             business resource we have EVER purchased. I will let my mum know
-            about this, she could really make use of Health Lever! Thank You!" -
+            about this, she could really make use of ACA! Thank You!" -
             Randie Y.
           </p>
         </Grid.Column>

@@ -43,12 +43,12 @@ class About extends Component {
                     patients via video 24/7, coast to coast.
                   </p>
                   <Header as="h3" style={{ fontSize: "2em" }}>
-                    We Make Make People Feel Better
+                    We Make People Feel Better
                   </Header>
                   <p style={{ fontSize: "1.33em" }}>
                     By leveraging technology and data, our dedicated customer
                     success team supports your office teams to manage your
-                    patients health and well-being. Using Helth Lever you will
+                    patients health and well-being. Using ACA you will
                     easily track your patients long-term needs on the phone or
                     video and proactively manage each step of their health
                     journey. ACA is available to all Canadian Doctors coast to

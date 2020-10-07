@@ -30,7 +30,7 @@ function VideoChatModal(props) {
             <Grid.Row>
               {/* <Grid.Column centered width={8}> */}
                 
-                <Header textAlign='center' verticalAlign centered size='huge'>Welcome to our video chat, please enter your name and password to enter the room.</Header>
+               
                 
           {/* </Grid.Column> */}
           {/* <Grid.Column width={8}> */}

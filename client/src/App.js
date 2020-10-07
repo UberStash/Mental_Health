@@ -169,11 +169,11 @@ class HomepageLayout extends Component {
             </Grid.Column>
             <Grid.Column width={7} floated="left">
               <Header as="h4" inverted>
-                Mental Health User
+                ACA Health Solutions User
               </Header>
               <p>
-                "Mental Health has changed my therapy game 100%. Not only is my
-                counselor phenomenal, but I can also message her on my own
+                "ACA has changed my therapy game 100%. Not only is my
+                counselor phenomenal, but I can chat with her on my own
                 time...I can sit at home in my sweats, not be embarrassed to
                 cry, and pour my guts out online."
               </p>

@@ -65,8 +65,8 @@ const Participant = ({ participant }) => {
 
   return (
     <Container>
-      <Header as='h3'>{participant.identity}</Header>
-      <video ref={videoRef} autoPlay={true} />
+      <Header as='h1'>Welcome {participant.identity}!</Header>
+      <video ref={videoRef} autoPlay={true} style={{borderRadius: "10px", border: '4px solid gray', boxShadow: '4px 4px skyBlue'}}/>
       <audio ref={audioRef} autoPlay={true} muted={true} />
     </Container>
   );

@@ -27,12 +27,13 @@ console.log(props)
       onOpen={() => setOpen(true)}
       open={open}
       trigger={<Button inverted={true} >Log Out</Button>}
+      centered
     >
-      <Modal.Header>LogOut</Modal.Header>
+      <Modal.Header >Log Out</Modal.Header>
       <Modal.Content image>
         <Modal.Description>
-          <Header>You are sure you want to log out</Header>
-          <Button onClick={handleClose}> Log Out </Button>
+          <Header>Are you are sure you want to log out?</Header>
+          <Button onClick={handleClose} color='red'> Log Out </Button>
         </Modal.Description>
       </Modal.Content>
     </Modal>

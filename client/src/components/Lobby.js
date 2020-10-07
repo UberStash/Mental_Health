@@ -14,10 +14,11 @@ const Lobby = ({
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
       <Form size='large' onSubmit={handleSubmit}>
-        <Header as='h2'>Enter a room</Header>
+      <Header textAlign='center' verticalAlign centered size='huge'>Welcome to your appointment, please enter your name</Header>
+        
         <Form.Field>
           <Container>
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">Enter Your Name:</label>
             <input
               type="text"
               id="field"
@@ -29,7 +30,7 @@ const Lobby = ({
         </Form.Field>
         <Form.Field>
           <Container>
-            <label htmlFor="room">Room name:</label>
+            <label htmlFor="room">Your Password</label>
             <input
               type="text"
               id="room"
@@ -39,7 +40,7 @@ const Lobby = ({
             />
           </Container>
         </Form.Field>
-        <Button type='submit'>Submit</Button>
+        <Button type='submit' color='blue'>Start</Button>
       </Form>
       </Grid.Column>
     </Grid>
