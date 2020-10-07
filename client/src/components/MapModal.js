@@ -3,9 +3,9 @@ import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid } from 'sema
 import AppointmentList from './AppointmentList'
 import Map from './Map'
 
-function AppointmentModal() {
+function AppointmentModal(props) {
   const [open, setOpen] = React.useState(false)
-
+console.log("props.user", props.user)
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -25,7 +25,7 @@ function AppointmentModal() {
       <Modal.Content centered>
          <Grid centered>
           
-          <Map />
+          <Map user={props.user}/>
           </Grid>
       </Modal.Content>
       <Modal.Actions>

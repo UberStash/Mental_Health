@@ -6,21 +6,7 @@ import {getApptsPatient} from './events'
 
 function AppointmentModal(props) {
   const [open, setOpen] = React.useState(false)
-  const [state, setState] = useState({
-    list: []
-  });
   
-  
-  useEffect(() => {
-    
-    getApptsPatient(2).then((response) => {
-      setState((prev) => ({
-        ...prev,
-        list: response
-      }))  
-      
-    });
-  }, []);
   
 
   return (
@@ -50,7 +36,7 @@ function AppointmentModal(props) {
       <Modal.Content centered>
        
        
-          <AppointmentList list={props.list}/>
+          <AppointmentList user={props.user}/>
       
       </Modal.Content>
       <Modal.Actions>

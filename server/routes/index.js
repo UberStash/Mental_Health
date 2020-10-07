@@ -85,12 +85,12 @@ const getAppointmentsPatientId = (id) => {
 };
 
 
-const getNextAppointmentById = (id) => {
+const getAppointmentsList = (id) => {
   console.log('id', id)
   const query = {
     text: `SELECT * FROM appointments 
-    JOIN users_doctors ON users_doctors.id = user_doctor_id
-    WHERE user_patient_id = $1`,
+    JOIN users_patients ON users_patients.id = user_patient_id
+    WHERE user_doctor_id = $1`,
     values: [id],
   };
 
@@ -161,6 +161,16 @@ router.get('/api/appointments/:id', (req, res) => {
     .catch((err) => res.json({ err }));
 });
 
+router.get('/api/doctor/appointments/:id', (req, res) => {
+  console.log('its me your looking for', req.params.id)
+  getAppointmentsList(req.params.id)
+    .then(data => {
+      console.log('appts: ', data.data);
+      return res.json(data)
+    })
+    .catch((err) => res.json({ err }));
+});
+
 router.get('/api/patients/appointments/:id', (req, res) => {
   getAppointmentsPatientId(req.params.id)
     .then(data => {
@@ -209,7 +219,7 @@ router.get('/api/patients/:id', (req, res) => {
 
 
 //<------------------- map route --------------------->
-const getAddress = (loggedPatient) => {
+const getAddress = (id) => {
   console.log('in select')
 
   const query = {
@@ -220,13 +230,13 @@ const getAddress = (loggedPatient) => {
   };
 
   return db
-    .query(query, [loggedPatient])
+    .query(query, [id])
     .then((result) => result.rows)
     .catch((err) => err);
 };
 
-router.get("/api/directionTo", (req, res) => {
-  getAddress(2)//req.sessions.id))
+router.get("/api/directionTo/:id", (req, res) => {
+  getAddress(req.params.id)//req.sessions.id))
     .then(data => {
       // console.log("data", data)
       return res.json(data)

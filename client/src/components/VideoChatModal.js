@@ -1,44 +1,12 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Button, Header, Image, Modal, Card, Icon, Responsive, Grid, Container, Segment } from 'semantic-ui-react'
 import AppointmentList from './AppointmentList'
 import VideoChat from './VideoChat'
 
-// const checkStatus = (user) => {
-//   console.log(user)
-// if (!user) {
-//  return <Homepage />
-// } else if (user.clinic_address){
-// return <DoctorDashboard user={user}/>
-
-// } else if (user.health_card){
-//   return <PatientDashboard user={user}/>
-// }
-// }
-
-const checkUser = (user) => {
-  if (user.clinic_address) {
-    return
-  }
-}
 
 function VideoChatModal(props) {
   const [open, setOpen] = React.useState(false)
-  // const [state, setState] = useState({
-  //   list: []
-  // });
-  // useEffect(() => {
-    
-  //   getApptsPatient(2).then((response) => {
-  //     setState((prev) => ({
-  //       ...prev,
-  //       patientList: response
-  //     }))  
-      
-  //   });
-  // }, []);
-
-let list = props
-console.log(list)
+ 
   return (
     <Modal
       onClose={() => setOpen(false)}
@@ -66,7 +34,7 @@ console.log(list)
                 
           {/* </Grid.Column> */}
           {/* <Grid.Column width={8}> */}
-          <VideoChat />
+          <VideoChat user={props.user}/>
           {/* </Grid.Column> */}
           </Grid.Row>
           </Grid>

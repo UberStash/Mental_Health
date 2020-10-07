@@ -5,8 +5,19 @@ import axios from "axios";
 
 const now = new Date()
 
+ export function getApptsDoctor(id) {
+  
+    console.log('ininininininininininin :P')
+    return axios.get(`http://localhost:3001/api/doctor/appointments/${id}`)
+    .then((all) => {
+      console.log('what is all?????', all)
+    console.log('client appts list !!!!!!', all.data)
+    return all.data
+  })
+  }
 
   export function getAppts(id) {
+  
     console.log('ininin')
     return axios.get(`http://localhost:3001/api/appointments/${id}`)
     .then((all) => {
