@@ -40,9 +40,10 @@ const cookieSession = require('cookie-session');
 
 app.use(
   session({
+
     secret: "secretcode",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     httpOnly: false
   })
   );

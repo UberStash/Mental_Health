@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import axios from 'axios'
 
-function LogOutModal() {
+function LogOutModal(props) {
 
   const [open, setOpen] = React.useState(false)
  
   const handleClose = () => { 
     console.log("going herereeeeee")
-    
+      const user = {};
       axios.get('http://localhost:3001/logout')
-      .then(() => localStorage.removeItem('authUser'))
+      .then(() => props.logingOut(user))
       .then(() => setOpen(false) )
 
    
@@ -18,7 +18,7 @@ function LogOutModal() {
       
   }
   //onClick={() => window.location.reload(false)} was trying to do a hard code reload
-
+console.log(props)
   return (
     <div>
     <Modal 

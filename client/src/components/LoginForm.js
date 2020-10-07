@@ -34,7 +34,7 @@ const LoginForm = (props) => {
 
      login(state)
       .then(props.handleClose)
-    e.preventDefault();
+      e.preventDefault();
      login(state)
       .then((data) => {
         props.handleClose()

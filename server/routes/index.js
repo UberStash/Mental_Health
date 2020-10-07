@@ -353,18 +353,39 @@ router.post('/doc/register', (req, res) => {
       else {
         req.logIn(user, (err) => {
           if (err) throw err;
-          console.log("SESSION index",req.session.passport)
+          
           res.json({user: user})
-          // res.json({id: user.id, email: user.email, name: user.name});
+      
         });
       }
     })(req, res, next);
   });
 
-  router.get('/logout', function(req, res){
+  router.get('/logout', function(req, res, next) {
     req.logout();
-    res.json('user loged out')
+   
+    
+   	
+    req.session.destroy(function (err) {
+      if (err) { return next(err); }
+    // redirect to homepage	
+      res.json("user loged out")
+      req.session = null;
+      req.user = null;
+      delete req.session;
+    });
   });
+  // router.get('/logout',(req, res) => {
+  //   //console.log("consoleREQUEST:",req);
+  //   console.log("print366",req.session);
+  //   //console.log(res.cookie);
+    
+  //   req.logOut();
+  //   res.status(200).clearCookie("connect.sid");
+  //   req.session.destroy(function (err) {
+  //     res.json({message: "user loged out"});
+  //   });
+  // });
 
 ///////////////////////////////////////////////////////////////////////////////////
 

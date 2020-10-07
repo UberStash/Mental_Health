@@ -8,7 +8,7 @@ module.exports = function (passport) {
 
   passport.use(
     new LocalStrategy({usernameField: "email" },(email, password, done) => {
-      console.log("calling passport")
+      
       const queryDocByEmail = `SELECT * FROM users_doctors WHERE email = $1;`;
       const queryDocById = `SELECT * FROM users_doctors WHERE id = $1;`;
       const queryPatByEmail = `SELECT * FROM users_patients WHERE email = $1;`;
@@ -23,7 +23,7 @@ module.exports = function (passport) {
                 return done(null, false);
               }
               const user = data.rows[0];
-              console.log("PRINT USER FROM PASSPORT: ", user);
+              
               if(bcrypt.compareSync(password, user.password)) {
                   return done(null, user);
                 } else {
@@ -33,7 +33,7 @@ module.exports = function (passport) {
         }
         
         const user = data.rows[0];
-        console.log("PRINT USER FROM PASSPORT: ", user);
+        
         if(bcrypt.compareSync(password, user.password)) {
 
           return done(null, user);

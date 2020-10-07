@@ -56,7 +56,7 @@ if (!user) {
     <>
        <AboutModal />
         <ContactModal />
-      <LogOutModal />
+      <LogOutModal logingOut={setUser}/>
     </>
 
   )
