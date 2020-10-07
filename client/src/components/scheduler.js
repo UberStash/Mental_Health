@@ -84,7 +84,7 @@ console.log(appt_password)
                 start,
                 end,
                 title,
-                user_doctor_id,
+                user_patient_id, 
                 user_doctor_id,
                 id: response.data[0].id,
                 appt_password,

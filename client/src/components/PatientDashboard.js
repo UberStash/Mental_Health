@@ -7,7 +7,7 @@ import NewsModal from './NewsModal'
 import { getApptsPatient } from './events'
 
 
-function DesktopContainer() {
+function PatientDashboard(props) {
   const [open, setOpen] = React.useState(false)
   const [state, setState] = useState({
     list: []
@@ -15,9 +15,10 @@ function DesktopContainer() {
   useEffect(() => {
     
     getApptsPatient(2).then((response) => {
+     const data = response
       setState((prev) => ({
         ...prev,
-        list: response
+        list: data
       }))  
       
     });
@@ -29,18 +30,18 @@ function DesktopContainer() {
       <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>YOUR DASHBOARD</Header></Grid.Row>
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-      <AppointmentModal list={state.list} />
+      <AppointmentModal user={props.user} />
         </Grid.Column>
         </Grid.Row>
         <Grid.Row centered>
         <Grid.Column textAlign={'centered'} width={14}>
-          <VideoChatModal list={state.list}/>
+          <VideoChatModal user={props.user}/>
         </Grid.Column>
       </Grid.Row>
       
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
-      <MapModal />
+      <MapModal user={props.user}/>
         </Grid.Column>
       </Grid.Row>
       <Grid.Row centered>
@@ -57,7 +58,7 @@ function DesktopContainer() {
   )
 }
 
-export default DesktopContainer
+export default PatientDashboard
 
 
 // function DesktopContainer() {

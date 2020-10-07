@@ -54,7 +54,7 @@ class MyMapComponent extends React.Component {
                 lng: position.coords.longitude
               }
             }, () => {
-              getAddress()
+              getAddress(this.props.user.id)
                 .then(data => {
                   let destLatLng = data.results[0].geometry.location
                   this.setState((state) => {
@@ -178,6 +178,7 @@ class MyMapComponent extends React.Component {
     <Grid.Row>
       <DirectionsComponent
         travelMode={this.state.travelMode}
+        user={this.props.user}
         />
         </Grid.Row>
         </Grid>
