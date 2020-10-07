@@ -112,6 +112,7 @@ console.log(appt_password)
     console.log('did mount')
     const events = getAppts(this.props.user.id)
       .then(response => {
+        console.log('Where you want', response)
         response.map((appt) => {
           newArr.push({
             id: appt.id,
@@ -119,7 +120,8 @@ console.log(appt_password)
             end: new Date(appt.appt_end),
             title: appt.title,
             user_patient_id: appt.user_patient_id,
-            user_doctor_id: appt.user_doctor_id
+            user_doctor_id: appt.user_doctor_id,
+            appt_password: appt.appt_password
             // id: 1,
             //     title: 'Long Event',
             //     start: new Date(2015, 3, 7),

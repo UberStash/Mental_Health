@@ -12,7 +12,7 @@ const checkUser = (user) => {
    return  getApptsPatient(user.id)
   }
 }
-
+const newArr = []
 const VideoChat = (props) => {
   const [username, setUsername] = useState('');
   const [roomName, setRoomName] = useState('');
@@ -20,20 +20,21 @@ const VideoChat = (props) => {
   const [state, setState] = useState({
     appointmentList: []
   });
+  
   useEffect(() => {
-    
     checkUser(props.user)
     .then((response) => {
       console.log(response)
+      newArr.push(response[0])
       setState((response) => ({
-       appointmentList: response
+       appointmentList: newArr[0]
       }))  
-      console.log(state.appointmentList[0].id)
+      console.log(newArr)
     });
   }, []);
  
 
-console.log('state.appointmentList', state.appointmentList)
+
   const handleUsernameChange = useCallback(event => {
     setUsername(event.target.value);
   }, []);
@@ -74,6 +75,7 @@ console.log('state.appointmentList', state.appointmentList)
         handleUsernameChange={handleUsernameChange}
         handleRoomNameChange={handleRoomNameChange}
         handleSubmit={handleSubmit}
+        password={state.appointmentList.appt_password}
       />
     );
   }

@@ -17,7 +17,7 @@ console.log("props.user", props.user)
         <Card.Content header='Directions' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon name='map signs' size='massive'/>
-        <Header as='h2'>Click Here for directions to your doctor's office!</Header>
+        <Header as='h2'>Click here for directions to your doctor's office</Header>
         </Card.Content>
       </Card>}
     >

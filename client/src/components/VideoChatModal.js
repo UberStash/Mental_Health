@@ -19,7 +19,7 @@ function VideoChatModal(props) {
         <Card.Content header='Video Chat' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon size='massive' name='video' />
-  <Header as='h2'>Click Here to meet with: {}</Header> 
+  <Header as='h2'>Click here to meet with {props.user.clinic_address ? 'your Patient': 'your Doctor'}</Header> 
         </Card.Content>
       </Card>}
     >

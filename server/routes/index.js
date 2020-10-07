@@ -74,7 +74,8 @@ const getAppointmentsPatientId = (id) => {
   const query = {
     text: `SELECT * FROM appointments 
     JOIN users_doctors ON users_doctors.id = user_doctor_id
-    WHERE user_patient_id = $1`,
+    WHERE user_patient_id = $1
+    Order BY appt_start asc`,
     values: [id],
   };
 
@@ -89,8 +90,8 @@ const getAppointmentsList = (id) => {
   console.log('id', id)
   const query = {
     text: `SELECT * FROM appointments 
-    JOIN users_patients ON users_patients.id = user_patient_id
-    WHERE user_doctor_id = $1`,
+    WHERE user_doctor_id = $1
+    ORDER BY appt_start asc`,
     values: [id],
   };
 

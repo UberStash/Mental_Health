@@ -6,8 +6,10 @@ const Lobby = ({
   handleUsernameChange,
   roomName,
   handleRoomNameChange,
-  handleSubmit
+  handleSubmit,
+  password
 }) => {
+  console.log(password)
   return (
     <Grid textAlign='center' style={{ height: '50vh' }} verticalAlign='middle'>
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -31,7 +33,7 @@ const Lobby = ({
             <input
               type="text"
               id="room"
-              value={roomName}
+              value={password}
               onChange={handleRoomNameChange}
               required
             />

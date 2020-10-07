@@ -17,7 +17,7 @@ function AppointmentModal() {
         <Card.Content header='News' style={{ fontSize: "2em"}} />
         <Card.Content>
           <Icon name='newspaper' size='massive'/>
-        <Header as='h2'>Click Here For Mental Health News!</Header>
+        <Header as='h2'>Click here For the latest mental health news</Header>
         </Card.Content>
       </Card>}
     >

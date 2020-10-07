@@ -54,9 +54,11 @@ if (!user) {
 } else {
   return (
     <>
+      <List.Item><Segment inverted><Header>Welcome {user.first_name}</Header></Segment></List.Item>
        <AboutModal />
         <ContactModal />
       <LogOutModal />
+      
     </>
 
   )

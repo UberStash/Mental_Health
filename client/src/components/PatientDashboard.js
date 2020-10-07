@@ -27,7 +27,7 @@ function PatientDashboard(props) {
 
   return (
     <Grid >
-      <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>YOUR DASHBOARD</Header></Grid.Row>
+      {/* <Grid.Row width={12} centered><Header Responsive size='huge' inverted style={{fontSize: '3em'}}>YOUR DASHBOARD</Header></Grid.Row> */}
       <Grid.Row centered>
       <Grid.Column textAlign={'centered'} width={14}>
       <AppointmentModal user={props.user} />

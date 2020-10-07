@@ -16,7 +16,7 @@ import {
 
 function homepage() {
   return (
-    <Container style={{backgroundColor: 'whitesmoke' }}>
+    <Container style={{backgroundColor: 'whitesmoke', borderRadius: '10px', width: '100%', padding: '2em'}}>
     <Grid container stackable verticalAlign="middle">
       <Grid.Row>
         <Grid.Column width={8}>
