@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import 'semantic-ui-css/semantic.min.css';
-import { Container, Header, Button } from 'semantic-ui-react';
+import "semantic-ui-css/semantic.min.css";
+import { Container, Header } from "semantic-ui-react";
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
@@ -65,8 +65,16 @@ const Participant = ({ participant }) => {
 
   return (
     <Container>
-      <Header as='h1'>Welcome {participant.identity}!</Header>
-      <video ref={videoRef} autoPlay={true} style={{borderRadius: "10px", border: '4px solid gray', boxShadow: '4px 4px skyBlue'}}/>
+      <Header as="h1">Welcome {participant.identity}!</Header>
+      <video
+        ref={videoRef}
+        autoPlay={true}
+        style={{
+          borderRadius: "10px",
+          border: "4px solid gray",
+          boxShadow: "4px 4px skyBlue",
+        }}
+      />
       <audio ref={audioRef} autoPlay={true} muted={true} />
     </Container>
   );

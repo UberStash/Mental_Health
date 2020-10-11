@@ -1,15 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {
-  Form,
-  Input,
-  TextArea,
-  Button,
-  Select,
-  Dropdown,
-  Message,
-  Modal,
-} from "semantic-ui-react";
+import { Form, Button, Select } from "semantic-ui-react";
 
 const options = [
   { key: "m", text: "Male", value: "male" },
@@ -37,28 +28,8 @@ const DoctorSignUpForm = (props) => {
     const newFields = { ...state, [e.target.name]: e.target.value };
     setState(newFields);
   };
-  //handle change for select options
-  // const [value, setValue] = useState("")
-
-  // const handleSelectChange = (e, value ) => {
-  //   setValue({[value.name]: value.value})
-  // }
 
   const handleSubmit = (e) => {
-    // const {
-    //   firstname,
-    //   lastname,
-    //   dob,
-    //   gender,
-    //   specialization,
-    //   license,
-    //   email,
-    //   password,
-    //   confirmpassword,
-    //   phone,
-    //   clinicname,
-    //   clinic_address
-    // } = state;
     e.preventDefault();
 
     return axios
@@ -107,7 +78,6 @@ const DoctorSignUpForm = (props) => {
             type="text"
             name="gender"
             options={options}
-            // value={options}
             onChange={handleChange}
           />
         </Form.Field>
@@ -152,16 +122,6 @@ const DoctorSignUpForm = (props) => {
           onChange={handleChange}
         ></input>
       </Form.Field>
-
-      {/* <Form.Field required>
-            <label htmlFor="confirmpassword">Confirm Password</label>
-            <input
-              type="text"
-              name="confirmpassword"
-              value={state.confirmpassword}
-              onChange={handleChange}
-            ></input>
-          </Form.Field> */}
 
       <Form.Field>
         <label htmlFor="phone">Phone</label>

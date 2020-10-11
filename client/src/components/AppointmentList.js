@@ -1,28 +1,11 @@
-import PropTypes from "prop-types";
-import React, { Component, useState, useEffect } from "react";
-import useApplicationData from "../hooks/useApplicationData";
+import React, { useState, useEffect } from "react";
+
 import { getApptsPatient } from "./events";
 import moment from "moment";
 
-import {
-  Button,
-  Container,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  List,
-  Menu,
-  Segment,
-  Sidebar,
-  Visibility,
-  Divider,
-  Modal,
-  Popup,
-} from "semantic-ui-react";
+import { Grid, Header, Icon, List, Segment, Popup } from "semantic-ui-react";
 
 function convertTime(time) {
-  console.log(time);
   return moment
     .utc(time)
     .subtract(4, "hours")
@@ -30,7 +13,6 @@ function convertTime(time) {
 }
 
 function AppointmentList(props) {
-  const [open, setOpen] = React.useState(false);
   const [state, setState] = useState({
     list: [],
   });
@@ -41,12 +23,10 @@ function AppointmentList(props) {
         list: response,
       }));
     });
-  }, []);
-
-  console.log(state.list);
+  });
 
   const userList = state.list.map((user) => (
-    <List.Item>
+    <List.Item key={user.appt_password}>
       <Popup
         content={
           <Grid>
@@ -124,8 +104,6 @@ function AppointmentList(props) {
   return (
     <div className="App">
       <Header as="h1">Your Appointments</Header>
-
-      {/* {state.loading && <h3>Loading...</h3>} */}
 
       <List size="huge">{userList}</List>
     </div>

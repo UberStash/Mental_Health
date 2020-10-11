@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Button, Header, Image, Modal, Form, Grid } from "semantic-ui-react";
+import { Button, Header, Image, Modal, Grid } from "semantic-ui-react";
 
-import PSignUp from "./PatientSignUpForm";
 
 class About extends Component {
   state = {
@@ -48,11 +47,11 @@ class About extends Component {
                   <p style={{ fontSize: "1.33em" }}>
                     By leveraging technology and data, our dedicated customer
                     success team supports your office teams to manage your
-                    patients health and well-being. Using ACA you will
-                    easily track your patients long-term needs on the phone or
-                    video and proactively manage each step of their health
-                    journey. ACA is available to all Canadian Doctors coast to
-                    coast to coast.
+                    patients health and well-being. Using ACA you will easily
+                    track your patients long-term needs on the phone or video
+                    and proactively manage each step of their health journey.
+                    ACA is available to all Canadian Doctors coast to coast to
+                    coast.
                   </p>
                 </Grid.Column>
                 <Grid.Column floated="right" width={6}>

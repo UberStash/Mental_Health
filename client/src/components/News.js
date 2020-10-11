@@ -1,79 +1,49 @@
-import PropTypes from "prop-types";
-import React, { Component, useEffect, useState } from "react";
-import useApplicationData from '../hooks/useApplicationData';
+import React, { useEffect, useState } from "react";
 import { getNews } from "./events";
 
+import { Header, Image, List, Segment, Divider } from "semantic-ui-react";
 
-import {
-  Button,
-  Container,
-  Grid,
-  Header,
-  Icon,
-  Image,
-  List,
-  Menu,
-  Segment,
-  Sidebar,
-  Visibility,
-  Divider,
-} from "semantic-ui-react";
-
-
-
-
-
-
-
-function PatientsList() {
+function News() {
   const [state, setState] = useState({
-    news: []
+    news: [],
   });
-  
+
   useEffect(() => {
-    
     getNews().then((response) => {
       setState((prev) => ({
         ...prev,
-        news: response.articles
-      }))  
-
-     
-     
+        news: response.articles,
+      }));
     });
   }, []);
-  
 
-  
-   const newsData = state.news
-console.log(newsData)
+  const articles = state.news.map((article) => (
+    <Segment color="blue" style={{ boxShadow: "5px 5px black" }}>
+      <List.Item as="a" href={article.url}>
+        <Image src={article.urlToImage} size="small" floated="left" />
+        <Header textAlign="center">{article.title}</Header>
+        <Header textAlign="center" as="h5">
+          {article.author}
+        </Header>
+        <p>
+          {article.publishedAt.slice(0, 10)} {article.source.name}
+        </p>
+        {article.description}
 
-const articles = state.news.map(article => (
-  // console.log(article)
-<Segment color="blue" style={{boxShadow: '5px 5px black'}}>
-<List.Item as='a' href={article.url}>
-    <Image src={article.urlToImage} size='small' floated='left' />
-<Header textAlign='center'>{article.title}</Header>
-<Header textAlign='center' as='h5'>{article.author}</Header>
-<p>{article.publishedAt.slice(0,10)}   {article.source.name}</p> 
-    {article.description}
-    
-    <Divider></Divider>
-  </List.Item>
-  </Segment>
-
-
+        <Divider></Divider>
+      </List.Item>
+    </Segment>
   ));
 
   return (
-    <div className='App'>
-      <Header textAlign='center' as='h1'>Health News</Header>
-
-      {/* {state.loading && <h3>Loading...</h3>} */}
+    <div className="App">
+      <Header textAlign="center" as="h1">
+        Health News
+      </Header>
 
       <List>{articles}</List>
     </div>
   );
 }
 
-export default PatientsList;
+export default News;

@@ -118,9 +118,8 @@ const getPatients = (id) => {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  let authUser = req.session.passport
-  res.json(authUser);
-  res.render('index', { title: 'Express' });
+
+
 });
 
 
@@ -248,7 +247,6 @@ router.get("/api/directionTo/:id", (req, res) => {
 /////////////////////////////Authenticaton Routes///////////////////////////////////
 //Register Patients
 router.post('/patient/register', (req, res) => {
-  
 
 
     

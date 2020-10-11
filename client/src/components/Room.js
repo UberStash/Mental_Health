@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Video from "twilio-video";
 import Participant from "./Participant";
 import "semantic-ui-css/semantic.min.css";
-import { Container, Header, Button, Icon, Segment } from "semantic-ui-react";
+import { Container, Button } from "semantic-ui-react";
 
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
@@ -50,9 +50,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   ));
 
   return (
-    
     <Container>
-      {/* <Header as='h2'>Room: {roomName}</Header> */}
       <Container className="local-participant">
         {room ? (
           <Participant
@@ -63,12 +61,15 @@ const Room = ({ roomName, token, handleLogout }) => {
           ""
         )}
       </Container>
-      {/* <Header as="h1">Remote Participants</Header>
-      <Container>{remoteParticipants}</Container> */}
-      <Button floated="right" color='blue' onClick={handleLogout} style={{ marginTop: '2em'}}>
+
+      <Button
+        floated="right"
+        color="blue"
+        onClick={handleLogout}
+        style={{ marginTop: "2em" }}
+      >
         Log out
       </Button>
-      
     </Container>
   );
 };

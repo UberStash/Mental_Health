@@ -1,17 +1,6 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Header,
-  Image,
-  Modal,
-  Card,
-  Icon,
-  Responsive,
-  Segment,
-  Divider,
-} from "semantic-ui-react";
+import React from "react";
+import { Button, Header, Modal, Card, Icon } from "semantic-ui-react";
 import AppointmentList from "./AppointmentList";
-import { getApptsPatient } from "./events";
 
 function AppointmentModal(props) {
   const [open, setOpen] = React.useState(false);
@@ -27,7 +16,6 @@ function AppointmentModal(props) {
         <Card
           raised
           fluid
-          Responsive
           color="grey"
           style={{ backgroundColor: "whitesmoke" }}
         >
@@ -35,16 +23,11 @@ function AppointmentModal(props) {
           <Card.Content>
             <Icon size="massive" name="calendar plus" />
             <Header as="h2">Click for a full list of your appointments</Header>
-            {/* <Header as='h4' attached='top' block>
-        Your Next Appointment
-      </Header>
-      <Segment inverted size='large'>Doctor's ID: {}</Segment>
-           */}
           </Card.Content>
         </Card>
       }
     >
-      <Modal.Content centered>
+      <Modal.Content >
         <AppointmentList user={props.user} />
       </Modal.Content>
       <Modal.Actions>
